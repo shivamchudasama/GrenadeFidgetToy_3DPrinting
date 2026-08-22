@@ -234,10 +234,32 @@ round-over onto the face, the same edge break the lever already carries.
 
 **The pod splits on the handle's own parting plane.** Left whole it was a closed
 cavity inside `13 - Handle Left`, reachable only through the mouth at r 18.30:
-an internal overhang with no way to place the spring. Over the pod's footprint
-`13` now gives up everything above z = 0 and `14 - Handle Right` takes it — the
+an internal overhang with no way to place the spring. Inside the split region
+`13` gives up everything above z = 0 and `14 - Handle Right` takes it — the
 pod's shell *and* the arm underneath it, or `14`'s share would float — so each
 half prints open-faced and the spring drops in when they close.
+
+**[M] The split region is wider than the pod, because the pod and the lever do
+not run parallel.** The pod leans out to 274° (§4.3) while the shank runs at
+258.4°, so past the mouth the shank walks out through the stadium's flank.
+Measured on `13` at z = +4.75, the shank is a 4.0 mm strip standing **0.75 mm
+proud of the stadium at r 22, 1.50 at r 34, 2.83 at r 38 and the whole 4.00 by
+r 42**, where the stadium's cap has closed to nothing.
+
+Split on the pod's own outline, that crescent stays with `13` — and `14` owns
+the pod's upper shell right beside it, so what is left standing on `13` is a
+**fin 0.75–4.00 mm thick, 9.50 mm tall and 20 mm long**: a knife edge at its
+inboard end, unsupported down its whole length, with a matching groove in `14`
+that is no easier. Neither half prints.
+
+**[D]** So the region is a rectangle down the pod's line instead — half width
+**12.00**, which clears the shank's own −10.00 by 2 mm, ended square at
+**r 41.98**, the pod's own far point. Inboard of that the halves part flat on
+z = 0 straight across the shank; outboard of it the shank is `13`'s alone, full
+width, exactly as it ships. The whole boundary is one transverse step 9.5 mm
+tall, which prints as a plain vertical wall. It moves **342.76 mm³** from `13`
+to `14` — the halves go 9041.38 → 8698.62 and 6954.82 → 7297.58 — and changes
+the assembled handle by **0.00003 mm³**, its envelope not at all.
 
 **[D]** The pod is trimmed on the gear slot's own r 18.30 circle where it meets
 the head, which also opens the pocket's mouth: a stadium runs half a width
@@ -328,6 +350,15 @@ its axis, and a finished bore returns **no hits at all**; anything else fails
 the build. `18`/`19`/`20 - Handle Stapler Lock` are exempt — they are 13.8 mm in
 a 19.0 mm handle and blind on purpose. Volume and watertightness cannot catch
 this class of fault; only the ray can.
+
+**[D] The same coincidence also sheds volumeless *bodies*.** Handing `13`'s
+shank to `14` means clipping `13` on z = 0, which is the plane its own mating
+face already lies in — so manifold sheds zero-thickness shells around the neck
+at r 15.8 .. 21.0, where `13` stops dead on that plane. They carry no volume and
+no thickness, but they are separate bodies, and a half reporting `body_count` 3
+does not print. `_solid_only()` drops anything volumeless from the share before
+it is unioned on; a genuinely severed part still arrives as two *real* bodies
+and still fails `build_parts()`.
 
 **[D]** One more trap in the same family: two different things whose export
 names collide. Both gear-spring variants once carried a `16 - Handle Lock`, they

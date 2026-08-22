@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import numpy as np
 import trimesh
-from shapely.geometry import LineString, Point, Polygon
+from shapely.geometry import Point, Polygon
 from shapely.ops import unary_union
 
 import fidget
@@ -184,6 +184,25 @@ def _add(m, *tools):
     return trimesh.boolean.union([m] + list(tools), engine=ENGINE)
 
 
+def _solid_only(m):
+    """Drop the zero-volume shells a boolean leaves on a coincident face.
+
+    Clipping a part on a plane its own mating face already lies in gives
+    manifold two coplanar faces to reconcile, and it sheds **zero-thickness
+    shells** where it cannot -- the failure CUSTOM_DESIGN.md section 4.6
+    describes. The split plane here *is* 13 - Handle Left's mating face, so the
+    cut that hands its shank to 14 always sheds a few, around the neck at
+    r 15.8 .. 21.0 where 13 stops dead on z = 0. They have no volume and no
+    thickness, but they are separate bodies, and a half that reports
+    body_count 3 is not printable.
+
+    Only volumeless shells go. A genuinely severed part still arrives as two
+    real bodies and still fails the check in build_parts().
+    """
+    parts = [c for c in m.split(only_watertight=False) if abs(c.volume) > 1e-6]
+    return parts[0] if len(parts) == 1 else trimesh.util.concatenate(parts)
+
+
 def dilate(m, d=0.15):
     """Cheap axis-wise dilation -- enough for a printed clearance pocket."""
     parts = [m]
@@ -271,6 +290,11 @@ ARM_POD_FILLET = 0.800  # round-over onto the flat face
 ARM_POD_RINGS  = 72     # sections it is lofted through
 ARM_POD_SIDES  = 96     # points round each section
 ARM_POD_TAIL   = 16.400 # how far past the nose the pod's line runs
+
+# The region the two halves part on. Wider than the pod, and ended square --
+# see _pod_footprint(), which is where the numbers are argued.
+SPLIT_HALF     = 12.000 # half width across the pod's line
+SPLIT_END      = ARM_SPRING_R + ARM_POD_TAIL + ARM_BOSS_HALF  # 41.98, the pod's far point
 
 
 def _pod_half_width(z):
@@ -370,18 +394,39 @@ def _arm_pod():
 
 
 def _pod_footprint():
-    """The pod's plan outline as a full-height prism -- the split region."""
-    rad, _ = _arm_axis()
-    A = (SLOT_R_OUT - ARM_BOSS_HALF) * rad
-    B = (ARM_SPRING_R + ARM_POD_TAIL) * rad
-    poly = LineString([tuple(A), tuple(B)]).buffer(ARM_BOSS_HALF + 0.02,
-                                                  resolution=24)
-    # Stop at the gear slot's circle, exactly where the pod itself stops.
-    # Run it any further in and the split plane clips the journal tangentially,
-    # which leaves manifold a zero-volume shell and a half that counts as two
-    # bodies without anything actually being wrong with it.
+    """The region the halves part on: the pod's run, widened to take the arm.
+
+    **[M] The pod's own outline is the wrong boundary, because the pod and the
+    lever do not run parallel.** The pod leans out to 274 deg (_arm_boss) while
+    the shank runs at 258.4, so past the mouth the shank walks out through the
+    stadium's flank. Measured on 13 - Handle Left at z = +4.75, the shank is a
+    4.0 mm strip standing 0.75 mm proud of the stadium at r 22, 1.50 at r 34,
+    2.83 at r 38 and the whole 4.00 by r 42, where the stadium's cap has closed
+    to nothing.
+
+    Split on the stadium alone, that crescent stays with 13 -- and 14 owns the
+    pod's upper shell right beside it, so what is left standing on 13 is a
+    **fin 0.75 .. 4.00 mm thick, 9.50 mm tall and 20 mm long**: a knife edge at
+    its inboard end, unsupported for its whole length, with a matching groove
+    in 14 that is no easier. Neither half prints.
+
+    So the region is a rectangle down the pod's line instead. SPLIT_HALF 12.0
+    clears the shank's own -10.0 by 2 mm and still lands nowhere near anything
+    else -- 13 carries no material above z = 0 anywhere but the arm -- and it
+    is ended square at SPLIT_END, the pod's own far point. Inboard of that the
+    halves part flat on z = 0 straight across the shank; outboard of it the
+    shank is 13's alone, full width, exactly as it ships. The whole boundary is
+    one transverse step 9.5 mm tall, which prints as a plain vertical wall.
+
+    Stop at the gear slot's circle, exactly where the pod itself stops. Run it
+    any further in and the split plane clips the journal tangentially, which
+    leaves manifold a zero-volume shell and a half that counts as two bodies
+    without anything actually being wrong with it.
+    """
     return trimesh.boolean.difference(
-        [_extrude(poly, -20.0, 20.0), disc(SLOT_R_OUT, -21.0, 21.0)],
+        [_arm_rect(SLOT_R_OUT - ARM_BOSS_HALF, SPLIT_END, SPLIT_HALF,
+                   -20.0, 20.0),
+         disc(SLOT_R_OUT, -21.0, 21.0)],
         engine=ENGINE)
 
 
@@ -554,9 +599,10 @@ def handle_half(name):
     # 6. house the gear's detent spring -- a pocket, never a sprung feature.
     # Split the pod on the handle's own parting plane, so neither half encloses
     # the spring's pocket and both print open-faced. The arm below y 47.5 is
-    # 13 - Handle Left's alone, so over the pod's footprint 13 gives up
+    # 13 - Handle Left's alone, so inside the split region 13 gives up
     # everything above z = 0 and 14 takes it -- the pod's shell and the arm
-    # underneath it together, or 14's share would float.
+    # underneath it together, or 14's share would float. The region is wider
+    # than the pod and ended square; _pod_footprint() has the reason.
     pod, prism = _arm_pod(), _pod_footprint()
     if sign < 0:
         m = _cut(m, trimesh.boolean.intersection(
@@ -565,8 +611,8 @@ def handle_half(name):
             [pod, _zbox(-20.0, 0.0)], engine=ENGINE))
     else:
         arm = fidget.load("13 - Handle Left", product="spinner")
-        share = trimesh.boolean.intersection(
-            [arm, prism, _zbox(0.0, 20.0)], engine=ENGINE)
+        share = _solid_only(trimesh.boolean.intersection(
+            [arm, prism, _zbox(0.0, 20.0)], engine=ENGINE))
         m = _add(m, share, trimesh.boolean.intersection(
             [pod, _zbox(0.0, 20.0)], engine=ENGINE))
     m = _cut(m, *_arm_spring_cuts())
