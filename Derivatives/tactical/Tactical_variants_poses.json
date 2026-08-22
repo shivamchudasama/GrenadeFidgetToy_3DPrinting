@@ -1,0 +1,1119 @@
+{
+ "frame": "Y up, toy axis at X=Z=0, millimetres",
+ "variants": {
+  "Spinner 7-in-1": "common + spinner-7in1 top (28 parts; still missing Spinner Lever 06/07 - Rod Lock)",
+  "Bottle 5-in-1": "common + bottle-5in1 top (23 parts)",
+  "Grenade 6-in-1": "common + 21 - Rod Middle + 23 - Rod Lock 01 (23 parts solved); 10 top parts unsolved"
+ },
+ "unsolved_grenade_top": [
+  "24 - Rod Left",
+  "25 - Rod Right",
+  "22 - Rod Lock 04",
+  "26 - Rod Lock 03",
+  "15 - Lever Base",
+  "16 - Lever Lock Front",
+  "17 - Lever Lock Back",
+  "18 - Lever Spring",
+  "19 - Lever Lock Mid",
+  "31 - Lever"
+ ],
+ "unsolved_reason": "These mate with each other, not the body; body-contact has no discriminating power for them (verified: the known-correct spinner head scores 0.07-0.11 contact, and 6 mm off-true scores 0.065-0.097).",
+ "cosmetic_lever_editions": {
+  "replaces": "31 - Lever",
+  "files": [
+   "Lever Fidget Fuse Edition.step.stl",
+   "Lever Stripes Edition.step.stl"
+  ],
+  "note": "identical envelope and volume to 31 - Lever (2413.8 vs 2413.9 mm3); unplaced because 31 - Lever itself is unsolved"
+ },
+ "parts": [
+  {
+   "part": "09 - Internal Barrel Pin v1.1",
+   "source_stl": "09 - Internal Barrel Pin v1.1.stl",
+   "group": "common",
+   "note": "upstream assembly coords; print-multiple at 0 deg",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "10 - Internal Barrel v1.1",
+   "source_stl": "10 - Internal Barrel v1.1.stl",
+   "group": "common",
+   "note": "upstream assembly coords; print-multiple at 120 deg",
+   "matrix": [
+    [
+     -0.5,
+     0.0,
+     0.866025,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     -0.866025,
+     0.0,
+     -0.5,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "11 - Internal Barrel v1.1",
+   "source_stl": "11 - Internal Barrel v1.1.stl",
+   "group": "common",
+   "note": "upstream assembly coords; print-multiple at 240 deg",
+   "matrix": [
+    [
+     -0.5,
+     0.0,
+     -0.866025,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.866025,
+     0.0,
+     -0.5,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "12 - Internal Barrel Spring v1.1",
+   "source_stl": "12 - Internal Barrel Spring v1.1.stl",
+   "group": "common",
+   "note": "upstream assembly coords; print-multiple at 0 deg",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "13 - Internal Barrel Spring v1.1",
+   "source_stl": "13 - Internal Barrel Spring v1.1.stl",
+   "group": "common",
+   "note": "upstream assembly coords; print-multiple at 120 deg",
+   "matrix": [
+    [
+     -0.5,
+     0.0,
+     0.866025,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     -0.866025,
+     0.0,
+     -0.5,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "14 - Internal Barrel Spring v1.1",
+   "source_stl": "14 - Internal Barrel Spring v1.1.stl",
+   "group": "common",
+   "note": "upstream assembly coords; print-multiple at 240 deg",
+   "matrix": [
+    [
+     -0.5,
+     0.0,
+     -0.866025,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.866025,
+     0.0,
+     -0.5,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "08 - Internal Barrel",
+   "source_stl": "08 - Internal Barrel.stl.stl",
+   "group": "common",
+   "note": "solved from the three v1.1 barrel pins (3 clean poses in ~32000)",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     -172.650055
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     63.238331
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     -153.082649
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "32 - Mid Shell P02",
+   "source_stl": "32 - Mid Shell P02.stl.stl",
+   "group": "common",
+   "note": "seated: contact 0.410, penetration 0.0000, runner-up 0.000",
+   "matrix": [
+    [
+     0.788011,
+     0.615661,
+     -0.0,
+     -460.693677
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     20.0
+    ],
+    [
+     0.615661,
+     -0.788011,
+     0.0,
+     -141.853224
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "01 - Bottom Lock Shell",
+   "source_stl": "01 - Bottom Lock Shell.stl.stl",
+   "group": "common",
+   "note": "thread-seated to 08 - Internal Barrel: contact 0.241, penetration 0.0000",
+   "matrix": [
+    [
+     0.406737,
+     0.913545,
+     -0.0,
+     -158.249994
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     -0.35
+    ],
+    [
+     0.913545,
+     -0.406737,
+     0.0,
+     -48.924695
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "05 - Bottom Shell 02",
+   "source_stl": "05 - Bottom Shell 02.stl.stl",
+   "group": "common",
+   "note": "directional bottom stack: inverted and seated on 04; shell module raised 1.50 mm to clear the threaded lock",
+   "matrix": [
+    [
+     -0.5,
+     -0.866025,
+     0.0,
+     300.499866
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     9.25
+    ],
+    [
+     -0.866025,
+     0.5,
+     -0.0,
+     346.298513
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "06 - Bottom Shell 03",
+   "source_stl": "06 - Bottom Shell 03.stl.stl",
+   "group": "common",
+   "note": "directional bottom stack: inverted and seated into 05; shell module raised 1.50 mm to clear the threaded lock",
+   "matrix": [
+    [
+     -0.5,
+     0.866025,
+     -0.0,
+     5.541954
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     19.25
+    ],
+    [
+     -0.866025,
+     -0.5,
+     -0.0,
+     166.769583
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "04 - Bottom Shell 01",
+   "source_stl": "04 - Bottom Shell 01.stl.stl",
+   "group": "common",
+   "note": "directional bottom stack: inverted back and snap-seated to inverted 05; shell module raised 1.50 mm to clear the threaded lock",
+   "matrix": [
+    [
+     0.913545,
+     0.406737,
+     0.0,
+     -127.010819
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     -0.05
+    ],
+    [
+     0.406737,
+     -0.913545,
+     0.0,
+     100.511925
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "02 - Bottom Spring",
+   "source_stl": "02 - Bottom Spring.stl.stl",
+   "group": "common",
+   "note": "moves with the threaded lock; seated under 03 with 3.07 mm3 spring-level interference",
+   "matrix": [
+    [
+     0.406737,
+     0.913545,
+     0.0,
+     -248.640429
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     10.9
+    ],
+    [
+     0.913545,
+     -0.406737,
+     0.0,
+     -313.497383
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "03 - Bottom Shell Spacer",
+   "source_stl": "03 - Bottom Shell Spacer.stl.stl",
+   "group": "common",
+   "note": "moves with the threaded lock; seated on 02 with 2.63 mm3 press-fit interference",
+   "matrix": [
+    [
+     0.406737,
+     0.913545,
+     -0.0,
+     -181.308788
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     14.15
+    ],
+    [
+     0.913545,
+     -0.406737,
+     0.0,
+     -116.464711
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "07 - Internal Barrel Cap",
+   "source_stl": "07 - Internal Barrel Cap.stl.stl",
+   "group": "common",
+   "note": "seated: contact 0.794, penetration 0.0000, runner-up 0.009",
+   "matrix": [
+    [
+     -0.5,
+     -0.866025,
+     -0.0,
+     291.975223
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     63.600002
+    ],
+    [
+     0.866025,
+     -0.5,
+     -0.0,
+     -308.877965
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "30 - Upper Shell Rotating Spring",
+   "source_stl": "30 - Upper Shell Rotating Spring.stl.stl",
+   "group": "common",
+   "note": "seated: contact 0.275, penetration 0.0000, runner-up 0.149",
+   "matrix": [
+    [
+     0.5,
+     -0.866025,
+     0.0,
+     -260.94911
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     63.75
+    ],
+    [
+     -0.866025,
+     -0.5,
+     0.0,
+     708.57065
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "27 - Upper Shell Top",
+   "source_stl": "27 - Upper Shell Top.stl.stl",
+   "group": "common",
+   "note": "seated: contact 0.153, penetration 0.0006, runner-up 0.079",
+   "matrix": [
+    [
+     -0.5,
+     0.866025,
+     0.0,
+     -31.670719
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     74.833668
+    ],
+    [
+     -0.866025,
+     -0.5,
+     -0.0,
+     188.281963
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "29 - Upper Shell Lock Ring",
+   "source_stl": "29 - Upper Shell Lock Ring.stl.stl",
+   "group": "common",
+   "note": "seated: contact 0.417, penetration 0.0000, runner-up 0.220",
+   "matrix": [
+    [
+     0.5,
+     -0.866025,
+     -0.0,
+     23.002468
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     58.883999
+    ],
+    [
+     0.866025,
+     0.5,
+     0.0,
+     -133.575876
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "28 - Upper Shell Gear",
+   "source_stl": "28 - Upper Shell Gear.stl.stl",
+   "group": "common",
+   "note": "seated: contact 0.544, penetration 0.0000, runner-up 0.268",
+   "matrix": [
+    [
+     -0.882948,
+     0.469472,
+     -0.0,
+     335.322911
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     59.0
+    ],
+    [
+     0.469472,
+     0.882948,
+     -0.0,
+     -325.043431
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "33 - Mid Shell P01",
+   "source_stl": "33 - Mid Shell P01.stl.stl",
+   "group": "common",
+   "note": "seated: contact 0.424, penetration 0.0004, runner-up 0.000",
+   "matrix": [
+    [
+     0.034899,
+     0.999391,
+     0.0,
+     -167.806392
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     54.799667
+    ],
+    [
+     -0.999391,
+     0.034899,
+     0.0,
+     117.16024
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "20 - Mid Shell Spring",
+   "source_stl": "20 - Mid Shell Spring.stl.stl",
+   "group": "common",
+   "note": "seated: contact 0.496, penetration 0.0147, runner-up 0.000",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     -422.761282
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     29.75
+    ],
+    [
+     0.0,
+     -1.0,
+     0.0,
+     65.92825
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "1 - Rod Right v1.1",
+   "source_stl": "1 - Rod Right v1.1.stl",
+   "group": "spinner-7in1 top",
+   "note": "upstream assembly coordinates",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "2 - Rod Left v1.1",
+   "source_stl": "2 - Rod Left v1.1.stl",
+   "group": "spinner-7in1 top",
+   "note": "upstream assembly coordinates",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "3 - Rod Middle v1.1",
+   "source_stl": "3 - Rod Middle v1.1.stl",
+   "group": "spinner-7in1 top",
+   "note": "upstream assembly coordinates",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "4 - Spring",
+   "source_stl": "4 - Spring.stl",
+   "group": "spinner-7in1 top",
+   "note": "upstream assembly coordinates",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "5 - Gear v1.1",
+   "source_stl": "5 - Gear v1.1.stl",
+   "group": "spinner-7in1 top",
+   "note": "upstream assembly coordinates",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "Ring Large",
+   "source_stl": "Ring Large.stl",
+   "group": "spinner-7in1 top",
+   "note": "upstream assembly coordinates",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "Bottle Cap Lever",
+   "source_stl": "Bottle Cap Lever.stl.stl",
+   "group": "bottle-5in1 top",
+   "note": "solved; cap top y=92.16 vs 91.7 predicted independently from the bore profile",
+   "matrix": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     -137.493077
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     92.163719
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     -127.800488
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "Bottle Cap Lock",
+   "source_stl": "Bottle Cap Lock.stl.stl",
+   "group": "bottle-5in1 top",
+   "note": "seated on the tapered lock tab by taper match (tab 5.102->3.816 mm at -0.536 mm/mm, slot -0.55 mm/mm): contact 0.129, rod penetration 0.000, body clash 0.000, tab 13.4 mm wide in a 14.1 mm slot, slide window -0.10..0.50 mm; slot-mouth direction is a free 180 deg choice (both score identically); supersedes an earlier pose at y 92.60..97.40, x offset -2.00, which was 0.436 mm clear of the lever and touched no part in the assembly",
+   "matrix": [
+    [
+     0.9999999999999999,
+     7.656720423170603e-17,
+     5.441111120102753e-19,
+     -114.18354254565425
+    ],
+    [
+     1.394608934488134e-17,
+     5.61574028434325e-16,
+     1.0000000000000007,
+     14.999809647345817
+    ],
+    [
+     7.654952482805252e-17,
+     -1.0000000000000007,
+     -4.496733797975907e-16,
+     132.61894940844732
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "21 - Rod Middle",
+   "source_stl": "21 - Rod Middle.stl.stl",
+   "group": "grenade-6in1 top",
+   "note": "azimuth 30 deg, re-derived 2026-08-22 by rotating the recorded pose about the toy axis: body overlap falls to 0.000 mm3 against every non-v1.1 part (0.227 mm3 remains against 13 - Internal Barrel Spring v1.1, a generation-mismatched part). The sweep is 60 deg periodic (body 3-fold x rod 2-fold) and spans 0.23..33.14 mm3; the minimum is a flat-bottomed well 27.5..33.0 deg wide, centred on 30 deg. Supersedes 42 deg, which sat on a shoulder and fouled 30 - Upper Shell Rotating Spring by 8.259 mm3. Base y=18.28 unchanged, cross-checked against 18.08 for the v1.1 rod.",
+   "matrix": [
+    [
+     0.0,
+     0.8660256563359021,
+     0.5000003487538485,
+     -92.16919509922927
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0,
+     524.358994
+    ],
+    [
+     0.0,
+     -0.5000003487538485,
+     0.8660256563359021,
+     48.01775700351522
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "Mid Shell Solid Color",
+   "source_stl": "Mid Shell Solid Color.stl.stl",
+   "group": "cosmetic",
+   "note": "one-piece replacement for 32 + 33 (12640 mm3 ~= 6062 + 6400); same axial seat dy=20.00",
+   "matrix": [
+    [
+     0.743145,
+     -0.669131,
+     0.0,
+     -671.755294
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     20.0
+    ],
+    [
+     -0.669131,
+     -0.743145,
+     0.0,
+     363.440224
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "Hex Mid Shell Solid Color",
+   "source_stl": "Hex Mid Shell Solid Color.stl.stl",
+   "group": "cosmetic",
+   "note": "one-piece replacement for 32 + 33 (12640 mm3 ~= 6062 + 6400); same axial seat dy=20.00",
+   "matrix": [
+    [
+     0.743145,
+     0.669131,
+     -0.0,
+     -203.378931
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     20.0
+    ],
+    [
+     0.669131,
+     -0.743145,
+     0.0,
+     -424.525666
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "23 - Rod Lock 01",
+   "source_stl": "23 - Rod Lock 01.stl.stl",
+   "group": "grenade-6in1 top",
+   "note": "seated on the tapered lock tab by taper match (tab 5.102->3.816 mm at -0.536 mm/mm, slot -0.55 mm/mm): contact 0.079, rod penetration 0.000, body clash 0.000, tab 9.0 mm wide in a 14.1 mm slot, slide window -0.50..0.40 mm; slot-mouth direction is a free 180 deg choice (both score identically); rotated with 21 - Rod Middle to the re-derived 30 deg azimuth",
+   "matrix": [
+    [
+     -0.8660260173524176,
+     0.4999997234546124,
+     1.4655429177785058e-07,
+     312.656875525322
+    ],
+    [
+     1.5744484324342669e-07,
+     -2.0405933059391528e-08,
+     0.9999999999999878,
+     15.53369423867036
+    ],
+    [
+     0.4999997234546094,
+     0.8660260173524295,
+     -6.105030944587116e-08,
+     -313.73861201983016
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "part": "Spinner Lever 08 - Rod Lock",
+   "source_stl": "Spinner Lever 08 - Rod Lock.stl.stl",
+   "group": "spinner-7in1 top",
+   "note": "seated on the tapered lock tab by taper match (tab 5.102->3.816 mm at -0.536 mm/mm, slot -0.55 mm/mm): contact 0.061, rod penetration 0.000, body clash 0.000, tab 7.0 mm wide in a 14.1 mm slot, slide window -0.50..0.50 mm against the body, narrowed to +0.40..+1.00 mm once the v1.1 wing rods are included; seated at the deep end (+0.40) where all clashes are 0.000; slot-mouth direction is a free 180 deg choice (both score identically); no v1.1 rod lock exists, so this original-generation lock is the live part for the v1.1 spinner top",
+   "matrix": [
+    [
+     6.902361450429204e-08,
+     0.9999999999999974,
+     1.3234107620049875e-08,
+     -73.78351273410597
+    ],
+    [
+     -3.1264088058495496e-08,
+     -1.323410562417082e-08,
+     0.9999999999999997,
+     15.326758596501392
+    ],
+    [
+     0.9999999999999974,
+     -6.902361491781339e-08,
+     3.1264086695356255e-08,
+     -731.0509527955777
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  }
+ ]
+}

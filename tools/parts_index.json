@@ -1,0 +1,3067 @@
+[
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "01_Body_BaseHousing v2.stl",
+  "stem": "01_Body_BaseHousing v2",
+  "md5": "5ddbff0bb042ef3d6c7952d6f0484441",
+  "bytes": 332684,
+  "triangles": 6652,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 9340.265,
+  "bbox_mm": [
+   30.576,
+   23.375,
+   30.577
+  ],
+  "origin_mm": [
+   -15.287,
+   1.5,
+   -15.289
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "01_Body_BaseHousing.stl",
+  "stem": "01_Body_BaseHousing",
+  "md5": "c8af6c0ebb0c914e2b09a3e017b6b839",
+  "bytes": 652084,
+  "triangles": 13040,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 9690.65,
+  "bbox_mm": [
+   30.577,
+   23.398,
+   30.576
+  ],
+  "origin_mm": [
+   -15.289,
+   1.5,
+   -15.287
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "02_Spinner_FreeSpin v2.stl",
+  "stem": "02_Spinner_FreeSpin v2",
+  "md5": "e3547fcfefd73aaf4f8bc9ddfde6c9b6",
+  "bytes": 2045684,
+  "triangles": 40912,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 3318.394,
+  "bbox_mm": [
+   37.5,
+   10.31,
+   37.5
+  ],
+  "origin_mm": [
+   -18.75,
+   0.69,
+   -18.75
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "02_Spinner_FreeSpin.stl",
+  "stem": "02_Spinner_FreeSpin",
+  "md5": "e78d54fef8d2f478c4b47999bddfcb14",
+  "bytes": 2045684,
+  "triangles": 40912,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 3325.042,
+  "bbox_mm": [
+   37.5,
+   10.31,
+   37.5
+  ],
+  "origin_mm": [
+   -18.75,
+   0.69,
+   -18.75
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "03_Spring_Bottom_Click.stl",
+  "stem": "03_Spring_Bottom_Click",
+  "md5": "3afdd864222a223fe4a22af111d3277b",
+  "bytes": 130684,
+  "triangles": 2612,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 548.188,
+  "bbox_mm": [
+   16.704,
+   3.875,
+   31.516
+  ],
+  "origin_mm": [
+   -8.351,
+   11.5,
+   -15.758
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "04_Gear_Bottom_Click.stl",
+  "stem": "04_Gear_Bottom_Click",
+  "md5": "91ffc12509e7a9e06c8ce06e29468aeb",
+  "bytes": 8061684,
+  "triangles": 161232,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 1662.273,
+  "bbox_mm": [
+   38.0,
+   4.475,
+   38.0
+  ],
+  "origin_mm": [
+   -19.0,
+   11.075,
+   -19.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "05_Slider_Mechanism_Left.stl",
+  "stem": "05_Slider_Mechanism_Left",
+  "md5": "ef7b8d26199d6c6aa72210b13f604588",
+  "bytes": 108684,
+  "triangles": 2172,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 1749.803,
+  "bbox_mm": [
+   14.641,
+   50.25,
+   9.875
+  ],
+  "origin_mm": [
+   -7.391,
+   15.375,
+   -11.75
+  ],
+  "congruent_with": [
+   [
+    "06_Slider_Mechanism_Right.stl",
+    "reflection",
+    0.00074
+   ]
+  ]
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "06_Slider_Mechanism_Right.stl",
+  "stem": "06_Slider_Mechanism_Right",
+  "md5": "b458df3e7b93c0b360049653598e22eb",
+  "bytes": 108484,
+  "triangles": 2168,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 1749.8,
+  "bbox_mm": [
+   14.641,
+   50.25,
+   9.875
+  ],
+  "origin_mm": [
+   -7.391,
+   15.375,
+   1.875
+  ],
+  "congruent_with": [
+   [
+    "05_Slider_Mechanism_Left.stl",
+    "reflection",
+    0.00074
+   ]
+  ]
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "07_Slider_Mechanism_GearTrack.stl",
+  "stem": "07_Slider_Mechanism_GearTrack",
+  "md5": "a625409c8d6cd52cc9d3a7e3294060cb",
+  "bytes": 234984,
+  "triangles": 4698,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 1822.639,
+  "bbox_mm": [
+   14.641,
+   50.25,
+   3.75
+  ],
+  "origin_mm": [
+   -7.391,
+   15.375,
+   -1.875
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "08_Spring_Middle_Click v2.stl",
+  "stem": "08_Spring_Middle_Click v2",
+  "md5": "448453c75800b7df58028c5be33d5d5c",
+  "bytes": 148184,
+  "triangles": 2962,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 888.653,
+  "bbox_mm": [
+   7.234,
+   21.699,
+   14.15
+  ],
+  "origin_mm": [
+   -3.567,
+   29.96,
+   -7.325
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "08_Spring_Middle_Click.stl",
+  "stem": "08_Spring_Middle_Click",
+  "md5": "417dd4d36de81f1e85f55e345cf9bc6b",
+  "bytes": 148184,
+  "triangles": 2962,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 868.347,
+  "bbox_mm": [
+   7.234,
+   21.499,
+   14.15
+  ],
+  "origin_mm": [
+   -3.567,
+   29.96,
+   -7.325
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "09_Lock_Pin_Middle.stl",
+  "stem": "09_Lock_Pin_Middle",
+  "md5": "57aa98c7f82d8047a96438c5e3fdced0",
+  "bytes": 259784,
+  "triangles": 5194,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 133.019,
+  "bbox_mm": [
+   5.76,
+   4.13,
+   13.75
+  ],
+  "origin_mm": [
+   -2.88,
+   23.042,
+   -6.875
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "10_Body_OuterShell v2.stl",
+  "stem": "10_Body_OuterShell v2",
+  "md5": "693cb2cc52d4d5bbcf19275edfdea3df",
+  "bytes": 1916584,
+  "triangles": 38330,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 18071.964,
+  "bbox_mm": [
+   37.497,
+   34.375,
+   37.498
+  ],
+  "origin_mm": [
+   -18.747,
+   15.625,
+   -18.749
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "10_Body_OuterShell.stl",
+  "stem": "10_Body_OuterShell",
+  "md5": "15ae3426053c572c051fe9dcb28c2591",
+  "bytes": 1811884,
+  "triangles": 36236,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 18155.497,
+  "bbox_mm": [
+   37.497,
+   34.375,
+   37.498
+  ],
+  "origin_mm": [
+   -18.75,
+   15.625,
+   -18.749
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "11_Spring_Upper_Left v2.stl",
+  "stem": "11_Spring_Upper_Left v2",
+  "md5": "dbd83a95dc32fd08fd8439be6c814830",
+  "bytes": 51084,
+  "triangles": 1020,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 300.946,
+  "bbox_mm": [
+   9.45,
+   21.9,
+   3.8
+  ],
+  "origin_mm": [
+   -15.75,
+   25.1,
+   -1.5
+  ],
+  "congruent_with": [
+   [
+    "12_Spring_Upper_Right v2.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "11_Spring_Upper_Left.stl",
+  "stem": "11_Spring_Upper_Left",
+  "md5": "3ccf3c36c9fa00f5f1a251bfb46a9511",
+  "bytes": 62384,
+  "triangles": 1246,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 141.036,
+  "bbox_mm": [
+   9.45,
+   14.224,
+   3.0
+  ],
+  "origin_mm": [
+   6.3,
+   32.776,
+   -1.5
+  ],
+  "congruent_with": [
+   [
+    "12_Spring_Upper_Right.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "12_Spring_Upper_Right v2.stl",
+  "stem": "12_Spring_Upper_Right v2",
+  "md5": "0ee9a1496a3d428abc9ee60bbf141b3a",
+  "bytes": 51084,
+  "triangles": 1020,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 300.946,
+  "bbox_mm": [
+   9.45,
+   21.9,
+   3.8
+  ],
+  "origin_mm": [
+   6.3,
+   25.1,
+   -2.3
+  ],
+  "congruent_with": [
+   [
+    "11_Spring_Upper_Left v2.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "12_Spring_Upper_Right.stl",
+  "stem": "12_Spring_Upper_Right",
+  "md5": "1c26e63a008f0d128ee4a8fd74be13de",
+  "bytes": 62384,
+  "triangles": 1246,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 141.036,
+  "bbox_mm": [
+   9.45,
+   14.224,
+   3.0
+  ],
+  "origin_mm": [
+   -15.75,
+   32.776,
+   -1.5
+  ],
+  "congruent_with": [
+   [
+    "11_Spring_Upper_Left.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "13_Spring_Side_1.stl",
+  "stem": "13_Spring_Side_1",
+  "md5": "e2c4723f5e7308135110a41bb37c2be1",
+  "bytes": 26484,
+  "triangles": 528,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 41.585,
+  "bbox_mm": [
+   3.498,
+   9.5,
+   3.498
+  ],
+  "origin_mm": [
+   8.962,
+   27.5,
+   8.962
+  ],
+  "congruent_with": [
+   [
+    "14_Spring_Side_2.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "15_Spring_Side_3.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "14_Spring_Side_2.stl",
+  "stem": "14_Spring_Side_2",
+  "md5": "a482020a56667eacdd5de4ca058d0a40",
+  "bytes": 26484,
+  "triangles": 528,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 41.585,
+  "bbox_mm": [
+   3.498,
+   9.5,
+   3.498
+  ],
+  "origin_mm": [
+   8.962,
+   27.5,
+   -12.459
+  ],
+  "congruent_with": [
+   [
+    "13_Spring_Side_1.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "15_Spring_Side_3.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "15_Spring_Side_3.stl",
+  "stem": "15_Spring_Side_3",
+  "md5": "dbe4461a47c667e044af3a03183f603e",
+  "bytes": 26484,
+  "triangles": 528,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 41.585,
+  "bbox_mm": [
+   3.498,
+   9.5,
+   3.498
+  ],
+  "origin_mm": [
+   -12.459,
+   27.5,
+   -12.459
+  ],
+  "congruent_with": [
+   [
+    "13_Spring_Side_1.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "14_Spring_Side_2.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "16_Spring_Side_4.stl",
+  "stem": "16_Spring_Side_4",
+  "md5": "aea0d5b28ec8af88dc06a8ee19bf6f11",
+  "bytes": 26484,
+  "triangles": 528,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 45.971,
+  "bbox_mm": [
+   3.639,
+   9.5,
+   3.639
+  ],
+  "origin_mm": [
+   -12.53,
+   27.5,
+   8.891
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "17_Gear_Upper_Rattle.stl",
+  "stem": "17_Gear_Upper_Rattle",
+  "md5": "883947e4fd778b54347cacbe9bc39a8b",
+  "bytes": 7088484,
+  "triangles": 141768,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 2850.436,
+  "bbox_mm": [
+   38.125,
+   13.6,
+   38.125
+  ],
+  "origin_mm": [
+   -19.062,
+   25.0,
+   -19.062
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "18_Body_LockingRing.stl",
+  "stem": "18_Body_LockingRing",
+  "md5": "35eb5b30b667e975b280044ad713b36e",
+  "bytes": 1032484,
+  "triangles": 20648,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 2467.156,
+  "bbox_mm": [
+   37.5,
+   9.375,
+   37.495
+  ],
+  "origin_mm": [
+   -18.75,
+   15.625,
+   -18.747
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "19_Handle_Base.stl",
+  "stem": "19_Handle_Base",
+  "md5": "a8c144323bf8c8b20c88593500a5eaea",
+  "bytes": 75884,
+  "triangles": 1516,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 2046.154,
+  "bbox_mm": [
+   32.956,
+   18.103,
+   5.325
+  ],
+  "origin_mm": [
+   -7.581,
+   47.522,
+   4.175
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "20_Handle_Lever.stl",
+  "stem": "20_Handle_Lever",
+  "md5": "765e16678d40a4e4101855f19d4674fd",
+  "bytes": 48784,
+  "triangles": 974,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 6435.266,
+  "bbox_mm": [
+   36.187,
+   56.517,
+   19.0
+  ],
+  "origin_mm": [
+   -7.581,
+   9.108,
+   -9.5
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "21_Handle_Pin.stl",
+  "stem": "21_Handle_Pin",
+  "md5": "c72358c6255ab95fbef7c83f8fc87110",
+  "bytes": 50484,
+  "triangles": 1008,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 193.17,
+  "bbox_mm": [
+   5.297,
+   4.928,
+   19.0
+  ],
+  "origin_mm": [
+   14.876,
+   56.125,
+   -9.5
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "22_Handle_Pivot_Pin.stl",
+  "stem": "22_Handle_Pivot_Pin",
+  "md5": "6e22f12c2444bf9e973831e98a31c85e",
+  "bytes": 60184,
+  "triangles": 1202,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 199.048,
+  "bbox_mm": [
+   4.999,
+   3.499,
+   19.0
+  ],
+  "origin_mm": [
+   -2.499,
+   57.125,
+   -9.5
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "23_Safety_Pin.stl",
+  "stem": "23_Safety_Pin",
+  "md5": "89081de48fa1c8bcbfdc92a5e586b697",
+  "bytes": 53384,
+  "triangles": 1066,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 368.928,
+  "bbox_mm": [
+   6.197,
+   8.666,
+   27.986
+  ],
+  "origin_mm": [
+   6.032,
+   54.51,
+   -11.506
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "grenade",
+  "folder": "Fidget Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "24_Pull_Ring.stl",
+  "stem": "24_Pull_Ring",
+  "md5": "a08b99b23966cbd4e5bca361e3c39ecb",
+  "bytes": 872484,
+  "triangles": 17448,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 118.124,
+  "bbox_mm": [
+   19.999,
+   15.876,
+   13.595
+  ],
+  "origin_mm": [
+   -2.306,
+   44.041,
+   12.672
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "01 - Bottom Lock Shell.stl.stl",
+  "stem": "01 - Bottom Lock Shell",
+  "md5": "28f060becfb6fe0343e43c6567d200d9",
+  "bytes": 346584,
+  "triangles": 6930,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 11368.317,
+  "bbox_mm": [
+   30.579,
+   30.579,
+   29.068
+  ],
+  "origin_mm": [
+   93.772,
+   109.381,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "02 - Bottom Spring.stl.stl",
+  "stem": "02 - Bottom Spring",
+  "md5": "f9186ef313d95c536c7b6bbf6b11c27f",
+  "bytes": 76284,
+  "triangles": 1524,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 374.555,
+  "bbox_mm": [
+   16.703,
+   31.816,
+   3.0
+  ],
+  "origin_mm": [
+   379.174,
+   83.725,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "03 - Bottom Shell Spacer.stl.stl",
+  "stem": "03 - Bottom Shell Spacer",
+  "md5": "f3fc11485254ef6f7ab12b8ff09386b7",
+  "bytes": 162284,
+  "triangles": 3244,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 2238.54,
+  "bbox_mm": [
+   20.1,
+   29.442,
+   14.45
+  ],
+  "origin_mm": [
+   170.048,
+   103.541,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "04 - Bottom Shell 01.stl.stl",
+  "stem": "04 - Bottom Shell 01",
+  "md5": "a772b365bf68fe6d5dd76f93d2111ee6",
+  "bytes": 437184,
+  "triangles": 8742,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 4094.681,
+  "bbox_mm": [
+   40.491,
+   40.744,
+   12.293
+  ],
+  "origin_mm": [
+   54.657,
+   123.11,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "05 - Bottom Shell 02.stl.stl",
+  "stem": "05 - Bottom Shell 02",
+  "md5": "4cad06a2deeef70b6c1cb831ab01f183",
+  "bytes": 71184,
+  "triangles": 1422,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 1792.837,
+  "bbox_mm": [
+   38.0,
+   37.997,
+   9.8
+  ],
+  "origin_mm": [
+   431.153,
+   68.093,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "06 - Bottom Shell 03.stl.stl",
+  "stem": "06 - Bottom Shell 03",
+  "md5": "6e977a4a1932f2765b89554e477fd571",
+  "bytes": 54584,
+  "triangles": 1090,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 2659.571,
+  "bbox_mm": [
+   39.996,
+   40.0,
+   8.0
+  ],
+  "origin_mm": [
+   127.222,
+   58.569,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "07 - Internal Barrel Cap.stl.stl",
+  "stem": "07 - Internal Barrel Cap",
+  "md5": "1616f5598ccc89e8ed1cb5fedeaed6f3",
+  "bytes": 40884,
+  "triangles": 816,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 213.58,
+  "bbox_mm": [
+   30.341,
+   31.086,
+   1.6
+  ],
+  "origin_mm": [
+   398.295,
+   84.455,
+   -0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "08 - Internal Barrel.stl.stl",
+  "stem": "08 - Internal Barrel",
+  "md5": "a514942ce993d5176d1dbc4ab9c0b56d",
+  "bytes": 506384,
+  "triangles": 10126,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 19365.338,
+  "bbox_mm": [
+   34.996,
+   35.0,
+   42.808
+  ],
+  "origin_mm": [
+   155.152,
+   135.583,
+   -0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "09 - Internal Barrel (1).stl.stl",
+  "stem": "09 - Internal Barrel (1)",
+  "md5": "f678ac07a566c5c9a68c3c8b9fed644b",
+  "bytes": 12484,
+  "triangles": 248,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 135.37,
+  "bbox_mm": [
+   6.0,
+   9.192,
+   4.696
+  ],
+  "origin_mm": [
+   449.738,
+   55.901,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "10 - Internal Barrel (2).stl.stl",
+    "reflection",
+    0.00222
+   ],
+   [
+    "11 - Internal Barrel (3).stl.stl",
+    "rotation",
+    5e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "09 - Internal Barrel Pin v1.1.stl",
+  "stem": "09 - Internal Barrel Pin v1.1",
+  "md5": "ee1bfbd6d6b67b214a20f2863d297bde",
+  "bytes": 12284,
+  "triangles": 244,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 119.561,
+  "bbox_mm": [
+   9.653,
+   4.596,
+   7.816
+  ],
+  "origin_mm": [
+   -16.481,
+   56.637,
+   2.821
+  ],
+  "congruent_with": [
+   [
+    "10 - Internal Barrel v1.1.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "11 - Internal Barrel v1.1.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "1 - Rod Right v1.1.stl",
+  "stem": "1 - Rod Right v1.1",
+  "md5": "22a2bd2ce92be87b5aa7c837867bcfd8",
+  "bytes": 337384,
+  "triangles": 6746,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 4452.049,
+  "bbox_mm": [
+   10.0,
+   96.965,
+   32.967
+  ],
+  "origin_mm": [
+   -13.5,
+   18.077,
+   -16.483
+  ],
+  "congruent_with": [
+   [
+    "2 - Rod Left v1.1.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "10 - Internal Barrel (2).stl.stl",
+  "stem": "10 - Internal Barrel (2)",
+  "md5": "0e3f3316e6fdbee375eac5898220c837",
+  "bytes": 13084,
+  "triangles": 260,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 135.368,
+  "bbox_mm": [
+   6.0,
+   9.192,
+   4.696
+  ],
+  "origin_mm": [
+   440.738,
+   56.092,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "09 - Internal Barrel (1).stl.stl",
+    "reflection",
+    0.00222
+   ],
+   [
+    "11 - Internal Barrel (3).stl.stl",
+    "rotation",
+    0.00193
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "10 - Internal Barrel v1.1.stl",
+  "stem": "10 - Internal Barrel v1.1",
+  "md5": "ee1bfbd6d6b67b214a20f2863d297bde",
+  "bytes": 12284,
+  "triangles": 244,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 119.561,
+  "bbox_mm": [
+   9.653,
+   4.596,
+   7.816
+  ],
+  "origin_mm": [
+   -16.481,
+   56.637,
+   2.821
+  ],
+  "congruent_with": [
+   [
+    "09 - Internal Barrel Pin v1.1.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "11 - Internal Barrel v1.1.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "11 - Internal Barrel (3).stl.stl",
+  "stem": "11 - Internal Barrel (3)",
+  "md5": "21f817572df1491e430eb52f969c02a6",
+  "bytes": 12484,
+  "triangles": 248,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 135.37,
+  "bbox_mm": [
+   6.0,
+   9.192,
+   4.696
+  ],
+  "origin_mm": [
+   458.738,
+   57.517,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "09 - Internal Barrel (1).stl.stl",
+    "rotation",
+    5e-05
+   ],
+   [
+    "10 - Internal Barrel (2).stl.stl",
+    "rotation",
+    0.00193
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "11 - Internal Barrel v1.1.stl",
+  "stem": "11 - Internal Barrel v1.1",
+  "md5": "ee1bfbd6d6b67b214a20f2863d297bde",
+  "bytes": 12284,
+  "triangles": 244,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 119.561,
+  "bbox_mm": [
+   9.653,
+   4.596,
+   7.816
+  ],
+  "origin_mm": [
+   -16.481,
+   56.637,
+   2.821
+  ],
+  "congruent_with": [
+   [
+    "09 - Internal Barrel Pin v1.1.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "10 - Internal Barrel v1.1.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "12 - Internal Barrel Spring (3).stl.stl",
+  "stem": "12 - Internal Barrel Spring (3)",
+  "md5": "2561ebcb8675931c064ef79fb90516f6",
+  "bytes": 24184,
+  "triangles": 482,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 244.475,
+  "bbox_mm": [
+   8.598,
+   17.714,
+   4.0
+  ],
+  "origin_mm": [
+   420.153,
+   162.142,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "13 - Internal Barrel Spring (2).stl.stl",
+    "rotation",
+    0.00311
+   ],
+   [
+    "14 - Internal Barrel Spring (1).stl.stl",
+    "rotation",
+    0.00309
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "12 - Internal Barrel Spring v1.1.stl",
+  "stem": "12 - Internal Barrel Spring v1.1",
+  "md5": "e1eb4449d22f6802a5eb1dce02a8b336",
+  "bytes": 28584,
+  "triangles": 570,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 211.673,
+  "bbox_mm": [
+   3.75,
+   17.514,
+   8.429
+  ],
+  "origin_mm": [
+   -1.25,
+   45.619,
+   6.022
+  ],
+  "congruent_with": [
+   [
+    "13 - Internal Barrel Spring v1.1.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "14 - Internal Barrel Spring v1.1.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "13 - Internal Barrel Spring (2).stl.stl",
+  "stem": "13 - Internal Barrel Spring (2)",
+  "md5": "b6283cf4041f89b1842ef4e4b0562752",
+  "bytes": 23584,
+  "triangles": 470,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 244.475,
+  "bbox_mm": [
+   8.598,
+   17.714,
+   4.0
+  ],
+  "origin_mm": [
+   401.381,
+   65.84,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "12 - Internal Barrel Spring (3).stl.stl",
+    "rotation",
+    0.00311
+   ],
+   [
+    "14 - Internal Barrel Spring (1).stl.stl",
+    "rotation",
+    4e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "13 - Internal Barrel Spring v1.1.stl",
+  "stem": "13 - Internal Barrel Spring v1.1",
+  "md5": "e1eb4449d22f6802a5eb1dce02a8b336",
+  "bytes": 28584,
+  "triangles": 570,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 211.673,
+  "bbox_mm": [
+   3.75,
+   17.514,
+   8.429
+  ],
+  "origin_mm": [
+   -1.25,
+   45.619,
+   6.022
+  ],
+  "congruent_with": [
+   [
+    "12 - Internal Barrel Spring v1.1.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "14 - Internal Barrel Spring v1.1.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "14 - Internal Barrel Spring (1).stl.stl",
+  "stem": "14 - Internal Barrel Spring (1)",
+  "md5": "d86e1b48933da3b1ed62a8a6f0372189",
+  "bytes": 23384,
+  "triangles": 466,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 244.477,
+  "bbox_mm": [
+   8.598,
+   17.714,
+   4.0
+  ],
+  "origin_mm": [
+   422.655,
+   138.567,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "12 - Internal Barrel Spring (3).stl.stl",
+    "rotation",
+    0.00309
+   ],
+   [
+    "13 - Internal Barrel Spring (2).stl.stl",
+    "rotation",
+    4e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "14 - Internal Barrel Spring v1.1.stl",
+  "stem": "14 - Internal Barrel Spring v1.1",
+  "md5": "e1eb4449d22f6802a5eb1dce02a8b336",
+  "bytes": 28584,
+  "triangles": 570,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 211.673,
+  "bbox_mm": [
+   3.75,
+   17.514,
+   8.429
+  ],
+  "origin_mm": [
+   -1.25,
+   45.619,
+   6.022
+  ],
+  "congruent_with": [
+   [
+    "12 - Internal Barrel Spring v1.1.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "13 - Internal Barrel Spring v1.1.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "15 - Lever Base.stl.stl",
+  "stem": "15 - Lever Base",
+  "md5": "43d7e8f9e71c6a9e36b3e26779603d6f",
+  "bytes": 45684,
+  "triangles": 912,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 4048.176,
+  "bbox_mm": [
+   43.903,
+   30.42,
+   8.56
+  ],
+  "origin_mm": [
+   106.65,
+   124.573,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "16 - Lever Lock Front.stl.stl",
+  "stem": "16 - Lever Lock Front",
+  "md5": "b85af734db164fd03fa1a1569831c092",
+  "bytes": 11684,
+  "triangles": 232,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 191.228,
+  "bbox_mm": [
+   4.375,
+   24.03,
+   3.066
+  ],
+  "origin_mm": [
+   420.922,
+   113.02,
+   -0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "17 - Lever Lock Back.stl.stl",
+  "stem": "17 - Lever Lock Back",
+  "md5": "1190d2917db2c5332451483bd75b2b03",
+  "bytes": 34284,
+  "triangles": 684,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 237.142,
+  "bbox_mm": [
+   17.0,
+   5.199,
+   4.347
+  ],
+  "origin_mm": [
+   725.691,
+   133.01,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "18 - Lever Spring.stl.stl",
+  "stem": "18 - Lever Spring",
+  "md5": "9a8601d9d4c8822c8a5e29d622ba39bb",
+  "bytes": 99584,
+  "triangles": 1990,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 1029.002,
+  "bbox_mm": [
+   11.702,
+   20.521,
+   8.7
+  ],
+  "origin_mm": [
+   138.85,
+   101.007,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "19 - Lever Lock Mid.stl.stl",
+  "stem": "19 - Lever Lock Mid",
+  "md5": "e599387a180458474eaccd9868736684",
+  "bytes": 22184,
+  "triangles": 442,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 90.658,
+  "bbox_mm": [
+   8.3,
+   6.0,
+   2.998
+  ],
+  "origin_mm": [
+   749.773,
+   132.609,
+   -0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "2 - Rod Left v1.1.stl",
+  "stem": "2 - Rod Left v1.1",
+  "md5": "f11f09f6f73443fd7377f8c5994cfe72",
+  "bytes": 337384,
+  "triangles": 6746,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 4452.049,
+  "bbox_mm": [
+   10.0,
+   96.965,
+   32.967
+  ],
+  "origin_mm": [
+   3.5,
+   18.077,
+   -16.483
+  ],
+  "congruent_with": [
+   [
+    "1 - Rod Right v1.1.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "20 - Mid Shell Spring.stl.stl",
+  "stem": "20 - Mid Shell Spring",
+  "md5": "afc5bbd4bd2da8b99ca931a1420a948a",
+  "bytes": 151684,
+  "triangles": 3032,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 665.116,
+  "bbox_mm": [
+   29.974,
+   29.569,
+   4.0
+  ],
+  "origin_mm": [
+   407.763,
+   53.544,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "21 - Rod Middle.stl.stl",
+  "stem": "21 - Rod Middle",
+  "md5": "c058ac658d3b45171e8f0ef2a1a83e04",
+  "bytes": 315684,
+  "triangles": 6312,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 5003.817,
+  "bbox_mm": [
+   68.432,
+   16.024,
+   9.0
+  ],
+  "origin_mm": [
+   437.643,
+   95.818,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "22 - Rod Lock 04.stl.stl",
+  "stem": "22 - Rod Lock 04",
+  "md5": "4aee313186d713e056ead2130d587a29",
+  "bytes": 33484,
+  "triangles": 668,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 248.88,
+  "bbox_mm": [
+   9.332,
+   13.776,
+   2.05
+  ],
+  "origin_mm": [
+   407.508,
+   105.01,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "Spinner Lever 07 - Rod Lock.stl.stl",
+    "rotation",
+    3e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "23 - Rod Lock 01.stl.stl",
+  "stem": "23 - Rod Lock 01",
+  "md5": "1986f8d708de0c775f373676b1ed6551",
+  "bytes": 155084,
+  "triangles": 3100,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 706.701,
+  "bbox_mm": [
+   15.6,
+   15.6,
+   4.8
+  ],
+  "origin_mm": [
+   419.84,
+   107.077,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "Bottle Cap Lock.stl.stl",
+    "reflection",
+    2e-05
+   ],
+   [
+    "Spinner Lever 08 - Rod Lock.stl.stl",
+    "rotation",
+    4e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "24 - Rod Left.stl.stl",
+  "stem": "24 - Rod Left",
+  "md5": "345274307d814e0db34762aea238f492",
+  "bytes": 159984,
+  "triangles": 3198,
+  "repaired_faces": 2,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 2416.527,
+  "bbox_mm": [
+   74.923,
+   35.394,
+   4.0
+  ],
+  "origin_mm": [
+   370.389,
+   114.888,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "25 - Rod Right.stl.stl",
+  "stem": "25 - Rod Right",
+  "md5": "29d5df4ad7ad63783567258971a2f7ff",
+  "bytes": 164984,
+  "triangles": 3298,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 2403.554,
+  "bbox_mm": [
+   74.923,
+   35.394,
+   4.0
+  ],
+  "origin_mm": [
+   448.312,
+   114.84,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "26 - Rod Lock 03.stl.stl",
+  "stem": "26 - Rod Lock 03",
+  "md5": "6912cda957420578e3b991ffc5b0ad7d",
+  "bytes": 73884,
+  "triangles": 1476,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 239.238,
+  "bbox_mm": [
+   9.332,
+   13.776,
+   2.0
+  ],
+  "origin_mm": [
+   395.176,
+   102.204,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "Spinner Lever 06 - Rod Lock.stl.stl",
+    "rotation",
+    3e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "27 - Upper Shell Top.stl.stl",
+  "stem": "27 - Upper Shell Top",
+  "md5": "41f5ec511fcad202d196bbbc05743b5d",
+  "bytes": 367784,
+  "triangles": 7354,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 8037.235,
+  "bbox_mm": [
+   40.0,
+   40.0,
+   19.834
+  ],
+  "origin_mm": [
+   127.222,
+   101.569,
+   -0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "28 - Upper Shell Gear.stl.stl",
+  "stem": "28 - Upper Shell Gear",
+  "md5": "360609bca0a473bc80f3e7270bb835e2",
+  "bytes": 136184,
+  "triangles": 2722,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 734.178,
+  "bbox_mm": [
+   40.964,
+   40.964,
+   3.983
+  ],
+  "origin_mm": [
+   428.189,
+   109.09,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "29 - Upper Shell Lock Ring.stl.stl",
+  "stem": "29 - Upper Shell Lock Ring",
+  "md5": "8d949efcb8af3088aff163b6c2f45101",
+  "bytes": 42684,
+  "triangles": 852,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 656.176,
+  "bbox_mm": [
+   39.991,
+   39.996,
+   3.884
+  ],
+  "origin_mm": [
+   84.23,
+   66.697,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "3 - Rod Middle v1.1.stl",
+  "stem": "3 - Rod Middle v1.1",
+  "md5": "6488f7b8ac63deea773b636886a9ef07",
+  "bytes": 244584,
+  "triangles": 4890,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 4026.589,
+  "bbox_mm": [
+   7.0,
+   62.105,
+   16.02
+  ],
+  "origin_mm": [
+   -3.5,
+   18.077,
+   -8.01
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "30 - Upper Shell Rotating Spring.stl.stl",
+  "stem": "30 - Upper Shell Rotating Spring",
+  "md5": "56f41410d5a0f81d0ac952bddd974237",
+  "bytes": 211284,
+  "triangles": 4224,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 3668.69,
+  "bbox_mm": [
+   31.068,
+   30.626,
+   15.967
+  ],
+  "origin_mm": [
+   726.867,
+   112.688,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "31 - Lever.stl.stl",
+  "stem": "31 - Lever",
+  "md5": "4b6f5f7230d3329192fa167f38ddf4d3",
+  "bytes": 14084,
+  "triangles": 280,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 2413.798,
+  "bbox_mm": [
+   60.207,
+   14.0,
+   3.0
+  ],
+  "origin_mm": [
+   408.669,
+   157.163,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "32 - Mid Shell P02.stl.stl",
+  "stem": "32 - Mid Shell P02",
+  "md5": "e57399303c0effe9ca4c8b284ef271c2",
+  "bytes": 420984,
+  "triangles": 8418,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 6062.485,
+  "bbox_mm": [
+   37.594,
+   37.598,
+   33.8
+  ],
+  "origin_mm": [
+   431.56,
+   153.035,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "33 - Mid Shell P01.stl.stl",
+  "stem": "33 - Mid Shell P01",
+  "md5": "02bebfee1b98a5abc35292c4dca48637",
+  "bytes": 266484,
+  "triangles": 5328,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 6400.655,
+  "bbox_mm": [
+   41.6,
+   41.6,
+   34.8
+  ],
+  "origin_mm": [
+   102.151,
+   142.836,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "4 - Spring.stl",
+  "stem": "4 - Spring",
+  "md5": "3b1430a53a8177721345293625ab1483",
+  "bytes": 89884,
+  "triangles": 1796,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 708.066,
+  "bbox_mm": [
+   6.7,
+   17.996,
+   11.698
+  ],
+  "origin_mm": [
+   -3.35,
+   63.483,
+   -5.842
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "5 - Gear v1.1.stl",
+  "stem": "5 - Gear v1.1",
+  "md5": "8289eb64b6284ddaa4a1a683e918e6b9",
+  "bytes": 525284,
+  "triangles": 10504,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 2581.137,
+  "bbox_mm": [
+   6.6,
+   35.664,
+   35.664
+  ],
+  "origin_mm": [
+   -3.3,
+   80.726,
+   -17.832
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Bottle Cap Lever.stl.stl",
+  "stem": "Bottle Cap Lever",
+  "md5": "e0060dbdc697c7e8712d3726be66de72",
+  "bytes": 2793984,
+  "triangles": 55878,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 15569.233,
+  "bbox_mm": [
+   25.232,
+   25.239,
+   74.414
+  ],
+  "origin_mm": [
+   124.884,
+   115.181,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Bottle Cap Lock.stl.stl",
+  "stem": "Bottle Cap Lock",
+  "md5": "ecebd96b828da036d2805a1c3bf2ce54",
+  "bytes": 155084,
+  "triangles": 3100,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 706.701,
+  "bbox_mm": [
+   15.6,
+   15.6,
+   4.8
+  ],
+  "origin_mm": [
+   106.284,
+   124.819,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "23 - Rod Lock 01.stl.stl",
+    "reflection",
+    2e-05
+   ],
+   [
+    "Spinner Lever 08 - Rod Lock.stl.stl",
+    "rotation",
+    3e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Hex Mid Shell Solid Color.stl.stl",
+  "stem": "Hex Mid Shell Solid Color",
+  "md5": "095b00d9c9a4012981d60899bb56840a",
+  "bytes": 433784,
+  "triangles": 8674,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 13052.411,
+  "bbox_mm": [
+   41.819,
+   42.124,
+   34.8
+  ],
+  "origin_mm": [
+   414.291,
+   -200.462,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Lever Fidget Fuse Edition.step.stl",
+  "stem": "Lever Fidget Fuse Edition.step",
+  "md5": "b2644f15b616501637e6c5367a956105",
+  "bytes": 253484,
+  "triangles": 5068,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 11,
+  "volume_mm3": 2413.928,
+  "bbox_mm": [
+   60.207,
+   14.0,
+   3.0
+  ],
+  "origin_mm": [
+   405.096,
+   -186.2,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Lever Stripes Edition.step.stl",
+  "stem": "Lever Stripes Edition.step",
+  "md5": "5b9da1c025a35d4930ac8fb7ca4e0fe5",
+  "bytes": 87084,
+  "triangles": 1740,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 4,
+  "volume_mm3": 2413.928,
+  "bbox_mm": [
+   60.207,
+   14.0,
+   3.0
+  ],
+  "origin_mm": [
+   98.104,
+   -186.207,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Mid Shell Solid Color.stl.stl",
+  "stem": "Mid Shell Solid Color",
+  "md5": "2351b8bb34645153264b204ea0d74086",
+  "bytes": 1964884,
+  "triangles": 39296,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 12640.808,
+  "bbox_mm": [
+   41.947,
+   41.947,
+   34.8
+  ],
+  "origin_mm": [
+   721.427,
+   -200.373,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Ring Large.stl",
+  "stem": "Ring Large",
+  "md5": "1282d95d28d53ece86635ab2e1ff393c",
+  "bytes": 1110084,
+  "triangles": 22200,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 2,
+  "volume_mm3": 5381.001,
+  "bbox_mm": [
+   25.0,
+   25.93,
+   26.929
+  ],
+  "origin_mm": [
+   -12.5,
+   86.093,
+   -13.465
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Spinner Lever 01 - Rod Right.stl.stl",
+  "stem": "Spinner Lever 01 - Rod Right",
+  "md5": "82597c7fc1a661c392477a6390eb2fa3",
+  "bytes": 318484,
+  "triangles": 6368,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 3416.392,
+  "bbox_mm": [
+   96.965,
+   32.966,
+   9.0
+  ],
+  "origin_mm": [
+   661.296,
+   76.804,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "Spinner Lever 02 - Rod Left.stl.stl",
+    "rotation",
+    4e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Spinner Lever 02 - Rod Left.stl.stl",
+  "stem": "Spinner Lever 02 - Rod Left",
+  "md5": "bb0e5ea546b8f32e16d30984c99cb001",
+  "bytes": 318484,
+  "triangles": 6368,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 3416.391,
+  "bbox_mm": [
+   96.965,
+   32.966,
+   9.0
+  ],
+  "origin_mm": [
+   736.387,
+   40.839,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "Spinner Lever 01 - Rod Right.stl.stl",
+    "rotation",
+    4e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Spinner Lever 03 - Rod Middle.stl.stl",
+  "stem": "Spinner Lever 03 - Rod Middle",
+  "md5": "e8ae420487b816f1a6abfbfa5cf97ad1",
+  "bytes": 335384,
+  "triangles": 6706,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 4958.98,
+  "bbox_mm": [
+   62.11,
+   16.02,
+   9.0
+  ],
+  "origin_mm": [
+   761.261,
+   75.622,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Spinner Lever 04 - Spring.stl.stl",
+  "stem": "Spinner Lever 04 - Spring",
+  "md5": "9e0b52c7f3e435ac523d1f58e3dd1a0e",
+  "bytes": 99584,
+  "triangles": 1990,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 923.587,
+  "bbox_mm": [
+   11.698,
+   17.993,
+   8.7
+  ],
+  "origin_mm": [
+   403.78,
+   121.501,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Spinner Lever 05 - Gear.stl.stl",
+  "stem": "Spinner Lever 05 - Gear",
+  "md5": "7825f1acc61f63ee5f31b74fca180654",
+  "bytes": 528084,
+  "triangles": 10560,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 3391.514,
+  "bbox_mm": [
+   35.664,
+   35.664,
+   8.6
+  ],
+  "origin_mm": [
+   379.814,
+   142.495,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Spinner Lever 06 - Rod Lock.stl.stl",
+  "stem": "Spinner Lever 06 - Rod Lock",
+  "md5": "d4c5448c92df959e8b5898535748544c",
+  "bytes": 73884,
+  "triangles": 1476,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 239.237,
+  "bbox_mm": [
+   9.332,
+   13.776,
+   2.0
+  ],
+  "origin_mm": [
+   698.587,
+   63.144,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "26 - Rod Lock 03.stl.stl",
+    "rotation",
+    3e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Spinner Lever 07 - Rod Lock.stl.stl",
+  "stem": "Spinner Lever 07 - Rod Lock",
+  "md5": "459e4e696bd5275490989ea3ac680059",
+  "bytes": 33484,
+  "triangles": 668,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 248.879,
+  "bbox_mm": [
+   9.332,
+   13.776,
+   2.05
+  ],
+  "origin_mm": [
+   710.919,
+   65.041,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "22 - Rod Lock 04.stl.stl",
+    "rotation",
+    3e-05
+   ]
+  ]
+ },
+ {
+  "product": "tactical",
+  "folder": "Fidget Fuse Tactical 7-in-1 Snap-Fit Fidget Toy",
+  "file": "Spinner Lever 08 - Rod Lock.stl.stl",
+  "stem": "Spinner Lever 08 - Rod Lock",
+  "md5": "c67bb8f6bf5bea0975a95ffffb9d22d4",
+  "bytes": 155084,
+  "triangles": 3100,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 706.702,
+  "bbox_mm": [
+   15.6,
+   15.6,
+   4.8
+  ],
+  "origin_mm": [
+   723.251,
+   65.883,
+   0.0
+  ],
+  "congruent_with": [
+   [
+    "23 - Rod Lock 01.stl.stl",
+    "rotation",
+    4e-05
+   ],
+   [
+    "Bottle Cap Lock.stl.stl",
+    "rotation",
+    3e-05
+   ]
+  ]
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "01 - Upper Shell.stl",
+  "stem": "01 - Upper Shell",
+  "md5": "ed4df5c95d53ec1dc2b17d08d1c13a8e",
+  "bytes": 639584,
+  "triangles": 12790,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 19042.401,
+  "bbox_mm": [
+   40.0,
+   36.178,
+   40.0
+  ],
+  "origin_mm": [
+   -20.0,
+   15.625,
+   -20.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "02 - Bottom Shell.stl",
+  "stem": "02 - Bottom Shell",
+  "md5": "6050da6f3b731049ac8b60d105c54277",
+  "bytes": 300484,
+  "triangles": 6008,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 9303.787,
+  "bbox_mm": [
+   30.574,
+   23.375,
+   30.572
+  ],
+  "origin_mm": [
+   -15.287,
+   1.5,
+   -15.283
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "03 - Bottom Clicker Shell.stl",
+  "stem": "03 - Bottom Clicker Shell",
+  "md5": "3db6e77f550424bce3ca0d3a7a32223d",
+  "bytes": 343484,
+  "triangles": 6868,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 5953.301,
+  "bbox_mm": [
+   40.0,
+   13.95,
+   40.0
+  ],
+  "origin_mm": [
+   -20.0,
+   1.6,
+   -20.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "04 - Middle Spinner Shell.stl",
+  "stem": "04 - Middle Spinner Shell",
+  "md5": "32a41a5ef73c16e64d886519047e461b",
+  "bytes": 1402784,
+  "triangles": 28054,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 8726.937,
+  "bbox_mm": [
+   41.613,
+   21.904,
+   41.613
+  ],
+  "origin_mm": [
+   -20.806,
+   15.75,
+   -20.806
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "05 - Rod Middle Right.stl",
+  "stem": "05 - Rod Middle Right",
+  "md5": "d412d4232b26da3b92c72f62830992bb",
+  "bytes": 57284,
+  "triangles": 1144,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 1661.433,
+  "bbox_mm": [
+   19.645,
+   50.25,
+   7.948
+  ],
+  "origin_mm": [
+   -9.823,
+   15.375,
+   1.875
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "06 - Rod Middle Left.stl",
+  "stem": "06 - Rod Middle Left",
+  "md5": "85d9e7b9783b69f1a74144b0b5d22cf9",
+  "bytes": 57284,
+  "triangles": 1144,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 1661.488,
+  "bbox_mm": [
+   19.645,
+   50.25,
+   7.948
+  ],
+  "origin_mm": [
+   -9.823,
+   15.375,
+   -9.823
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "07 - Rod Middle Linear Track.stl",
+  "stem": "07 - Rod Middle Linear Track",
+  "md5": "bea04dc0d8424d63570e5590cda910f4",
+  "bytes": 56884,
+  "triangles": 1136,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 1483.076,
+  "bbox_mm": [
+   14.5,
+   46.085,
+   3.75
+  ],
+  "origin_mm": [
+   -7.25,
+   19.54,
+   -1.875
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "08 - Rod Lock.stl",
+  "stem": "08 - Rod Lock",
+  "md5": "502d5e452d150a33d33f1363cee63701",
+  "bytes": 8584,
+  "triangles": 170,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 231.827,
+  "bbox_mm": [
+   6.0,
+   4.696,
+   15.25
+  ],
+  "origin_mm": [
+   -3.0,
+   22.294,
+   -7.625
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "09 - Rod Spring.stl",
+  "stem": "09 - Rod Spring",
+  "md5": "c3c3b3da03f0f0881a0116e24fc7f812",
+  "bytes": 40284,
+  "triangles": 804,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 887.833,
+  "bbox_mm": [
+   7.234,
+   21.689,
+   14.15
+  ],
+  "origin_mm": [
+   -3.567,
+   29.96,
+   -7.325
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "10 - Bottom Spring.stl",
+  "stem": "10 - Bottom Spring",
+  "md5": "28db6fcc5a3fcb748e4ab49eb109049b",
+  "bytes": 63484,
+  "triangles": 1268,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 483.708,
+  "bbox_mm": [
+   31.816,
+   3.875,
+   16.699
+  ],
+  "origin_mm": [
+   -15.908,
+   11.5,
+   -8.346
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "11 - Middle Spring v2.stl",
+  "stem": "11 - Middle Spring v2",
+  "md5": "c98aa8cc7628fb0227276e362b21484c",
+  "bytes": 63084,
+  "triangles": 1260,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 863.754,
+  "bbox_mm": [
+   28.902,
+   32.625,
+   3.0
+  ],
+  "origin_mm": [
+   -14.451,
+   15.375,
+   -1.5
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "11 - Middle Spring.stl",
+  "stem": "11 - Middle Spring",
+  "md5": "5ce7247f518c697be9349bc3ddaed190",
+  "bytes": 137884,
+  "triangles": 2756,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 820.762,
+  "bbox_mm": [
+   34.806,
+   32.625,
+   3.0
+  ],
+  "origin_mm": [
+   -17.403,
+   15.375,
+   -1.5
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "12 - Optional Middle Spring.stl",
+  "stem": "12 - Optional Middle Spring",
+  "md5": "69f42fb0406432c0551d633eaaf9a5e5",
+  "bytes": 129284,
+  "triangles": 2584,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 849.109,
+  "bbox_mm": [
+   34.806,
+   32.625,
+   3.0
+  ],
+  "origin_mm": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "13 - Handle Left.stl",
+  "stem": "13 - Handle Left",
+  "md5": "695746c53740c2b6bcccd83e4c0d05dd",
+  "bytes": 170184,
+  "triangles": 3402,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 8540.902,
+  "bbox_mm": [
+   53.38,
+   76.941,
+   19.0
+  ],
+  "origin_mm": [
+   -7.581,
+   9.108,
+   -9.5
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "14 - Handle Right.stl",
+  "stem": "14 - Handle Right",
+  "md5": "52be0c23bb03637896ffc6ab98a8eecf",
+  "bytes": 176584,
+  "triangles": 3530,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 5486.128,
+  "bbox_mm": [
+   53.38,
+   38.526,
+   9.5
+  ],
+  "origin_mm": [
+   -7.581,
+   47.522,
+   -0.0
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "15 - Handle Rotating Lock.stl",
+  "stem": "15 - Handle Rotating Lock",
+  "md5": "78d49b15fde6f8901c9a20f321b36f9c",
+  "bytes": 11084,
+  "triangles": 220,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 198.11,
+  "bbox_mm": [
+   4.989,
+   3.491,
+   19.0
+  ],
+  "origin_mm": [
+   -2.494,
+   57.125,
+   -9.5
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "16 - Handle Lock.stl",
+  "stem": "16 - Handle Lock",
+  "md5": "d241ea54deab1349d29afd796401102a",
+  "bytes": 9584,
+  "triangles": 190,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 192.332,
+  "bbox_mm": [
+   5.291,
+   4.921,
+   19.0
+  ],
+  "origin_mm": [
+   14.882,
+   56.132,
+   -9.5
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "17 - Ring Spinner.stl",
+  "stem": "17 - Ring Spinner",
+  "md5": "fbea753e4ed9b40bdff6c81e32f1b4c4",
+  "bytes": 388884,
+  "triangles": 7776,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 2336.955,
+  "bbox_mm": [
+   24.571,
+   24.551,
+   16.6
+  ],
+  "origin_mm": [
+   16.504,
+   56.764,
+   -8.3
+  ],
+  "congruent_with": []
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "18 - Handle Stapler Lock.stl",
+  "stem": "18 - Handle Stapler Lock",
+  "md5": "9a11df20550e0da51d2eba0ac0db3035",
+  "bytes": 2284,
+  "triangles": 44,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 77.796,
+  "bbox_mm": [
+   4.313,
+   4.313,
+   13.8
+  ],
+  "origin_mm": [
+   36.992,
+   77.242,
+   -6.9
+  ],
+  "congruent_with": [
+   [
+    "19 - Handle Stapler Lock.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "20 - Handle Stapler Lock.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "19 - Handle Stapler Lock.stl",
+  "stem": "19 - Handle Stapler Lock",
+  "md5": "f1bb373ae60b673765c043b9fb2b3a72",
+  "bytes": 2284,
+  "triangles": 44,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 77.796,
+  "bbox_mm": [
+   2.852,
+   4.619,
+   13.8
+  ],
+  "origin_mm": [
+   23.572,
+   80.881,
+   -6.9
+  ],
+  "congruent_with": [
+   [
+    "18 - Handle Stapler Lock.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "20 - Handle Stapler Lock.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ },
+ {
+  "product": "spinner",
+  "folder": "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
+  "file": "20 - Handle Stapler Lock.stl",
+  "stem": "20 - Handle Stapler Lock",
+  "md5": "e67ae801d9014b3d3c39f5fab5aaaec0",
+  "bytes": 2284,
+  "triangles": 44,
+  "repaired_faces": 0,
+  "watertight": true,
+  "winding_consistent": true,
+  "bodies": 1,
+  "volume_mm3": 77.796,
+  "bbox_mm": [
+   4.619,
+   2.852,
+   13.8
+  ],
+  "origin_mm": [
+   40.631,
+   63.822,
+   -6.9
+  ],
+  "congruent_with": [
+   [
+    "18 - Handle Stapler Lock.stl",
+    "rotation",
+    0.0
+   ],
+   [
+    "19 - Handle Stapler Lock.stl",
+    "rotation",
+    0.0
+   ]
+  ]
+ }
+]

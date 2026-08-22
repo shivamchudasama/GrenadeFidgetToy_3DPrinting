@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+
+# Derivatives/ holds regenerable build output (~223 MB of .stl/.glb/.3mf).
+# Kept out of LFS to stay well inside the 1 GB free storage / 1 GB-per-month
+# bandwidth budget. Regenerate with tools/build_tactical_body.py and
+# tools/build_tactical_variants.py.
+Derivatives/**/*.stl
+Derivatives/**/*.glb
+Derivatives/**/*.3mf
+
+# ...but NOT the pose record. Tactical_variants_poses.json is an *input* to
+# those build scripts (assembly.py reads it), not an output -- it is the
+# solved-assembly result and cannot be regenerated. It must stay tracked.
+!Derivatives/tactical/Tactical_variants_poses.json
