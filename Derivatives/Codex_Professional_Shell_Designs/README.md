@@ -2,7 +2,9 @@
 
 Five new coordinated shell families for the **Fidget Fuse Tactical 7-in-1**.
 This generation was rebuilt from a clean exterior base and does not reuse the
-procedural groove designs from `Codex_Shell_Designs`.
+procedural height-field groove method of the earlier shell set, which was
+removed in favour of these (its generator is kept, unused, at
+`tools/build_codex_shell_designs.py`).
 
 ## Families
 
