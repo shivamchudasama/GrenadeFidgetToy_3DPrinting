@@ -22,7 +22,7 @@ Do not ask on turns that change nothing here (questions, inspection, small edits
 ## Companion documents
 
 - **`DESIGN.md`** — how the toys work mechanically: the four recurring interfaces (tapered lock tab, click detent, thread, upper-shell rotation), the body stack with heights, wall thicknesses, fits and clearances, and a "before you commit a change" checklist. Read it before modifying any part's geometry. Every number is tagged measured / derived / guessed. It also carries the assembly-solving status — what is still unsolved and the dead ends already ruled out (§8), and the remaining work in dependency order (§9).
-- **`CUSTOM_DESIGN.md`** — the custom build (a Tactical base with a stronger rotary click at the waist, and the Spinner Fuse handle carrying a gear on its rim). Same evidence tags. Read its §2 before touching the waist: it records that **the Tactical base already contains a 33-click rotary ratchet**, and the arithmetic rule that governs every detent here — a detent only clicks if the nose spacings are whole notch counts, which is why 33 lobes take 3 arms and 32 take 2. **`DESIGN.md` §2.2 and §8 do not yet reflect this** and are stale on the point.
+- **`CUSTOM_DESIGN.md`** — the custom build: a Tactical base with a stronger rotary click at the waist, and the Spinner Fuse handle folding on the rod's top, carrying a gear on its rim. Same evidence tags. Read its §2 before touching the waist: it records that **the Tactical base already contains a 33-click rotary ratchet**, and the arithmetic rule that governs every detent here — a detent only clicks if the nose spacings are whole notch counts, which is why 33 lobes take 3 arms and 32 take 2. **`DESIGN.md` §2.2 and §8 do not yet reflect this** and are stale on the point. Its §4.6 is worth reading before trusting any geometry check: a cut tool whose face lands coplanar with a part's own face leaves a **zero-thickness skin** that passes watertightness, body-count and interference and still closes a hole in the slicer.
 
 ## Repository nature
 
@@ -37,7 +37,7 @@ All 110 files are **binary STL** and every one carries the same `MW 1.0 <n> US` 
 Everything lives at the repo root: three pristine product folders, plus the toolkit and its output.
 
 - `tools/` — `fidget.py` (the toolkit), `assembly.py` (pose-record scene builder, including `kit_column()` for parts with no pose), `build_tactical_body.py` / `build_tactical_variants.py` (regenerate Tactical exports — the latter also emits the unsolved-kit file), `build_index.py` (regenerates `parts_index.json`), `example_modify.py` (copyable template).
-  - `custom.py` / `build_custom.py` — the custom build of `CUSTOM_DESIGN.md`. `custom.py` is geometry only (CSG on upstream meshes plus extruded shapely profiles); `build_custom.py` is the driver, with `waist` / `head` / `parts` phases.
+  - `custom.py` / `build_custom.py` — the custom build of `CUSTOM_DESIGN.md`. `custom.py` is geometry only (CSG on upstream meshes, extruded shapely profiles, and one lofted surface); `build_custom.py` is the driver, with `waist` / `head` / `toy` / `parts` phases. Every phase re-measures its own mechanism by sweep and prints the result, and `parts` additionally ray-checks that every full-width bore is open before writing.
   - `build_professional_shell_designs.py` — five **cosmetic** Tactical shell families (AeroFlow, Vector Chevron, Orbit, Ergo Scoops, Contour Twist). Decorates outward-facing exterior surfaces only, inside explicit cosmetic bands, and leaves snap, bearing and spring interfaces untouched. **[?]** That claim is the script's own; the geometry has not been independently checked.
 - `Derivatives/` — output, created by `fidget.save()`. One subfolder per product (`grenade/`, `spinner/`, `tactical/`), plus `custom/` (the custom build, with its printable parts in `custom/Parts/`) and `Codex_Professional_Shell_Designs/` (the cosmetic shell families, with a `README.md`, a `manifest.json` and per-design `preview.png`). See **Assemblies**. Modified parts belong here too. **Its `.stl`/`.glb`/`.3mf` output is gitignored and is not on the remote**, but the READMEs, manifests and previews are tracked — see **Git**.
 
@@ -84,9 +84,19 @@ The three complete body variants are in `Derivatives/tactical/Body/` (two-piece,
 
 ### The custom build
 
-`Derivatives/custom/`, built 2026-08-22 by `tools/build_custom.py`; the design is
-in `CUSTOM_DESIGN.md`. Two things there are worth knowing before touching the
-Tactical waist or the Spinner Fuse handle:
+`Derivatives/custom/`, built by `tools/build_custom.py`; the design is in
+`CUSTOM_DESIGN.md`. **The head is frozen — one design, no variants.** The toy is
+the Tactical common body with a clicking waist, a rod carrying a hinge yoke, and
+the Spinner Fuse handle folded onto it: it folds 90° in three clicks, its ring
+spins, and `Spinner Lever 05 - Gear` rolls on its rim against
+`Spinner Lever 04 - Spring`.
+
+Output: `Custom_Waist_{Ring,Native}_2pc`, `Custom_Head`,
+`Custom_Toy_{Ring,Native}_2pc`, and 10 printable STLs in `custom/Parts/`.
+Envelopes 41.6 × 80.1 × 41.6 mm (waist) and 41.6 × 121.3 × 67.5 mm (toy).
+
+Four things here are worth knowing before touching the Tactical waist or the
+Spinner Fuse handle:
 
 - **The Tactical base already has a rotary ratchet at the waist.** `08 - Internal
   Barrel` carries three windows at 30°/150°/270°; `20 - Mid Shell Spring` pushes
@@ -99,6 +109,17 @@ Tactical waist or the Spinner Fuse handle:
   r 16.49 against the barrel's r 16.22 — a 0.27 mm journal, versus the Spinner
   Fuse's own 0.25 — and its OD of 21.00 sits flush with the mid shell's 20.82.
   No adapter, and nothing needs stacking on top of the body.
+- **The fold mechanism was already in the donor**, all four pieces: a D-bore and
+  a 12-notch hub in `13`/`14`, the pin `15 - Handle Rotating Lock`, the leaf
+  `09 - Rod Spring`, and the yoke that is `05`+`06`+`07 - Rod Middle *` unioned.
+  Only the yoke is reworked — trimmed and grafted onto `3 - Rod Middle v1.1`
+  above y 62, where the rod is still one solid polygon.
+- **Around the gear, the two handle halves never meet between r 12.5 and 18.3** —
+  that band is the gear's. Any pin joining them there has to stand at r 20.5, and
+  anything holding it reaches r 22.9, which is 4.9 mm proud of a tooth tip at
+  18.00 and buries the wheel. So the head carries **no pins**; the halves are
+  closed at the neck and in the pod by two copies of `16 - Handle Lock`, exactly
+  as the Tactical cantilevers its own head off the rod.
 
 Both waist variants stay inside the stock 41.6 × 80.1 × 41.6 mm envelope.
 
