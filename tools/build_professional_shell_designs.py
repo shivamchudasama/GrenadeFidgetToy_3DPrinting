@@ -2,8 +2,8 @@
 
 This set uses analytic-looking features: smooth swept ribs, continuous orbit
 bands, thread-cut grip rails, and a softly lobed contour sleeve.  It
-deliberately does not reuse the height-field groove method from
-``build_codex_shell_designs.py``.
+deliberately does not reuse the height-field groove method of the earlier shell
+set, which has since been removed.
 
 All mechanical surfaces come from the upstream meshes.  Existing decoration is
 removed only inside explicit exterior cosmetic bands; snap fits, bores, ledges,
