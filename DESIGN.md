@@ -2,8 +2,8 @@
 
 A description of the **mechanical design**, written for the case where you want to
 change a part and need to know what else that breaks. `CLAUDE.md` covers repo
-conventions; `TACTICAL_ASSEMBLY_HANDOFF.md` covers what is still unsolved. This
-file covers the geometry itself.
+conventions; this file covers the geometry itself, what is still unsolved (§8)
+and what to do about it next (§9).
 
 **Everything here is measured from the STLs, not from a spec sheet.** There is no
 upstream CAD and no documentation — every number below came from sectioning or
@@ -74,6 +74,17 @@ surrounding parts stop it, typically a window under 1 mm wide.
 
 **[D]** The slot-mouth direction is a **free 180° choice**. Both orientations
 score identically. It only records which side the disc was slid on from.
+
+**[M]** All seven Tactical rod locks are **achiral** — the mirrored mesh maps
+back onto the original under a proper rotation, deviation 0.0000 mm. So a pose
+transferred from one lock to another is always a **proper rotation, never a
+mirror**, whatever `parts_index.json` labels the pair (§7, item 2). An earlier attempt
+to place `23 - Rod Lock 01` by reflecting `Bottle Cap Lock` was wrong twice over:
+the relation is not a reflection, *and* the source pose was not seated — it sat
+0.436 mm clear of the lever, touching nothing in the assembly, while its own note
+in the record claimed `contact 0.350`. **Check that a source pose is actually
+seated before transferring it**, or the error propagates into every part derived
+from it. Matching the tapers, above, avoids the transfer entirely.
 
 > **If you change this:** the same disc is used by all three variant kits, so
 > retapering one tab orphans the other two. Keep −0.536 mm/mm, or change the tab
@@ -192,6 +203,20 @@ falls to **0.000 mm³** there, against 8.259 mm³ at the previously recorded 42�
 The sweep is 60°-periodic and spans 0.23 .. 33.14 mm³; the minimum is a
 **flat-bottomed well 27.5° .. 33.0°**, i.e. a designed clearance, centred on 30°.
 
+> **Sweep a recorded pose, never a reconstructed one.** Rebuilding the rod from
+> its source STL at an assumed base height and sweeping *that* gives a flat curve
+> — 60.8–64.9 mm³ at every angle — and the false conclusion "no azimuth signal".
+> The flatness is an artefact: reconstruction puts the 3.000 mm serrations at a
+> different vertical phase than the record, fouling `20 - Mid Shell Spring` by a
+> constant ~29.8 mm³ that swamps the real 99.3% spread. In its recorded pose the
+> rod clears that spring at 0.000 mm³. Every part here is covered in 3 mm-pitch
+> teeth, so this trap applies to all of them:
+>
+> ```python
+> R = trimesh.transformations.rotation_matrix(np.radians(delta), [0, 1, 0])
+> m = src.copy(); m.apply_transform(R @ M_recorded)     # not a rebuild
+> ```
+
 ---
 
 ## 4. The two generations — read this before changing any rod
@@ -215,7 +240,8 @@ revision; only thicknesses moved.
 
 **[M]** The pose record currently uses the **`v1.1`** barrel internals, so every
 exported body is **generation-mixed**, and the six original internals are placed
-nowhere. This is unresolved — see handoff §5.7.
+nowhere. This is unresolved, and it is the first item of §9 because everything
+else inherits the answer.
 
 > **If you change a rod's thickness you are making a generation change.** Check it
 > against *both* barrel-internal sets, not just whichever the record happens to
@@ -322,7 +348,49 @@ Being explicit so nobody re-derives a dead end:
 
 ---
 
-## 9. Reproducing any measurement here
+## 9. Open work, in order
+
+The order matters — item 1 gates the rest. The pose record
+(`Derivatives/tactical/Tactical_variants_poses.json`) currently places **34 of the
+59** Tactical files; the 25 unplaced are 10 grenade-top parts, 2 lever editions,
+`Spinner Lever 01`–`07`, and the 6 original barrel internals.
+
+1. **Settle the generation question** (§4). All three exported bodies mix
+   generations and the six original barrel internals are placed nowhere. Decide
+   whether to ship one body per generation, or one body with generation-matched
+   internals per variant. The grenade and original-spinner tops are
+   original-generation (9.0 mm rods) and are currently being fitted to a body
+   carrying `v1.1` internals, so every fit below depends on this.
+2. **Solve `22 - Rod Lock 04` and `26 - Rod Lock 03`** (§8). Solid 2 mm plates
+   with no slot — §2.1 does not apply and there is nothing to transfer. Start
+   from the 13.78 mm vs 13.40 mm coincidence against the rod section.
+3. **Solve the grenade spoon sub-assembly** (`15 - Lever Base`, `16`/`17`/`19`,
+   `18 - Lever Spring`, `31 - Lever`) against *itself*, then seat the finished
+   unit on the body as one rigid group. This is the hard one, and the reason the
+   grenade top is unsolved: the parts mate with each other, so body-contact
+   scoring has no discriminating power (§8). `23 - Rod Lock 01` was solved this
+   way — against its mating part, not against the body — and the approach
+   generalises.
+4. **Place `24`/`25 - Rod Left`/`Right`**, constrained to be related by a rotation
+   about the toy axis, as `1`/`2 - Rod v1.1` are at radius 6.628 mm (§3.3). The
+   earlier attempt failed by putting them at the same radius only 36° apart,
+   which is wrong for a handed pair.
+5. **Place `Spinner Lever 06`/`07 - Rod Lock`** — the same two thin plates as
+   item 2, so solve them together. There is no `v1.1` rod lock, so these stay
+   live parts of the spinner top: a complete spinner top is 6 + 3 locks = 9
+   parts, of which `Spinner Lever 08` is already placed.
+6. **Emit the attachments** as standalone sub-assemblies in
+   `Derivatives/tactical/Attachments/`, then as body × top combinations. Once
+   those exist the combined `Tactical_Spinner_7in1_*MidShell*` files become
+   redundant with `Body/ × Attachments/` — **ask before deleting anything.**
+
+Rebuild after any of these with `tools/build_tactical_body.py` and
+`tools/build_tactical_variants.py`; both read the pose record, which is the source
+of truth. Do not re-run a search to reproduce an assembly that already exists.
+
+---
+
+## 10. Reproducing any measurement here
 
 ```python
 import sys; sys.path.insert(0, "tools")

@@ -21,8 +21,8 @@ Do not ask on turns that change nothing here (questions, inspection, small edits
 
 ## Companion documents
 
-- **`DESIGN.md`** — how the toys work mechanically: the four recurring interfaces (tapered lock tab, click detent, thread, upper-shell rotation), the body stack with heights, wall thicknesses, fits and clearances, and a "before you commit a change" checklist. Read it before modifying any part's geometry. Every number is tagged measured / derived / guessed.
-- **`TACTICAL_ASSEMBLY_HANDOFF.md`** — assembly-solving status: what is placed, what is not, what has been tried and ruled out.
+- **`DESIGN.md`** — how the toys work mechanically: the four recurring interfaces (tapered lock tab, click detent, thread, upper-shell rotation), the body stack with heights, wall thicknesses, fits and clearances, and a "before you commit a change" checklist. Read it before modifying any part's geometry. Every number is tagged measured / derived / guessed. It also carries the assembly-solving status — what is still unsolved and the dead ends already ruled out (§8), and the remaining work in dependency order (§9).
+- **`CUSTOM_DESIGN.md`** — the custom build (a Tactical base with a stronger rotary click at the waist, and the Spinner Fuse handle carrying a gear on its rim). Same evidence tags. Read its §2 before touching the waist: it records that **the Tactical base already contains a 33-click rotary ratchet**, and the arithmetic rule that governs every detent here — a detent only clicks if the nose spacings are whole notch counts, which is why 33 lobes take 3 arms and 32 take 2. **`DESIGN.md` §2.2 and §8 do not yet reflect this** and are stale on the point.
 
 ## Repository nature
 
@@ -37,7 +37,9 @@ All 110 files are **binary STL** and every one carries the same `MW 1.0 <n> US` 
 Everything lives at the repo root: three pristine product folders, plus the toolkit and its output.
 
 - `tools/` — `fidget.py` (the toolkit), `assembly.py` (pose-record scene builder, including `kit_column()` for parts with no pose), `build_tactical_body.py` / `build_tactical_variants.py` (regenerate Tactical exports — the latter also emits the unsolved-kit file), `build_index.py` (regenerates `parts_index.json`), `example_modify.py` (copyable template).
-- `Derivatives/` — output, one subfolder per product. Created by `fidget.save()`. Holds 63 files as of 2026-08-22: assembled and exploded models for all three products, the derived-pose JSON for Tactical, and its `tactical/Body/` exports. See **Assemblies**. Modified parts belong here too. **Its `.stl`/`.glb`/`.3mf` output is gitignored and is not on the remote** — see **Git**.
+  - `custom.py` / `build_custom.py` — the custom build of `CUSTOM_DESIGN.md`. `custom.py` is geometry only (CSG on upstream meshes plus extruded shapely profiles); `build_custom.py` is the driver, with `waist` / `head` / `parts` phases.
+  - `build_codex_shell_designs.py` / `build_professional_shell_designs.py` — two independent sets of five **cosmetic** Tactical shell families. Both decorate outward-facing exterior surfaces only and leave snap, bearing and spring interfaces untouched.
+- `Derivatives/` — output, created by `fidget.save()`. One subfolder per product (`grenade/`, `spinner/`, `tactical/`), plus `custom/` (the custom build, with its printable parts in `custom/Parts/`) and `Codex_Shell_Designs/` / `Codex_Professional_Shell_Designs/` (the cosmetic shell families, each with a `README.md`, a `manifest.json` and per-design `preview.png`). See **Assemblies**. Modified parts belong here too. **Its `.stl`/`.glb`/`.3mf` output is gitignored and is not on the remote**, but the READMEs, manifests and previews are tracked — see **Git**.
 
 The three product folders are **pristine upstream and read-only** — never write into them. They are flat, with no subdirectories:
 
@@ -68,7 +70,7 @@ Confirmed by the parent's `.3mf` print plates (`PLA+-+Grenade+Lever` holds exact
 
 Each variant ships a **complete** kit — all three have their own Rod Middle, Rod Left, Spring and Rod Lock (the three `Rod Lock 01` files are congruent at 706.7 mm³ but *not* byte-identical). They are alternatives; never put two kits in one assembly. Note `15`–`19` and `21`–`26` are **grenade-specific, not common**, despite falling inside the `01`–`30` numbering.
 
-**`09`–`14` exist in two generations, and the row above counts the originals.** `09 - Internal Barrel (1)` / `10 - (2)` / `11 - (3)` and `12`/`13`/`14 - Internal Barrel Spring (3)/(2)/(1)` are the original parts; `09 - Internal Barrel Pin v1.1` … `14 - Internal Barrel Spring v1.1` are the revision, counted in the `v1.1` row. They are genuinely different parts — 135.4 vs 119.6 mm³ and 244.5 vs 211.7 mm³. **The pose record uses the `v1.1` six**, so every exported body is generation-mixed and the six originals are placed nowhere. The tops are split the same way: `Spinner Lever 01–08` and the whole grenade top are original-generation (9.0 mm rods), `1`–`5` + `Ring Large` are `v1.1` (7.0 mm). This is unresolved — see `TACTICAL_ASSEMBLY_HANDOFF.md` §5.7, and it blocks the `21 - Rod Middle` azimuth (§5.3).
+**`09`–`14` exist in two generations, and the row above counts the originals.** `09 - Internal Barrel (1)` / `10 - (2)` / `11 - (3)` and `12`/`13`/`14 - Internal Barrel Spring (3)/(2)/(1)` are the original parts; `09 - Internal Barrel Pin v1.1` … `14 - Internal Barrel Spring v1.1` are the revision, counted in the `v1.1` row. They are genuinely different parts — 135.4 vs 119.6 mm³ and 244.5 vs 211.7 mm³. **The pose record uses the `v1.1` six**, so every exported body is generation-mixed and the six originals are placed nowhere. The tops are split the same way: `Spinner Lever 01–08` and the whole grenade top are original-generation (9.0 mm rods), `1`–`5` + `Ring Large` are `v1.1` (7.0 mm). This is unresolved — see `DESIGN.md` §4, and settling it is the first item of `DESIGN.md` §9 because every remaining fit inherits the answer.
 
 `Mid Shell Solid Color` and `Hex Mid Shell Solid Color` replace **`32` *and* `33` together** with one piece — 12,640 mm³ ≈ 6,062 + 6,400, seating at the same `dy = 20.00`. Dropped in place of `33` alone they interfere by 5,643 mm³. The two-piece mid shell is the two-colour option.
 
@@ -76,9 +78,29 @@ The three complete body variants are in `Derivatives/tactical/Body/` (two-piece,
 
 ### Not solved: the Grenade-6-in-1 top
 
-10 of its 12 parts (`24`, `25`, `22`, `26`, `15`–`19`, `31`) have **no determined pose**; `21 - Rod Middle` and `23 - Rod Lock 01` are placed. Top parts mate with each other, not with the body, so body-contact carries no signal — measured: the *known-correct* Spinner head scores 0.07–0.11 surface contact against the body, and 6 mm off-true still scores 0.065–0.097. Forcing a fit put Rod Left and Rod Right at the same radius 36° apart, wrong for a handed pair. They ship laid out as a labelled kit column in `Tactical_Grenade_6in1_exploded_with_unsolved_kit.*`, regenerated by `build_tactical_variants.py` from the record's `unsolved_grenade_top` list. Finishing them needs a sub-assembly solver — parts against each other, where the fits are actually tight — and then placing that unit on the body.
+10 of its 12 parts (`24`, `25`, `22`, `26`, `15`–`19`, `31`) have **no determined pose**; `21 - Rod Middle` and `23 - Rod Lock 01` are placed. Top parts mate with each other, not with the body, so body-contact carries no signal — measured: the *known-correct* Spinner head scores 0.07–0.11 surface contact against the body, and 6 mm off-true still scores 0.065–0.097. Forcing a fit put Rod Left and Rod Right at the same radius 36° apart, wrong for a handed pair. They ship laid out as a labelled kit column in `Tactical_Grenade_6in1_exploded_with_unsolved_kit.*`, regenerated by `build_tactical_variants.py` from the record's `unsolved_grenade_top` list. Finishing them needs a sub-assembly solver — parts against each other, where the fits are actually tight — and then placing that unit on the body. See `DESIGN.md` §9 for the remaining work in order.
 
 `23 - Rod Lock 01` was solved that way rather than by contact scoring, and the technique generalises: **the 15.6 mm rod lock is a slotted retaining washer whose slot is tapered at −0.55 mm/mm, and it wedges onto a matching tapered tab (5.102 → 3.816 mm, −0.536 mm/mm) carried by `Bottle Cap Lever`, `3 - Rod Middle v1.1` and `21 - Rod Middle`.** Matching the two tapers fixes the height analytically — no search — and the surrounding parts then pin the slide to a window under 1 mm. The slot-mouth direction stays a free 180° choice. `22`/`26 - Rod Lock` are *not* discs (solid 2 mm plates, no slot), so this does not apply to them. The two lever editions are identical in envelope and volume to `31 - Lever` (2413.8 vs 2413.9 mm³), so they inherit whatever pose `31` eventually gets.
+
+### The custom build
+
+`Derivatives/custom/`, built 2026-08-22 by `tools/build_custom.py`; the design is
+in `CUSTOM_DESIGN.md`. Two things there are worth knowing before touching the
+Tactical waist or the Spinner Fuse handle:
+
+- **The Tactical base already has a rotary ratchet at the waist.** `08 - Internal
+  Barrel` carries three windows at 30°/150°/270°; `20 - Mid Shell Spring` pushes
+  three arms through them to r 17.20; the mid shell bore is a 33-lobe ratchet at
+  r 16.43–17.53. Swept, it clicks every 10.909° (= 360/33). So
+  `20 - Mid Shell Spring` is **dual-purpose** — its 15.84 mm square bore is the
+  linear click on the rod, its arms are a rotary detent. Do not "add" this
+  mechanism; it is there.
+- **`04 - Middle Spinner Shell` drops straight onto that barrel.** Its bore is
+  r 16.49 against the barrel's r 16.22 — a 0.27 mm journal, versus the Spinner
+  Fuse's own 0.25 — and its OD of 21.00 sits flush with the mid shell's 20.82.
+  No adapter, and nothing needs stacking on top of the body.
+
+Both waist variants stay inside the stock 41.6 × 80.1 × 41.6 mm envelope.
 
 ## Provenance
 
@@ -153,8 +175,10 @@ resource (free tier: 1 GB storage, 1 GB/month).
 ### What is tracked, and what is not
 
 **Tracked (~55 MB LFS):** the three pristine product folders — all 110 STL plus
-the Grenade zip — the three `.md` docs, `tools/`, and
-`Derivatives/tactical/Tactical_variants_poses.json`.
+the Grenade zip — the four `.md` docs, `tools/`, and
+`Derivatives/tactical/Tactical_variants_poses.json`. Also the small text and
+image sidecars under `Derivatives/`: the shell-design `README.md`, `manifest.json`
+and `preview.png` files (~3.8 MB of PNG, ordinary blobs by the rule above).
 
 **Not tracked:** every `.stl`/`.glb`/`.3mf` under `Derivatives/` (~223 MB), and
 `tools/__pycache__/`. That output is regenerable, and committing it would have
@@ -164,6 +188,9 @@ put the repo at ~28% of the free LFS storage tier with a full clone costing
 ```
 python tools/build_tactical_body.py
 python tools/build_tactical_variants.py
+python tools/build_custom.py
+python tools/build_codex_shell_designs.py
+python tools/build_professional_shell_designs.py
 ```
 
 **The one deliberate exception is `Tactical_variants_poses.json`, which is

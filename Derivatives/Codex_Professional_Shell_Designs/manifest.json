@@ -1,0 +1,572 @@
+{
+  "description": "Professional ergonomic, unique, and modern Tactical shell designs",
+  "generation": 9,
+  "design_method": "Analytic swept skins, staggered traction pods, thread-cut grip rails, and torque flutes; no procedural height-field grooves",
+  "coordinate_system": "centred X/Y; upstream print orientation; Z minimum = 0",
+  "designs": {
+    "01_AeroFlow": {
+      "description": "Long, softly swept ergonomic ribs",
+      "parts": {
+        "Bottom_Shell": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/01_AeroFlow/01_AeroFlow_Bottom_Shell.stl",
+          "source": "04 - Bottom Shell 01",
+          "cosmetic_zones_mm": [
+            [
+              3.65,
+              9.35,
+              19.35
+            ]
+          ],
+          "feature_type": "continuous swept-rib skin",
+          "feature_count": 16,
+          "surface_finish": "high-resolution C2-continuous rib fillets",
+          "cosmetic_theta_samples": 720,
+          "maximum_cosmetic_axial_spacing_mm": 0.14,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 66878,
+          "volume_mm3": 3604.006,
+          "bounds_mm": [
+            40.175,
+            40.726,
+            12.293
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 881,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Mid_Shell": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/01_AeroFlow/01_AeroFlow_Mid_Shell.stl",
+          "source": "Mid Shell Solid Color",
+          "cosmetic_zones_mm": [
+            [
+              1.25,
+              33.55,
+              20.0
+            ]
+          ],
+          "feature_type": "continuous swept-rib skin",
+          "feature_count": 16,
+          "surface_finish": "high-resolution C2-continuous rib fillets",
+          "cosmetic_theta_samples": 720,
+          "maximum_cosmetic_axial_spacing_mm": 0.14,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 346564,
+          "volume_mm3": 11959.858,
+          "bounds_mm": [
+            41.68,
+            41.68,
+            34.8
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 4074,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Upper_Shell_Top": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/01_AeroFlow/01_AeroFlow_Upper_Shell_Top.stl",
+          "source": "27 - Upper Shell Top",
+          "cosmetic_zones_mm": [
+            [
+              4.1,
+              11.3,
+              19.7
+            ]
+          ],
+          "feature_type": "continuous swept-rib skin",
+          "feature_count": 16,
+          "surface_finish": "high-resolution C2-continuous rib fillets",
+          "cosmetic_theta_samples": 720,
+          "maximum_cosmetic_axial_spacing_mm": 0.14,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 87104,
+          "volume_mm3": 7863.036,
+          "bounds_mm": [
+            40.56,
+            40.56,
+            19.834
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 2089,
+          "maximum_protected_surface_drift_mm": 3.552713678800501e-15
+        }
+      },
+      "preview": "Derivatives/Codex_Professional_Shell_Designs/01_AeroFlow/preview.png"
+    },
+    "02_Vector_Chevron": {
+      "description": "Sculpted continuous chevrons with rounded shoulders",
+      "parts": {
+        "Bottom_Shell": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/02_Vector_Chevron/02_Vector_Chevron_Bottom_Shell.stl",
+          "source": "04 - Bottom Shell 01",
+          "cosmetic_zones_mm": [
+            [
+              3.65,
+              9.35,
+              19.35
+            ]
+          ],
+          "feature_type": "continuous rounded-chevron skin",
+          "feature_count": 16,
+          "surface_finish": "high-resolution C2-continuous chevron fillets",
+          "cosmetic_theta_samples": 720,
+          "maximum_cosmetic_axial_spacing_mm": 0.14,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 66878,
+          "volume_mm3": 3594.087,
+          "bounds_mm": [
+            40.115,
+            40.726,
+            12.293
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 881,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Mid_Shell": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/02_Vector_Chevron/02_Vector_Chevron_Mid_Shell.stl",
+          "source": "Mid Shell Solid Color",
+          "cosmetic_zones_mm": [
+            [
+              1.25,
+              33.55,
+              20.0
+            ]
+          ],
+          "feature_type": "continuous rounded-chevron skin",
+          "feature_count": 16,
+          "surface_finish": "high-resolution C2-continuous chevron fillets",
+          "cosmetic_theta_samples": 720,
+          "maximum_cosmetic_axial_spacing_mm": 0.14,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 346564,
+          "volume_mm3": 11864.412,
+          "bounds_mm": [
+            41.52,
+            41.52,
+            34.8
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 4074,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Upper_Shell_Top": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/02_Vector_Chevron/02_Vector_Chevron_Upper_Shell_Top.stl",
+          "source": "27 - Upper Shell Top",
+          "cosmetic_zones_mm": [
+            [
+              4.1,
+              11.3,
+              19.7
+            ]
+          ],
+          "feature_type": "continuous rounded-chevron skin",
+          "feature_count": 16,
+          "surface_finish": "high-resolution C2-continuous chevron fillets",
+          "cosmetic_theta_samples": 720,
+          "maximum_cosmetic_axial_spacing_mm": 0.14,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 87102,
+          "volume_mm3": 7850.511,
+          "bounds_mm": [
+            40.44,
+            40.44,
+            19.834
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 2089,
+          "maximum_protected_surface_drift_mm": 3.552713678800501e-15
+        }
+      },
+      "preview": "Derivatives/Codex_Professional_Shell_Designs/02_Vector_Chevron/preview.png"
+    },
+    "03_Orbit": {
+      "description": "Staggered raised traction pods with rounded edges",
+      "parts": {
+        "Bottom_Shell": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/03_Orbit/03_Orbit_Bottom_Shell.stl",
+          "source": "04 - Bottom Shell 01",
+          "cosmetic_zones_mm": [
+            [
+              3.65,
+              9.35,
+              19.35
+            ]
+          ],
+          "feature_type": "staggered rounded traction-pod skin",
+          "feature_count": 24,
+          "traction_row_count": 2,
+          "surface_finish": "high-resolution C2-continuous pod fillets",
+          "cosmetic_theta_samples": 720,
+          "maximum_cosmetic_axial_spacing_mm": 0.14,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 66892,
+          "volume_mm3": 3621.706,
+          "bounds_mm": [
+            40.205,
+            40.725,
+            12.293
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 881,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Mid_Shell": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/03_Orbit/03_Orbit_Mid_Shell.stl",
+          "source": "Mid Shell Solid Color",
+          "cosmetic_zones_mm": [
+            [
+              1.25,
+              33.55,
+              20.0
+            ]
+          ],
+          "feature_type": "staggered rounded traction-pod skin",
+          "feature_count": 84,
+          "traction_row_count": 7,
+          "surface_finish": "high-resolution C2-continuous pod fillets",
+          "cosmetic_theta_samples": 720,
+          "maximum_cosmetic_axial_spacing_mm": 0.14,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 346564,
+          "volume_mm3": 11877.202,
+          "bounds_mm": [
+            41.554,
+            41.554,
+            34.8
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 4074,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Upper_Shell_Top": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/03_Orbit/03_Orbit_Upper_Shell_Top.stl",
+          "source": "27 - Upper Shell Top",
+          "cosmetic_zones_mm": [
+            [
+              4.1,
+              11.3,
+              19.7
+            ]
+          ],
+          "feature_type": "staggered rounded traction-pod skin",
+          "feature_count": 24,
+          "traction_row_count": 2,
+          "surface_finish": "high-resolution C2-continuous pod fillets",
+          "cosmetic_theta_samples": 720,
+          "maximum_cosmetic_axial_spacing_mm": 0.14,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 87648,
+          "volume_mm3": 7859.125,
+          "bounds_mm": [
+            40.535,
+            40.535,
+            19.834
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 2089,
+          "maximum_protected_surface_drift_mm": 3.552713678800501e-15
+        }
+      },
+      "preview": "Derivatives/Codex_Professional_Shell_Designs/03_Orbit/preview.png"
+    },
+    "04_Ergo_Scoops": {
+      "description": "Vertical grip rails interrupted by multi-start helical thread cuts",
+      "parts": {
+        "Bottom_Shell": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/04_Ergo_Scoops/04_Ergo_Scoops_Bottom_Shell.stl",
+          "source": "04 - Bottom Shell 01",
+          "cosmetic_zones_mm": [
+            [
+              3.65,
+              9.35,
+              19.35
+            ]
+          ],
+          "feature_type": "vertical chamfered grip rails cross-cut by a multi-start thread",
+          "feature_count": 12,
+          "vertical_rail_count": 12,
+          "rail_relief_mm": 0.7,
+          "thread_handedness": "right-hand",
+          "thread_start_count": 4,
+          "thread_pitch_mm": 9.2,
+          "thread_lead_mm": 36.8,
+          "thread_groove_width_mm": 4.48,
+          "thread_full_depth_width_mm": 3.1800000000000006,
+          "thread_edge_bevel_mm": 0.65,
+          "thread_base_recess_mm": 0.12,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 66900,
+          "volume_mm3": 3581.411,
+          "bounds_mm": [
+            40.295,
+            40.724,
+            12.293
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 881,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Mid_Shell": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/04_Ergo_Scoops/04_Ergo_Scoops_Mid_Shell.stl",
+          "source": "Mid Shell Solid Color",
+          "cosmetic_zones_mm": [
+            [
+              1.25,
+              33.55,
+              20.0
+            ]
+          ],
+          "feature_type": "vertical chamfered grip rails cross-cut by a multi-start thread",
+          "feature_count": 12,
+          "vertical_rail_count": 12,
+          "rail_relief_mm": 0.92,
+          "thread_handedness": "right-hand",
+          "thread_start_count": 4,
+          "thread_pitch_mm": 9.2,
+          "thread_lead_mm": 36.8,
+          "thread_groove_width_mm": 5.12,
+          "thread_full_depth_width_mm": 3.62,
+          "thread_edge_bevel_mm": 0.75,
+          "thread_base_recess_mm": 0.15,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 346596,
+          "volume_mm3": 11689.025,
+          "bounds_mm": [
+            41.84,
+            41.84,
+            34.8
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 4074,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Upper_Shell_Top": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/04_Ergo_Scoops/04_Ergo_Scoops_Upper_Shell_Top.stl",
+          "source": "27 - Upper Shell Top",
+          "cosmetic_zones_mm": [
+            [
+              4.1,
+              11.3,
+              19.7
+            ]
+          ],
+          "feature_type": "vertical chamfered grip rails cross-cut by a multi-start thread",
+          "feature_count": 12,
+          "vertical_rail_count": 12,
+          "rail_relief_mm": 0.7,
+          "thread_handedness": "right-hand",
+          "thread_start_count": 4,
+          "thread_pitch_mm": 9.2,
+          "thread_lead_mm": 36.8,
+          "thread_groove_width_mm": 4.48,
+          "thread_full_depth_width_mm": 3.1800000000000006,
+          "thread_edge_bevel_mm": 0.65,
+          "thread_base_recess_mm": 0.12,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 87702,
+          "volume_mm3": 7836.946,
+          "bounds_mm": [
+            40.8,
+            40.8,
+            19.834
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 2089,
+          "maximum_protected_surface_drift_mm": 3.552713678800501e-15
+        }
+      },
+      "preview": "Derivatives/Codex_Professional_Shell_Designs/04_Ergo_Scoops/preview.png"
+    },
+    "05_Contour_Twist": {
+      "description": "Deep twisted torque flutes with narrow crests",
+      "parts": {
+        "Bottom_Shell": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/05_Contour_Twist/05_Contour_Twist_Bottom_Shell.stl",
+          "source": "04 - Bottom Shell 01",
+          "cosmetic_zones_mm": [
+            [
+              3.65,
+              9.35,
+              19.35
+            ]
+          ],
+          "feature_type": "deep torque-flute skin with narrow crests",
+          "feature_count": 8,
+          "crest_relief_mm": 0.95,
+          "valley_recess_mm": 0.32,
+          "crest_to_valley_mm": 1.27,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 46108,
+          "volume_mm3": 3644.753,
+          "bounds_mm": [
+            40.599,
+            40.723,
+            12.293
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 881,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Mid_Shell_Outer": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/05_Contour_Twist/05_Contour_Twist_Mid_Shell_Outer.stl",
+          "source": "33 - Mid Shell P01",
+          "cosmetic_zones_mm": [
+            [
+              1.25,
+              33.55,
+              20.0
+            ]
+          ],
+          "feature_type": "deep torque-flute skin with narrow crests",
+          "feature_count": 6,
+          "crest_relief_mm": 1.5,
+          "valley_recess_mm": 0.44,
+          "crest_to_valley_mm": 1.94,
+          "reveal_window_type": "rounded diagonal valley slots",
+          "reveal_window_count": 6,
+          "reveal_window_size_mm": [
+            3.0,
+            19.0
+          ],
+          "assembly_role": "outer contour shell",
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 168880,
+          "volume_mm3": 5323.689,
+          "bounds_mm": [
+            43.0,
+            41.6,
+            34.8
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 574,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Mid_Shell_Inner": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/05_Contour_Twist/05_Contour_Twist_Mid_Shell_Inner.stl",
+          "source": "32 - Mid Shell P02",
+          "cosmetic_zones_mm": [],
+          "feature_type": "unmodified nested backing shell",
+          "feature_count": 1,
+          "assembly_role": "contrasting reveal colour",
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 8418,
+          "volume_mm3": 6062.485,
+          "bounds_mm": [
+            37.594,
+            37.598,
+            33.8
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 4209,
+          "maximum_protected_surface_drift_mm": 0.0
+        },
+        "Upper_Shell_Top": {
+          "file": "Derivatives/Codex_Professional_Shell_Designs/05_Contour_Twist/05_Contour_Twist_Upper_Shell_Top.stl",
+          "source": "27 - Upper Shell Top",
+          "cosmetic_zones_mm": [
+            [
+              4.1,
+              11.3,
+              19.7
+            ]
+          ],
+          "feature_type": "deep torque-flute skin with narrow crests",
+          "feature_count": 8,
+          "crest_relief_mm": 0.95,
+          "valley_recess_mm": 0.32,
+          "crest_to_valley_mm": 1.27,
+          "watertight": true,
+          "winding_consistent": true,
+          "body_count": 1,
+          "manifold_status": "NoError",
+          "triangles": 50992,
+          "volume_mm3": 7919.806,
+          "bounds_mm": [
+            41.299,
+            41.299,
+            19.834
+          ],
+          "z_min_mm": 0.0,
+          "protected_source_vertices_checked": 2089,
+          "maximum_protected_surface_drift_mm": 3.552713678800501e-15
+        }
+      },
+      "assembly": {
+        "type": "original P01/P02 nested snap-fit",
+        "outer_part": "Mid_Shell_Outer",
+        "inner_part": "Mid_Shell_Inner",
+        "outer_is_axially_flipped_for_assembly": true,
+        "inner_clocking_correction_degrees": 6.0,
+        "equivalent_clocking_period_degrees": 120.0,
+        "original_nested_overlap_mm3": 0.0,
+        "designed_nested_overlap_mm3": 0.0,
+        "nested_overlap_change_mm3": 0.0,
+        "preview": "Derivatives/Codex_Professional_Shell_Designs/05_Contour_Twist/two_colour_mid_shell_preview.png",
+        "file": "Derivatives/Codex_Professional_Shell_Designs/05_Contour_Twist/05_Contour_Twist_Mid_Shell_2Color_Assembly.3mf",
+        "materials": {
+          "Mid_Shell_Inner": {
+            "name": "Contrasting reveal colour",
+            "display_colour": "#F04F0EFF"
+          },
+          "Mid_Shell_Outer": {
+            "name": "Main contour shell colour",
+            "display_colour": "#3D617DFF"
+          }
+        },
+        "visual_reference_file": "Derivatives/Codex_Professional_Shell_Designs/05_Contour_Twist/05_Contour_Twist_Mid_Shell_2Color_Assembly.glb",
+        "full_shell_glb": "Derivatives/Codex_Professional_Shell_Designs/05_Contour_Twist/05_Contour_Twist_Full_Shell_Assembly.glb",
+        "full_shell_glb_part_colours": {
+          "Bottom_Shell": "#4C6E3BFF",
+          "Mid_Shell_Inner": "#F04F0EFF",
+          "Mid_Shell_Outer": "#3D617DFF",
+          "Upper_Shell_Top": "#7A4080FF"
+        }
+      },
+      "preview": "Derivatives/Codex_Professional_Shell_Designs/05_Contour_Twist/preview.png"
+    }
+  }
+}
