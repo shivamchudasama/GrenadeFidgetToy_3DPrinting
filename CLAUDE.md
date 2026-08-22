@@ -38,8 +38,9 @@ Everything lives at the repo root: three pristine product folders, plus the tool
 
 - `tools/` — `fidget.py` (the toolkit), `assembly.py` (pose-record scene builder, including `kit_column()` for parts with no pose), `build_tactical_body.py` / `build_tactical_variants.py` (regenerate Tactical exports — the latter also emits the unsolved-kit file), `build_index.py` (regenerates `parts_index.json`), `example_modify.py` (copyable template).
   - `custom.py` / `build_custom.py` — the custom build of `CUSTOM_DESIGN.md`. `custom.py` is geometry only (CSG on upstream meshes plus extruded shapely profiles); `build_custom.py` is the driver, with `waist` / `head` / `parts` phases.
-  - `build_codex_shell_designs.py` / `build_professional_shell_designs.py` — two independent sets of five **cosmetic** Tactical shell families. Both decorate outward-facing exterior surfaces only and leave snap, bearing and spring interfaces untouched.
-- `Derivatives/` — output, created by `fidget.save()`. One subfolder per product (`grenade/`, `spinner/`, `tactical/`), plus `custom/` (the custom build, with its printable parts in `custom/Parts/`) and `Codex_Shell_Designs/` / `Codex_Professional_Shell_Designs/` (the cosmetic shell families, each with a `README.md`, a `manifest.json` and per-design `preview.png`). See **Assemblies**. Modified parts belong here too. **Its `.stl`/`.glb`/`.3mf` output is gitignored and is not on the remote**, but the READMEs, manifests and previews are tracked — see **Git**.
+  - `build_professional_shell_designs.py` — five **cosmetic** Tactical shell families (AeroFlow, Vector Chevron, Orbit, Ergo Scoops, Contour Twist). Decorates outward-facing exterior surfaces only, inside explicit cosmetic bands, and leaves snap, bearing and spring interfaces untouched. **[?]** That claim is the script's own; the geometry has not been independently checked.
+  - `build_codex_shell_designs.py` — a **superseded** earlier set of five shell families using a height-field groove method. Its output was deleted 2026-08-22 as unwanted; the script is kept only for reference. **Do not run it** unless you want `Derivatives/Codex_Shell_Designs/` back.
+- `Derivatives/` — output, created by `fidget.save()`. One subfolder per product (`grenade/`, `spinner/`, `tactical/`), plus `custom/` (the custom build, with its printable parts in `custom/Parts/`) and `Codex_Professional_Shell_Designs/` (the cosmetic shell families, with a `README.md`, a `manifest.json` and per-design `preview.png`). See **Assemblies**. Modified parts belong here too. **Its `.stl`/`.glb`/`.3mf` output is gitignored and is not on the remote**, but the READMEs, manifests and previews are tracked — see **Git**.
 
 The three product folders are **pristine upstream and read-only** — never write into them. They are flat, with no subdirectories:
 
@@ -178,7 +179,7 @@ resource (free tier: 1 GB storage, 1 GB/month).
 the Grenade zip — the four `.md` docs, `tools/`, and
 `Derivatives/tactical/Tactical_variants_poses.json`. Also the small text and
 image sidecars under `Derivatives/`: the shell-design `README.md`, `manifest.json`
-and `preview.png` files (~3.8 MB of PNG, ordinary blobs by the rule above).
+and `preview.png` files (~2.3 MB of PNG, ordinary blobs by the rule above).
 
 **Not tracked:** every `.stl`/`.glb`/`.3mf` under `Derivatives/` (~223 MB), and
 `tools/__pycache__/`. That output is regenerable, and committing it would have
@@ -189,7 +190,6 @@ put the repo at ~28% of the free LFS storage tier with a full clone costing
 python tools/build_tactical_body.py
 python tools/build_tactical_variants.py
 python tools/build_custom.py
-python tools/build_codex_shell_designs.py
 python tools/build_professional_shell_designs.py
 ```
 
