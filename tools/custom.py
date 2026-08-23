@@ -11,22 +11,24 @@ Two coordinate frames, and mixing them is the mistake to watch for:
             also along +z. handle_half(), ring_spinner_slim(), gear_posed(),
             hinge_yoke() and swing() all work here.
     toy     Tactical coordinates, from the pose record. waist_*(),
-            custom_rod() and toy_items() work here.
+            custom_rod_parts() and toy_items() work here.
 
 module_transform() is the only bridge -- 90 degrees about Y, then lift.
 
     import custom
     ring  = custom.ring_spinner_slim()               # head
     left  = custom.handle_half("13 - Handle Left")   # head
-    rod   = custom.custom_rod()                      # toy
+    rods  = custom.custom_rod_parts()                # toy, lower R/M/L
+    caps  = custom.custom_rod_upper_members()        # toy, split upper R/L
     items = custom.toy_items(ring=True, deg=0.0)     # toy, the lot
 """
 from __future__ import annotations
 
+from functools import lru_cache
+
 import numpy as np
 import trimesh
 from shapely.geometry import Point, Polygon
-from shapely.ops import unary_union
 
 import fidget
 
@@ -664,8 +666,8 @@ def gear_posed():
 #                               stands in
 #
 # handle_half() never touches any of that -- every cut it makes is around
-# HEAD_C, 30.5 mm away -- so the scallops arrive intact and the only new part
-# is the yoke, which is the three rod-middle slabs unioned and trimmed.
+# HEAD_C, 30.5 mm away -- so the scallops arrive intact. The yoke keeps the
+# donor's three printable slabs; only a common trim and transverse key are new.
 #
 # The scalloped arc is exactly the swing: with the leaf fixed at 270 deg, a
 # handle turned 0 .. 90 presents 270 .. 180 deg of its own hub, and 180 .. 285
@@ -681,14 +683,112 @@ YOKE_SRC = ("05 - Rod Middle Right", "06 - Rod Middle Left",
 YOKE_HALF = 3.580       # half thickness along the pin -- upstream's own 7.16
 YOKE_JOIN = 62.000      # toy y where the yoke meets the rod
 
+# Keep the donor's three-member yoke instead of fusing 05/06/07 into the
+# Custom Rod Middle.  The two outer members are only 1.705 mm thick after the
+# yoke is narrowed to fit between the handle bosses, so they remain separate
+# printable caps; trying to graft either one to a Tactical side plate would
+# create an 0.080 mm neck at x=+-3.5, far below one extrusion width.
+YOKE_UPPER_RIGHT = "Custom Rod Upper Right"
+YOKE_UPPER_LEFT = "Custom Rod Upper Left"
+YOKE_UPPER_LOCK = "Custom Rod Upper Lock"
+
+# A compact version of Spinner 08 - Rod Lock crosses all three yoke members in
+# the solid floor just above YOKE_JOIN.  It retains the donor's curved wedge
+# profile, shortened to the 7.16 mm custom stack and narrowed so it stays in
+# the rail beside (not under) 09 - Rod Spring.  Coordinates are in the Spinner
+# source frame; module_transform() places the finished key in the toy.
+YOKE_LOCK_SOURCE = "08 - Rod Lock"
+YOKE_LOCK_CENTRE = np.array([-5.300, 29.300, 0.0])
+YOKE_LOCK_SIZE = np.array([2.000, 1.300, 8.000])
+YOKE_LOCK_CLEARANCE = 0.150
+
+# Spinner Lever 01/02/03 establish the intended three-member rod architecture.
+# Their v1.1 successors retain the same two aligned transverse lock tunnels,
+# while matching the live v1.1 body and 7 mm middle-rod generation used here.
+# Keep 1/2 below YOKE_JOIN as separate side members and replace only the old
+# spinner head above that plane with the chosen folding Handle/Lever yoke.
+ROD_PLATE_SRC = ("1 - Rod Right v1.1", "2 - Rod Left v1.1")
+ROD_LOCK_SPECS = (
+    # source lock, tunnel centre Y, tunnel half-height Z
+    ("Spinner Lever 06 - Rod Lock", 53.41978, 1.075),
+    ("Spinner Lever 07 - Rod Lock", 28.41978, 1.100),
+)
+# Source lock X/Y/Z -> toy -Y/+X/+Z.  This proper rotation makes the donor's
+# 13.776 mm dimension span all three rod members and its 9.332 mm dimension
+# run along the tunnel.  The resulting clearances are 0.10 mm at each tunnel
+# end and 0.075 mm above/below both locks.
+ROD_LOCK_ROTATION = np.array(
+    [[0.0, 1.0, 0.0], [-1.0, 0.0, 0.0], [0.0, 0.0, 1.0]]
+)
+ROD_LOCK_CAPTURE = 3.3878
+ROD_LOCK_TUNNEL_HALF_Y = 4.7660
+ROD_TOOTH_PITCH = 3.17733
+
+
+def _yoke_keep(join_offset=0.0):
+    """Common trim volume for the three Spinner yoke members."""
+    keep = trimesh.creation.box(extents=[80.0, 200.0, 2 * YOKE_HALF])
+    keep.apply_translation(
+        [0.0, 100.0 + YOKE_JOIN - MODULE_LIFT + float(join_offset), 0.0])
+    return keep
+
+
+def _scaled_yoke_lock(extra=0.0):
+    """The adapted Spinner 08 wedge in head coordinates.
+
+    ``extra`` grows every bounding dimension by that amount.  The enlarged
+    copy is used only as the CSG tunnel tool; the printable key stays at the
+    nominal dimensions in YOKE_LOCK_SIZE.
+    """
+    lock = fidget.load(YOKE_LOCK_SOURCE, product="spinner")
+    source_size = lock.extents.copy()
+    lock.apply_translation(-lock.bounds.mean(axis=0))
+    target = YOKE_LOCK_SIZE + float(extra)
+    scale = np.eye(4)
+    scale[0, 0], scale[1, 1], scale[2, 2] = target / source_size
+    lock.apply_transform(scale)
+    lock.apply_translation(YOKE_LOCK_CENTRE)
+    lock.metadata["fidget_source"] = YOKE_LOCK_SOURCE + ".stl (scaled wedge)"
+    return lock
+
+
+@lru_cache(maxsize=1)
+def _hinge_yoke_parts_cached():
+    """The separately printable 05/06/07 members in head coordinates."""
+    tunnel = _scaled_yoke_lock(extra=2.0 * YOKE_LOCK_CLEARANCE)
+    parts = []
+    for index, name in enumerate(YOKE_SRC):
+        source = fidget.load(name, product="spinner")
+        # The lower Tactical middle intentionally extends 0.5 mm above the
+        # nominal graft plane for a robust union with 07.  Start the separate
+        # outer caps above that private overlap so they never penetrate it.
+        member = trimesh.boolean.intersection(
+            [source, _yoke_keep(0.5 if index < 2 else 0.0)], engine=ENGINE)
+        member = trimesh.boolean.difference([member, tunnel], engine=ENGINE)
+        member.metadata["fidget_source"] = name + ".stl (trimmed, keyed)"
+        parts.append(member)
+    return tuple(parts)
+
+
+def hinge_yoke_parts():
+    """Right, left and linear-track yoke members in head coordinates."""
+    return [mesh.copy() for mesh in _hinge_yoke_parts_cached()]
+
+
+def hinge_yoke_lock():
+    """Printable adapted Spinner 08 wedge in head coordinates."""
+    return _scaled_yoke_lock()
+
 
 def hinge_yoke():
-    """The hinge yoke, in head coordinates: 05 + 06 + 07, unioned and trimmed.
+    """The keyed three-member yoke union, for clearance/sweep validation.
 
-    Unioned the three slabs are a single watertight body that already carries
-    the pin bore and, below it, the slot the leaf spring stands in -- the slot
-    runs through all three at the same x, so the union keeps it. Only two cuts
-    are made:
+    The printable output is deliberately *not* this union: hinge_yoke_parts()
+    exposes the separate right, left and linear-track slabs.  This combined
+    solid is retained for fold sweeps and legacy head previews.
+
+    Each member already carries the pin bore and, below it, the slot the leaf
+    spring stands in. Two common trims are made:
 
     **Thickness.** Trimmed to +-3.580 along the pin, which is what the stack
     measures at the hinge anyway; below the hinge it fattens to +-6.66 and
@@ -704,12 +804,8 @@ def hinge_yoke():
     not a consequence of the trim -- upstream it stands 0.41 mm proud of a
     13.32 mm stack, and the bearing surfaces are the same either way.
     """
-    m = trimesh.boolean.union(
-        [fidget.load(n, product="spinner") for n in YOKE_SRC], engine=ENGINE)
-    keep = trimesh.creation.box(extents=[80.0, 200.0, 2 * YOKE_HALF])
-    keep.apply_translation([0.0, 100.0 + YOKE_JOIN - MODULE_LIFT, 0.0])
-    out = trimesh.boolean.intersection([m, keep], engine=ENGINE)
-    out.metadata["fidget_source"] = "05/06/07 - Rod Middle.stl"
+    out = trimesh.boolean.union(hinge_yoke_parts(), engine=ENGINE)
+    out.metadata["fidget_source"] = "05/06/07 - Rod Middle.stl (split/keyed)"
     return out
 
 
@@ -742,6 +838,7 @@ def head_items(hinge=True):
     items = swinging_items()
     if hinge:
         items = [("Custom Hinge Yoke", hinge_yoke()),
+                 (YOKE_UPPER_LOCK, hinge_yoke_lock()),
                  (HINGE_SPRING, fidget.load(HINGE_SPRING, product="spinner"))
                  ] + items
     return items
@@ -796,33 +893,123 @@ def module_transform():
     return Tr @ R
 
 
-def custom_rod():
-    """N2 -- the rod, with the hinge yoke grafted on where its fork used to be.
+def rod_side_plates():
+    """Return the v1.1 right/left members trimmed below the custom yoke.
 
-    Below YOKE_JOIN this is 3 - Rod Middle v1.1 exactly as the pose record
-    places it, so the tapered lock tab (DESIGN.md section 2.1) and the 3.000 mm
-    serrations that drive the body's linear click through the 15.84 mm square
-    bore of 20 - Mid Shell Spring (section 2.2) are untouched. Above it the
-    rod's two rails -- upstream the seat for 4 - Spring, which this build does
-    not use -- are replaced by hinge_yoke().
+    Cutting at YOKE_JOIN removes the Tactical spinner ring and its two tall
+    supports. The lower members retain the two native cross-lock pockets copied
+    from Spinner Lever 01/02 and meet the middle at x=-3.5 and x=+3.5.
+    """
+    import assembly as A
 
-    Measured: the finished rod carries the whole head through 9 mm of travel
-    with the overlap against 20 - Mid Shell Spring cycling 0.00 .. 2.10 mm3 on
-    a 3.000 mm period, so the linear click survives the graft.
+    rows = {r["part"]: r for r in A.poses("tactical")["parts"]}
+    keep = trimesh.creation.box(extents=[80.0, 200.0, 80.0])
+    keep.apply_translation([0.0, YOKE_JOIN - 100.0, 0.0])
+    plates = []
+    for name in ROD_PLATE_SRC:
+        source = A.posed(rows[name], product="tactical")
+        plate = trimesh.boolean.intersection([source, keep], engine=ENGINE)
+        plate.metadata["fidget_source"] = "%s (lower plate only)" % name
+        plates.append(plate)
+    return plates
+
+
+def custom_rod_middle():
+    """The printable middle rod with only the donor linear-track member.
+
+    Below YOKE_JOIN this is 3 - Rod Middle v1.1 unchanged, including both
+    through-lock tunnels. Above it, the old two rails are replaced by donor
+    07 - Rod Middle Linear Track. Donor 05/06 are separate upper caps and are
+    retained by the adapted 08 wedge plus the existing hinge pin.
+
+    The bottom lock tab, cross-lock tunnels and yoke positions are unchanged.
     """
     import assembly as A
     rows = {r["part"]: r for r in A.poses("tactical")["parts"]}
-    rod = A.posed(rows["3 - Rod Middle v1.1"])
+    rod = A.posed(rows["3 - Rod Middle v1.1"], product="tactical")
 
     lop = trimesh.creation.box(extents=[80.0, 200.0, 80.0])
     lop.apply_translation([0.0, 100.0 + YOKE_JOIN + 0.5, 0.0])
     rod = trimesh.boolean.difference([rod, lop], engine=ENGINE)
 
-    yoke = hinge_yoke()
-    yoke.apply_transform(module_transform())
-    out = trimesh.boolean.union([rod, yoke], engine=ENGINE)
-    out.metadata["fidget_source"] = "3 - Rod Middle v1.1.stl"
+    track = hinge_yoke_parts()[2]
+    track.apply_transform(module_transform())
+    out = trimesh.boolean.union([rod, track], engine=ENGINE)
+    out.metadata["fidget_source"] = (
+        "3 - Rod Middle v1.1 + 07 - Rod Middle Linear Track")
     return out
+
+
+def custom_rod_upper_parts():
+    """The two separately printable outer yoke caps in toy coordinates."""
+    source_parts = hinge_yoke_parts()
+    transform = module_transform()
+    out = []
+    for name, member in zip(
+            (YOKE_UPPER_RIGHT, YOKE_UPPER_LEFT), source_parts[:2]):
+        member.apply_transform(transform)
+        out.append((name, member))
+    return out
+
+
+def custom_rod_upper_lock():
+    """The adapted Spinner 08 key in assembled toy coordinates."""
+    lock = hinge_yoke_lock()
+    lock.apply_transform(module_transform())
+    lock.metadata["fidget_source"] = YOKE_LOCK_SOURCE + ".stl (custom upper key)"
+    return lock
+
+
+def _placed_rod_lock(source_name, station_y):
+    """Seat an unmodified Spinner Lever 06/07 key in its native tunnel."""
+    lock = fidget.load(source_name, product="tactical")
+    lock.apply_translation(-lock.bounds.mean(axis=0))
+    transform = np.eye(4)
+    transform[:3, :3] = ROD_LOCK_ROTATION
+    transform[:3, 3] = [0.0, station_y, 0.0]
+    lock.apply_transform(transform)
+    lock.metadata["fidget_source"] = "%s (native transverse seat)" % source_name
+    return lock
+
+
+@lru_cache(maxsize=1)
+def _custom_rod_module_cached():
+    """Build lower rod members, split upper caps, and all transverse keys."""
+    right, left = rod_side_plates()
+    middle = custom_rod_middle()
+    members = [("Custom Rod Right", right),
+               ("Custom Rod Middle", middle),
+               ("Custom Rod Left", left)]
+    upper = custom_rod_upper_parts()
+    locks = [(name, _placed_rod_lock(name, station_y))
+             for name, station_y, _ in ROD_LOCK_SPECS]
+    locks.append((YOKE_UPPER_LOCK, custom_rod_upper_lock()))
+    return tuple(members), tuple(upper), tuple(locks)
+
+
+def custom_rod_parts():
+    """The three lower rod members in assembled coordinates.
+
+    Spinner Lever 06/07 pass transversely through both native tunnels and seat
+    in both outer members, matching the Spinner Lever 01/02/03 architecture.
+    Spinner Lever 08 remains the separate bottom axial retainer. The middle
+    carries only the upper linear-track slab; custom_rod_upper_members()
+    supplies the two removable upper caps.
+    """
+    members, _, _ = _custom_rod_module_cached()
+    return [(name, mesh.copy()) for name, mesh in members]
+
+
+def custom_rod_upper_members():
+    """The donor 05/06 outer yoke members in assembled toy coordinates."""
+    _, upper, _ = _custom_rod_module_cached()
+    return [(name, mesh.copy()) for name, mesh in upper]
+
+
+def custom_rod_locks():
+    """The two lower native keys plus the custom upper wedge."""
+    _, _, locks = _custom_rod_module_cached()
+    return [(name, mesh.copy()) for name, mesh in locks]
 
 
 def toy_items(mid_shell="2pc", ring=True, deg=0.0):
@@ -833,7 +1020,9 @@ def toy_items(mid_shell="2pc", ring=True, deg=0.0):
     import assembly as A
     rows = {r["part"]: r for r in A.poses("tactical")["parts"]}
     items = waist_items(mid_shell=mid_shell, ring=ring)
-    items.append(("Custom Rod", custom_rod()))
+    items.extend(custom_rod_parts())
+    items.extend(custom_rod_upper_members())
+    items.extend(custom_rod_locks())
     items.append(("Spinner Lever 08 - Rod Lock",
                   A.posed(rows["Spinner Lever 08 - Rod Lock"])))
 

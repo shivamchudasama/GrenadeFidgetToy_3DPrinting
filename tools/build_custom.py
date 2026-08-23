@@ -151,7 +151,12 @@ def build_toy(ring=True, mid_shell="2pc"):
 
     # and the rod still clicks on its way up, carrying all of it
     moving = trimesh.boolean.union(
-        [d["Custom Rod"], d["Spinner Lever 08 - Rod Lock"], turning],
+        [d[name] for name in
+         ("Custom Rod Right", "Custom Rod Middle", "Custom Rod Left",
+          custom.YOKE_UPPER_RIGHT, custom.YOKE_UPPER_LEFT,
+          "Spinner Lever 06 - Rod Lock", "Spinner Lever 07 - Rod Lock",
+          custom.YOKE_UPPER_LOCK)]
+        + [d["Spinner Lever 08 - Rod Lock"], turning],
         engine=fidget.ENGINE)
     trav = []
     for dy in np.arange(0.0, 9.01, 0.5):
@@ -161,7 +166,8 @@ def build_toy(ring=True, mid_shell="2pc"):
             [m, body], engine=fidget.ENGINE).volume)
     trav = np.array(trav)
     print("      linear click over 9 mm of rod travel: %.2f .. %.2f mm3 on the"
-          " 3.000 mm serration pitch" % (trav.min(), trav.max()))
+          " %.5f mm native serration pitch"
+          % (trav.min(), trav.max(), custom.ROD_TOOTH_PITCH))
 
     coloured = A.coloured(items)
     return A.write(coloured, A.explode(coloured), stem, SUBDIR)
@@ -203,8 +209,16 @@ def build_parts():
         "Custom_Handle_Left":         custom.handle_half("13 - Handle Left"),
         "Custom_Handle_Right":        custom.handle_half("14 - Handle Right"),
         "Custom_Ring_Spinner":        custom.ring_spinner_slim(),
-        "Custom_Rod":                 custom.custom_rod(),
     }
+    made.update({A.slug(name): mesh for name, mesh in custom.custom_rod_parts()})
+    made.update({A.slug(name): mesh
+                 for name, mesh in custom.custom_rod_upper_members()})
+    locks = dict(custom.custom_rod_locks())
+    made.update({
+        "Custom_Rod_Lock_Upper_06": locks["Spinner Lever 06 - Rod Lock"],
+        "Custom_Rod_Lock_Lower_07": locks["Spinner Lever 07 - Rod Lock"],
+        "Custom_Rod_Upper_Lock": locks[custom.YOKE_UPPER_LOCK],
+    })
     made.update({"Custom_" + A.slug(n): m for n, m in custom.relocated_pins()})
     pins = custom.relocated_pins()
     for side in ("13 - Handle Left", "14 - Handle Right"):

@@ -132,10 +132,10 @@ just deepens the detent it already has.
 **[D]** At spring dy **0.25** and ring dy **3.50** the spring sits at
 y 30.00 .. 34.00 and `04`'s ratchet band at y 30.00 .. 40.50 — exact coverage.
 
-**[D]** **The rod's serrations do not change.** Its 3.000 mm teeth already run
-from y ≈ 29.5 upward, and the spring's square bore is untouched, so the linear
-click still works at the new height. The rod's *top* does change, but only above
-y 62 — see §5.3.
+**[M]** **The rod keeps the donor geometry unchanged.** Its measured click cycle
+repeats at **3.17733 mm**; no vertex warp is applied. The three locked members
+release together at 0.000 / 3.177 / 6.355 mm and reach 6.267 .. 6.280 mm³ at the
+half-pitch crests. The spring's square bore is untouched. See §5.3.
 
 ---
 
@@ -405,22 +405,37 @@ against the assembled body, 0.00 mm³ at 0°, **30.71 at −2°, 231.40 at −4�
 652.36 at −6°**. So 0° is stowed against the body, and the handle goes up from
 there.
 
-### 5.2 The one new part is the yoke
+### 5.2 The yoke remains three printable members
 
-**[D]** `05` + `06` + `07 - Rod Middle *`, unioned, are a **single watertight
-body of 4806.0 mm³** that already carries the pin bore and, below it, the slot
-the leaf stands in — the slot runs through all three slabs at the same x, so the
-union keeps it. Two trims and it is done:
+**[D]** `05`, `06`, and `07 - Rod Middle *` must not be unioned. Their separate
+slabs are what makes the leaf-spring track printable on a broad flat face without
+support. Each donor member is therefore trimmed independently:
 
 - **Thickness → ±3.580 along the pin.** That is what the stack measures at the
   hinge anyway. Below the hinge it fattens to ±6.66 and lower still to ±9.82,
   and none of that fits either between the hub bosses (which start at 4.17) or
   down the body's bore.
-- **Length**, cut so the graft lands in solid rod — see §5.3.
+- **Length**, cut so the graft lands in solid rod — see §5.3. The center track
+  begins at y 62.000; the removable outer caps begin at y 62.500 so they do not
+  penetrate the Middle part's private 0.5 mm CSG graft band.
 
-**[M]** As built: 2303.4 mm³, single watertight body, and ~1.9 mm of solid floor
-under the leaf's foot (section 94 .. 100 mm² over head y 28.0 .. 29.9, falling to
-41.6 mm² above, where only the two prongs beside the slot remain).
+**[M]** As built, all three are single watertight bodies: Upper Right
+**567.1 mm³**, Upper Left **567.1 mm³**, and the keyed Linear Track
+**1130.7 mm³**. Their validation-only union is **2264.9 mm³** and still has the
+~1.9 mm solid floor under the leaf's foot.
+
+**[D]** The outer caps cannot safely be grafted onto the lower Tactical side
+members. The narrowed yoke reaches x ±3.580 while those side members end at
+x ±3.500, leaving an **0.080 mm neck** — less than one extrusion width. The
+caps therefore remain separate, as they are in the Spinner donor.
+
+**[D]** A custom lower key is derived directly from
+`08 - Rod Lock.stl`: its curved wedge profile is anisotropically shortened to
+**8.00 × 1.30 × 2.00 mm** in toy XYZ. It crosses the complete x ±3.580 stack,
+captures **0.420 mm per side**, and sits in the opposite rail from `09 - Rod
+Spring` at toy z **4.30 .. 6.30**, so the spring floor is not removed. The slot
+tool is enlarged by 0.150 mm per bounding face; measured nearest surface gap is
+**0.0977 mm**, and key/member penetration is **0.000 mm³**.
 
 **[D]** The leaf is **14.14 mm along the pin against the yoke's 7.16**, so its
 ends stand proud and bear on the two hub bosses. That is upstream's arrangement,
@@ -433,6 +448,30 @@ stack, and the bearing surfaces are the same either way.
 into two rails above 63.5** — upstream that fork is the seat for `4 - Spring`,
 which this build does not use. So `YOKE_JOIN = 62.000`, in solid material, and
 everything above it is replaced by the yoke.
+
+**[D]** Below the graft, `3 - Rod Middle v1.1` is unchanged. Above it, only
+`07 - Rod Middle Linear Track` remains on `Custom_Rod_Middle`; `05` and `06`
+are exported as `Custom_Rod_Upper_Right` and `Custom_Rod_Upper_Left`. The new
+`Custom_Rod_Upper_Lock` constrains the bottom of this three-slab stack and the
+existing `15 - Handle Rotating Lock` hinge pin constrains its top, matching the
+donor's two transverse retention stations.
+
+**[D]** The lower portions of `1 - Rod Right v1.1` and `2 - Rod Left v1.1` are
+the Custom Rod's separately printable side members. These are the live-body
+revisions of `Spinner Lever 01 - Rod Right` and `Spinner Lever 02 - Rod Left`;
+with `3 - Rod Middle v1.1`, they preserve the reference `01/02/03` design's two
+aligned transverse lock tunnels. Both sides are cut at `YOKE_JOIN`, discarding
+their Tactical circular head and tall supports. Their lower geometry and both
+native lock tunnels are unchanged by the upper-yoke split.
+
+**[M]** The locks are the actual, unmodified `Spinner Lever 06 - Rod Lock` and
+`Spinner Lever 07 - Rod Lock`, not seam plates derived from `22/26`. `06` seats
+in the upper tunnel at y **48.654 .. 58.186** and `07` in the lower tunnel at
+y **23.654 .. 33.186**. Each 13.776 mm cross-key passes through the Middle and
+both seams, capturing **3.388 mm** inside each outer member. Native clearance is
+**0.100 mm** at each axial end and **0.075 mm** above/below; measured penetration
+is **0.000 mm³**. `Spinner Lever 08 - Rod Lock` remains the separate bottom
+axial retainer.
 
 **[D]** The head module turns **90° about Y**. That sends the pin axis to the
 toy's **+x**, which is the direction the rod is *thin* in — 7.00 mm against
@@ -449,8 +488,13 @@ other way the leaf would have to fit through 7.00 mm and nothing works.
 
 At 34.000 the floor is 1.96 mm and the hub clears the body top by **4.65 mm**.
 
-**[M]** The finished rod is **5677.2 mm³, single watertight body**, x ±3.58,
-y 18.08 .. 99.62, z ±8.01.
+**[M]** The finished rod module is **nine watertight printable bodies**:
+lower Right **882.6 mm³**, Middle-with-linear-track **4527.6 mm³**, lower Left
+**882.6 mm³**, Upper Right **567.1 mm³**, Upper Left **567.1 mm³**, native keys
+06 **239.2 mm³** and 07 **248.9 mm³**, custom upper wedge **11.2 mm³**, and the
+unchanged Tactical 08 bottom retainer. Assembled, the rod envelope remains
+x ±7.857, y 18.08 .. 99.62, z ±8.01. Full validation reports zero unexpected
+rigid overlap and all three transverse keys clear through 9 mm of rod travel.
 
 ---
 
@@ -459,7 +503,7 @@ y 18.08 .. 99.62, z ±8.01.
 `Custom_Toy_Ring_2pc` and `Custom_Toy_Native_2pc` — the clicking waist of §3,
 the rod of §5.3, and the head of §4 folded down at 0°.
 
-**[M]** 34 parts (Ring) / 33 (Native), envelope **41.63 × 126.26 × 72.47 mm**,
+**[M]** 40 parts (Ring) / 39 (Native), envelope **41.63 × 126.26 × 72.47 mm**,
 y −0.35 .. 125.91.
 
 Bounding boxes, as `x × y × z` in each toy's own frame — the handle reaches
@@ -485,7 +529,7 @@ carry.
 | fold the handle 0° → 90° | detent **9.44 .. 12.29 mm³** on a 30° pitch, **3 clicks**; and **0.00 mm³** against the body at every step |
 | spin the ring | 0.193 mm clearance journal, free |
 | roll the gear on the rim | detent **0.00 .. 4.20 mm³** on an 18° pitch, **20 clicks/turn** |
-| *plus, from the base* | waist twist **32 or 33 clicks/turn** (§3), and the linear click **0.00 .. 2.10 mm³ over 9 mm of rod travel on the 3.000 mm serration pitch**, carrying the whole head |
+| *plus, from the base* | waist twist **32 or 33 clicks/turn** (§3), and the three-member linear click **0.00 .. 6.28 mm³ over 9 mm of rod travel on the native 3.17733 mm pitch**, carrying the whole head |
 
 **[D]** The linear click is the one that could have been lost — the head hangs
 off the rod, so it travels with it. It is not: the rest pose is the **bottom** of
@@ -514,7 +558,10 @@ from the body on the way up, and the click survives the graft unchanged.
 
 ### 7.1 Bill of materials
 
-Printed from `Derivatives/custom/Parts/` — 10 files: `Custom_Rod`,
+Printed from `Derivatives/custom/Parts/` — 17 files: `Custom_Rod_Right`,
+`Custom_Rod_Middle`, `Custom_Rod_Left`, `Custom_Rod_Upper_Right`,
+`Custom_Rod_Upper_Left`, `Custom_Rod_Upper_Lock`,
+`Custom_Rod_Lock_Upper_06`, `Custom_Rod_Lock_Lower_07`,
 `Custom_Handle_Left`, `Custom_Handle_Right`, `Custom_Ring_Spinner`,
 `Custom_Mid_Shell_Spring_32` (or `_33`), `Custom_Mid_Shell_P01`/`_P02`, and
 **`Custom_16_Handle_Lock` plus `Custom_16_Handle_Lock_pod`** — the same printed
@@ -523,9 +570,11 @@ its own orientation (§4.5).
 
 Printed **unmodified from the product folders**: `15 - Handle Rotating Lock` and
 `09 - Rod Spring` (Spinner Fuse), `Spinner Lever 05 - Gear` and
-`Spinner Lever 04 - Spring`, `Spinner Lever 05 - Gear` and
-`Spinner Lever 08 - Rod Lock` (Tactical), `04 - Middle Spinner Shell` for the
-Ring waist, and the rest of the Tactical common body.
+`Spinner Lever 04 - Spring`, `Spinner Lever 08 - Rod Lock` (Tactical),
+`04 - Middle Spinner Shell` for the Ring waist, and the rest of the Tactical
+common body. `Custom_Rod_Lock_Upper_06` and `_Lower_07` are rigidly posed copies
+of the unmodified Tactical meshes; `Custom_Rod_Upper_Lock` is the shortened,
+narrowed Spinner 08 wedge described in §5.2.
 
 ---
 
