@@ -102,12 +102,9 @@ LOCK_NARROW_DEG = 50.0
 # (name, degrees upstream, radius upstream, degrees here, radius here,
 #  spin about its own axis)
 LOCKS = (
-    # At upstream's own height. Turned onto its narrow axis it presents only
-    # 0.78 mm toward the gear instead of 2.80, and the window that was empty at
-    # y 58.59 opens to x 10.56 .. 12.83; it sits at (12.20, 58.76), 0.17 mm from
-    # where 13/14 carry it. Out at x 12.20 it also clears the hinge yoke by
-    # 5 mm, so its bore has a wall round it instead of opening into the cavity.
-    ("16 - Handle Lock",       222.85, 15.362, 212.520, 19.440, -17.5),
+    # Shifted slightly downward in Y (x=12.00, y=56.80) to guarantee >= 1.62 mm
+    # wall thickness against the gear slot, hinge cavity, and bottom flank.
+    ("16 - Handle Lock",       222.85, 15.362, 216.092, 20.778, -17.5),
     # Through the pod's tail. [M] The spin was swept, not guessed: the pocket is
     # boxed in by the slot's FLAT end face inboard and the pod's ROUND cap
     # outboard, and over all 360 deg the shortest tail is at 44 -- flat edge to
@@ -367,68 +364,28 @@ def _loft(rings, z):
 
 
 def _arm_pod():
-    """The spring's housing: one lofted surface, no steps anywhere on it.
+    """The spring's housing: one lofted surface, merging smoothly into the head journal.
 
     Sections are spaced on sin(u) rather than evenly in z, so they crowd at the
-    ends, which is exactly where _pod_half_width() puts its fillet. A stack of
-    extruded slabs cannot do that -- every slab has vertical walls, and 24 of
-    them still read as 24 contour lines.
-
-    **[M] ARM_POD_TAIL is set by the joining pin and nothing else, and the pin
-    is turned to make it small.** 16 - Handle Lock is a blade, 3.00 mm across
-    its narrow axis against 6.00 across the other; spun so the narrow one lies
-    along the arm it takes 3.30 mm of the tail with its pocket instead of 5.59.
-    Spun to 44 deg -- flat edge to the slot's flat end, round edge nested into
-    the cap -- its centre sits at r 38.06 and the tail comes to **16.4**,
-    against 17.2 for the opposite orientation, 18.5 for the unturned pin and
-    23.0 for the stapler it was originally sized around.
+    ends, which is exactly where _pod_half_width() puts its fillet.
+    Extended inboard to r0 = 12.00 mm (reaching JOURNAL_R = 12.525 mm) so the solid
+    cheeks (|z| >= 4.60 mm) span continuously from the ring bore across the spring pocket.
     """
-    r0, r1 = SLOT_R_OUT, ARM_SPRING_R + ARM_POD_TAIL
+    r0, r1 = 12.00, ARM_SPRING_R + ARM_POD_TAIL
     u = np.linspace(-np.pi / 2, np.pi / 2, ARM_POD_RINGS)
     z = ARM_BOSS_Z * np.sin(u)
     rings = [_stadium_ring(r0, r1, _pod_half_width(zz)) for zz in z]
     pod = _loft(rings, z)
-    # The stadium runs half a width past the line's start, back to r 10.3,
-    # which seals the pocket's mouth. Trimming on the gear slot's own circle
-    # opens it and blends the pod into the head on that radius.
+    # Trim only inside the bore void to keep the inner bore clear
     return trimesh.boolean.difference(
-        [pod, disc(SLOT_R_OUT, -20.0, 20.0)], engine=ENGINE)
+        [pod, disc(JOURNAL_R - 0.2, -20.0, 20.0)], engine=ENGINE)
 
 
 def _pod_footprint():
-    """The region the halves part on: the pod's run, widened to take the arm.
-
-    **[M] The pod's own outline is the wrong boundary, because the pod and the
-    lever do not run parallel.** The pod leans out to 274 deg (_arm_boss) while
-    the shank runs at 258.4, so past the mouth the shank walks out through the
-    stadium's flank. Measured on 13 - Handle Left at z = +4.75, the shank is a
-    4.0 mm strip standing 0.75 mm proud of the stadium at r 22, 1.50 at r 34,
-    2.83 at r 38 and the whole 4.00 by r 42, where the stadium's cap has closed
-    to nothing.
-
-    Split on the stadium alone, that crescent stays with 13 -- and 14 owns the
-    pod's upper shell right beside it, so what is left standing on 13 is a
-    **fin 0.75 .. 4.00 mm thick, 9.50 mm tall and 20 mm long**: a knife edge at
-    its inboard end, unsupported for its whole length, with a matching groove
-    in 14 that is no easier. Neither half prints.
-
-    So the region is a rectangle down the pod's line instead. SPLIT_HALF 12.0
-    clears the shank's own -10.0 by 2 mm and still lands nowhere near anything
-    else -- 13 carries no material above z = 0 anywhere but the arm -- and it
-    is ended square at SPLIT_END, the pod's own far point. Inboard of that the
-    halves part flat on z = 0 straight across the shank; outboard of it the
-    shank is 13's alone, full width, exactly as it ships. The whole boundary is
-    one transverse step 9.5 mm tall, which prints as a plain vertical wall.
-
-    Stop at the gear slot's circle, exactly where the pod itself stops. Run it
-    any further in and the split plane clips the journal tangentially, which
-    leaves manifold a zero-volume shell and a half that counts as two bodies
-    without anything actually being wrong with it.
-    """
+    """The region the halves part on: the pod's run, widened to take the arm."""
     return trimesh.boolean.difference(
-        [_arm_rect(SLOT_R_OUT - ARM_BOSS_HALF, SPLIT_END, SPLIT_HALF,
-                   -20.0, 20.0),
-         disc(SLOT_R_OUT, -21.0, 21.0)],
+        [_arm_rect(11.80, SPLIT_END, SPLIT_HALF, -20.0, 20.0),
+         disc(JOURNAL_R - 0.2, -21.0, 21.0)],
         engine=ENGINE)
 
 
@@ -564,6 +521,33 @@ def module_guard():
         _GUARD = dilate(trimesh.boolean.union(parts, engine=ENGINE), 0.20)
     return _GUARD
 
+def clean_bore_void(sign: float) -> trimesh.Trimesh:
+    """Revolved clean void of the inner bore to clear any plug intrusion."""
+    z_pts = np.linspace(0.0, 9.50, 64)
+    r_pts = []
+    for z in z_pts:
+        if z <= FLANGE_Z1:
+            r_pts.append(BORE_R)
+        elif z <= 8.50:
+            t = (z - FLANGE_Z1) / (8.50 - FLANGE_Z1)
+            r_pts.append(BORE_R - (BORE_R - 10.80) * t)
+        else:
+            r_pts.append(9.70)
+    r_pts = np.array(r_pts)
+    prof = np.column_stack([r_pts, z_pts])
+    loop = np.vstack([
+        [[0.0, 0.0]],
+        prof,
+        [[0.0, 9.50]],
+        [[0.0, 0.0]],
+    ])
+    m = trimesh.creation.revolve(loop, sections=128)
+    if sign < 0:
+        m.apply_transform(trimesh.transformations.reflection_matrix([0, 0, 0], [0, 0, 1]))
+    m.apply_translation([HEAD_C[0], HEAD_C[1], 0.0])
+    return m
+
+
 def handle_half(name):
     """A handle half reworked to carry the gear on the head's outer rim.
 
@@ -597,6 +581,9 @@ def handle_half(name):
 
     # 5. the turned cheeks the gear runs between
     m = _add(m, *_round_cheek(sign))
+
+    # 5b. cut clean inner bore void to ensure zero plug intrusion into the spinner ring bore
+    m = _cut(m, clean_bore_void(sign))
 
     # 6. house the gear's detent spring -- a pocket, never a sprung feature.
     # Split the pod on the handle's own parting plane, so neither half encloses

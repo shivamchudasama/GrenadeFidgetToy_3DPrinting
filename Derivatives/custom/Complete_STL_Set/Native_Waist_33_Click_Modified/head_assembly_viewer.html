@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modified Custom Head Assembly - Interactive 3D Viewer</title>
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 50% 30%, #1c2333 0%, #0a0d12 100%);
+      --panel-bg: rgba(22, 27, 34, 0.90);
+      --panel-border: rgba(255, 255, 255, 0.15);
+      --accent: #58a6ff;
+      --accent-glow: rgba(88, 166, 255, 0.45);
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --card-bg: rgba(13, 17, 23, 0.8);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    #canvas-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Floating Header */
+    .header {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      z-index: 10;
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+    }
+    .header h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      background: rgba(46, 160, 67, 0.25);
+      border: 1px solid #2ea043;
+      color: #3fb950;
+      border-radius: 6px;
+    }
+    .header p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Floating Control Bar */
+    .toolbar {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--panel-border);
+      border-radius: 16px;
+      padding: 10px 18px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.65);
+    }
+    .tool-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--panel-border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tool-btn:hover {
+      background: rgba(88, 166, 255, 0.18);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .tool-btn.active {
+      background: var(--accent);
+      color: #0d1117;
+      border-color: var(--accent);
+      font-weight: 600;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    .slider-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border-left: 1px solid var(--panel-border);
+      border-right: 1px solid var(--panel-border);
+    }
+    .slider-group label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    input[type=range] {
+      appearance: none;
+      background: rgba(255,255,255,0.18);
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+      width: 140px;
+      cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+      cursor: pointer;
+    }
+
+    /* Right Sidebar (Component Tree) */
+    .sidebar {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      width: 320px;
+      max-height: calc(100vh - 48px);
+      z-index: 10;
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.65);
+      overflow: hidden;
+    }
+    .sidebar-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .part-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow-y: auto;
+      padding-right: 4px;
+      max-height: calc(100vh - 160px);
+    }
+    .part-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    .part-list::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.25);
+      border-radius: 2px;
+    }
+
+    .part-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      border: 1px solid var(--panel-border);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .part-item:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.3);
+    }
+    .part-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+    }
+    .part-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .part-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+    }
+    .part-vol {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    /* Loading Overlay */
+    #loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0d1117;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      transition: opacity 0.5s ease;
+    }
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(88, 166, 255, 0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+</head>
+<body>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <p style="color: var(--text-muted); font-size: 0.9rem; font-weight: 500;">Loading Modified Custom Head Assembly...</p>
+  </div>
+
+  <div class="header">
+    <h1>
+      Modified Custom Head Assembly
+      <span class="badge">11 Parts Active</span>
+    </h1>
+    <p>Pristine turned circular cheeks &bull; Functioning Neck/Pod lock holes &bull; Preloaded 16.80mm spring pocket</p>
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <div class="toolbar">
+    <button class="tool-btn" id="btn-reset" title="Reset View">🔄 Reset</button>
+    <button class="tool-btn" id="btn-view-iso">📐 Isometric</button>
+    <button class="tool-btn" id="btn-view-cheek">🔍 Cheek Profile</button>
+    <button class="tool-btn" id="btn-view-xray">✨ X-Ray / Glass</button>
+    
+    <div class="slider-group">
+      <label for="explode-slider">Explode</label>
+      <input type="range" id="explode-slider" min="0" max="1" step="0.01" value="0">
+    </div>
+
+    <button class="tool-btn" id="btn-anim-explode">🎬 Animate</button>
+    <button class="tool-btn" id="btn-wireframe">🕸️ Wireframe</button>
+  </div>
+
+  <div class="sidebar">
+    <div class="sidebar-title">
+      <span>Components (11)</span>
+      <button id="btn-toggle-all" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:0.75rem;">Show All</button>
+    </div>
+    <div class="part-list" id="part-list-container"></div>
+  </div>
+
+  <script>
+    const PARTS_META = [
+      { key: "Custom Hinge Yoke", name: "Custom Hinge Yoke", color: [86, 182, 178], vol: "2,264.9 mm³", disp: [0, -28, 0] },
+      { key: "Custom Rod Upper Lock", name: "Custom Rod Upper Lock", color: [214, 93, 84], vol: "11.2 mm³", disp: [-16, -28, 0] },
+      { key: "09 - Rod Spring", name: "09 - Rod Spring", color: [228, 169, 73], vol: "887.8 mm³", disp: [0, -12, 0] },
+      { key: "Custom Handle Left", name: "Custom Handle Left", color: [93, 150, 209], vol: "8,376.2 mm³", disp: [0, 0, -28] },
+      { key: "Custom Handle Right", name: "Custom Handle Right", color: [110, 132, 203], vol: "6,975.6 mm³", disp: [0, 0, 28] },
+      { key: "Custom Ring Spinner", name: "Custom Ring Spinner", color: [122, 181, 102], vol: "2,149.3 mm³", disp: [0, 0, 0] },
+      { key: "Spinner Lever 05 - Gear", name: "Spinner Lever 05 - Gear", color: [219, 124, 171], vol: "3,391.5 mm³", disp: [20, 20, 0] },
+      { key: "Spinner Lever 04 - Spring", name: "Spinner Lever 04 - Spring", color: [206, 140, 90], vol: "923.6 mm³", disp: [1.25, -20.0, 0] },
+      { key: "Custom 16 Handle Lock (Neck)", name: "Custom 16 Handle Lock (Neck)", color: [150, 120, 196], vol: "192.3 mm³", disp: [0, 0, 48] },
+      { key: "Custom 16 Handle Lock (Pod)", name: "Custom 16 Handle Lock (Pod)", color: [184, 126, 152], vol: "192.3 mm³", disp: [0, 0, 48] },
+      { key: "15 - Handle Rotating Lock", name: "15 - Handle Rotating Lock", color: [160, 168, 74], vol: "198.1 mm³", disp: [0, 0, 48] }
+    ];
+
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0d1117);
+
+    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+
+    // Lighting
+    scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+
+    const dir1 = new THREE.DirectionalLight(0xffffff, 1.25);
+    dir1.position.set(80, 120, 100);
+    scene.add(dir1);
+
+    const dir2 = new THREE.DirectionalLight(0x79b8ff, 0.7);
+    dir2.position.set(-80, -60, -80);
+    scene.add(dir2);
+
+    const dir3 = new THREE.DirectionalLight(0xffe4b5, 0.5);
+    dir3.position.set(0, 100, -80);
+    scene.add(dir3);
+
+    // Floor Grid
+    const grid = new THREE.GridHelper(250, 30, 0x30363d, 0x161b22);
+    grid.position.set(0, -40, 0);
+    scene.add(grid);
+
+    const rootGroup = new THREE.Group();
+    scene.add(rootGroup);
+
+    const meshMap = {};
+    const basePositions = {};
+    let isXRay = false;
+    let isWireframe = false;
+    let animExplode = false;
+    let animDir = 1;
+
+    function resetCamera() {
+      camera.position.set(90, 65, 120);
+      controls.target.set(0, 0, 0);
+      controls.update();
+    }
+
+    // Load Assembly GLB
+    const loader = new THREE.GLTFLoader();
+    loader.load('Custom_Head_assembled.glb', function(gltf) {
+      document.getElementById('loading-overlay').style.opacity = '0';
+      setTimeout(() => document.getElementById('loading-overlay').style.display = 'none', 500);
+
+      // Compute bounding box and center rootGroup
+      const box = new THREE.Box3().setFromObject(gltf.scene);
+      const center = box.getCenter(new THREE.Vector3());
+
+      gltf.scene.position.set(-center.x, -center.y, -center.z);
+      rootGroup.add(gltf.scene);
+
+      gltf.scene.traverse(function(child) {
+        if (child.isMesh || child.type === 'Mesh') {
+          child.geometry.computeVertexNormals();
+          const nodeName = child.name || (child.parent ? child.parent.name : '');
+          
+          let meta = PARTS_META.find(p => p.name === nodeName || nodeName.includes(p.name) || p.name.includes(nodeName));
+          if (!meta) {
+            // Find by order or closest match
+            const idx = Object.keys(meshMap).length;
+            meta = PARTS_META[idx] || { name: nodeName, color: [180, 180, 180], disp: [0,0,0] };
+          }
+          
+          const col = meta.color;
+          const mat = new THREE.MeshStandardMaterial({
+            color: new THREE.Color(col[0]/255, col[1]/255, col[2]/255),
+            metalness: 0.18,
+            roughness: 0.35,
+            side: THREE.DoubleSide
+          });
+          child.material = mat;
+          child.name = meta.name;
+          meshMap[meta.name] = child;
+          basePositions[meta.name] = child.position.clone();
+        }
+      });
+
+      buildComponentTree();
+      resetCamera();
+    }, undefined, function(error) {
+      console.error('Error loading GLB:', error);
+    });
+
+    // Build Component UI List
+    function buildComponentTree() {
+      const list = document.getElementById('part-list-container');
+      list.innerHTML = '';
+
+      PARTS_META.forEach((meta) => {
+        const item = document.createElement('div');
+        item.className = 'part-item';
+        item.innerHTML = `
+          <div class="part-info">
+            <div class="part-color" style="background: rgb(${meta.color.join(',')});"></div>
+            <span class="part-name" title="${meta.name}">${meta.name}</span>
+          </div>
+          <span class="part-vol">${meta.vol}</span>
+        `;
+
+        item.addEventListener('click', () => {
+          const mesh = meshMap[meta.name];
+          if (mesh) {
+            mesh.visible = !mesh.visible;
+            item.style.opacity = mesh.visible ? '1' : '0.35';
+          }
+        });
+
+        list.appendChild(item);
+      });
+    }
+
+    // Explode Controller
+    const explodeSlider = document.getElementById('explode-slider');
+    function applyExplode(t) {
+      PARTS_META.forEach(meta => {
+        const mesh = meshMap[meta.name];
+        if (mesh && basePositions[meta.name]) {
+          const bp = basePositions[meta.name];
+          mesh.position.set(
+            bp.x + meta.disp[0] * t,
+            bp.y + meta.disp[1] * t,
+            bp.z + meta.disp[2] * t
+          );
+        }
+      });
+    }
+    explodeSlider.addEventListener('input', (e) => {
+      applyExplode(parseFloat(e.target.value));
+    });
+
+    // Toolbar Actions
+    document.getElementById('btn-reset').addEventListener('click', resetCamera);
+    document.getElementById('btn-view-iso').addEventListener('click', () => {
+      camera.position.set(90, 65, 120);
+      controls.target.set(0, 0, 0);
+      controls.update();
+    });
+    document.getElementById('btn-view-cheek').addEventListener('click', () => {
+      camera.position.set(0, 15, 130);
+      controls.target.set(0, 15, 0);
+      controls.update();
+    });
+    document.getElementById('btn-view-xray').addEventListener('click', function() {
+      isXRay = !isXRay;
+      this.classList.toggle('active', isXRay);
+      Object.values(meshMap).forEach(mesh => {
+        mesh.material.transparent = isXRay;
+        mesh.material.opacity = isXRay ? 0.38 : 1.0;
+        mesh.material.depthWrite = !isXRay;
+      });
+    });
+    document.getElementById('btn-wireframe').addEventListener('click', function() {
+      isWireframe = !isWireframe;
+      this.classList.toggle('active', isWireframe);
+      Object.values(meshMap).forEach(mesh => {
+        mesh.material.wireframe = isWireframe;
+      });
+    });
+    document.getElementById('btn-anim-explode').addEventListener('click', function() {
+      animExplode = !animExplode;
+      this.classList.toggle('active', animExplode);
+    });
+
+    document.getElementById('btn-toggle-all').addEventListener('click', () => {
+      Object.values(meshMap).forEach(mesh => mesh.visible = true);
+      document.querySelectorAll('.part-item').forEach(item => item.style.opacity = '1');
+    });
+
+    // Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+
+      if (animExplode) {
+        let val = parseFloat(explodeSlider.value);
+        val += 0.008 * animDir;
+        if (val >= 1) { val = 1; animDir = -1; }
+        if (val <= 0) { val = 0; animDir = 1; }
+        explodeSlider.value = val;
+        applyExplode(val);
+      }
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Window Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
