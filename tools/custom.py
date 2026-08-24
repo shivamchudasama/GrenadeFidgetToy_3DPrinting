@@ -622,13 +622,56 @@ def handle_half(name):
 # the parts that ride on the head
 # --------------------------------------------------------------------------
 
+def gear_clean():
+    """Spinner Lever 05 - Gear with inner slot removed, restoring axisymmetric journal bore.
+
+    The upstream Tactical part carried an asymmetrical inner cutout spanning ~114 deg
+    to clear legacy fixed handle pins. With those pins eliminated and relocated to the neck
+    and pod, the inner bearing bore is restored to a uniform 360 deg cylindrical journal
+    (r = 12.765 mm) with matching 45 deg retaining chamfers (r = 13.765 mm at z = +-4.30 mm).
+    """
+    g = fidget.load("Spinner Lever 05 - Gear", product="tactical")
+    c = g.bounds.mean(axis=0)
+    g_c = g.copy()
+    g_c.apply_translation(-c)
+
+    # 1. Clean bore void tool extending well beyond top and bottom
+    z_void = np.array([-8.00, -4.30, -3.30, 3.30, 4.30, 8.00])
+    r_void = np.array([13.7652, 13.7652, 12.7652, 12.7652, 13.7652, 13.7652])
+    pts_2d = np.column_stack([r_void, z_void])
+    loop_void = np.vstack([
+        [[0.0, z_void[0]]],
+        pts_2d,
+        [[0.0, z_void[-1]]],
+        [[0.0, z_void[0]]],
+    ])
+    clean_void = trimesh.creation.revolve(loop_void, sections=128)
+
+    # 2. Filler cylinder bounded safely inside teeth (R=15.0 mm < teeth root at 16.14 mm)
+    filler = fidget.cylinder(d=30.0, h=12.0, at=(0, 0, 0))
+
+    # 3. Union gear with filler, cut void, and trim top/bottom planes
+    merged = trimesh.boolean.union([g_c, filler], engine=ENGINE)
+    hollow = trimesh.boolean.difference([merged, clean_void], engine=ENGINE)
+
+    box_top = trimesh.creation.box(extents=[100.0, 100.0, 10.0])
+    box_top.apply_translation([0, 0, 4.300 + 5.0])
+    box_bot = trimesh.creation.box(extents=[100.0, 100.0, 10.0])
+    box_bot.apply_translation([0, 0, -4.300 - 5.0])
+
+    cg = trimesh.boolean.difference([hollow, box_top, box_bot], engine=ENGINE)
+    cg.apply_translation(c)
+    cg.metadata["fidget_source"] = "Spinner Lever 05 - Gear.stl"
+    return cg
+
+
 def gear_posed():
-    """Spinner Lever 05 - Gear moved from its print plate onto the head axis.
+    """Spinner Lever 05 - Gear (cleaned bore) moved from its print plate onto the head axis.
 
     Its own axis is exactly its bbox centre -- the teeth are concentric there to
     an order-1 amplitude of 0.000 -- and its thickness axis is already z.
     """
-    g = fidget.load("Spinner Lever 05 - Gear", product="tactical")
+    g = gear_clean()
     c = g.bounds.mean(axis=0)
     g.apply_translation([HEAD_C[0] - c[0], HEAD_C[1] - c[1], -c[2]])
     return g

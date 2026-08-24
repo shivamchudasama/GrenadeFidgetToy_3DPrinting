@@ -14,8 +14,8 @@ This directory contains the complete, self-contained printable 3D model set with
 3. **Pristine Turned Circular Cheeks (Zero Fin Residues)**:
    - The exposed cheek volumes across 295 deg -> 360 deg/0 deg -> 185 deg are replaced with mathematically pure turned circular solids (r <= 16.30 mm).
    - All stepped contours, chamfer facets, boss depressions, and fin remnants at 45 deg, 105 deg, and 345 deg on the outer surface are 100% eliminated, exposing 248.5 deg of the gear rim.
-4. **Shortened Spring Encapsulation Pocket**:
-   - The pod internal spring pocket depth is shortened to 16.80 mm (shortened by 1.50 mm), preloading `Spinner Lever 04 - Spring.stl` (+0.42 mm at root, +1.61 mm at tip) for positive, tactile clicking with `Spinner Lever 05 - Gear.stl`.
+4. **Optimized Pod Spring Encapsulation Pocket (Smooth & Crisp Clicking)**:
+   - The pod internal spring pocket depth is tuned to 17.40 mm (increased by +0.60 mm from 16.80 mm), providing `Spinner Lever 04 - Spring.stl` 0.18 mm play at the gear root to eliminate binding while maintaining a positive 1.01 mm click stroke at the tooth tips for crisp, smooth clicking with `Spinner Lever 05 - Gear.stl`.
 
 ## Printing Instructions
 - Total STL files in this set: 36

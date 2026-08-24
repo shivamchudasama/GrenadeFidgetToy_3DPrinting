@@ -209,6 +209,7 @@ def build_parts():
         "Custom_Handle_Left":         custom.handle_half("13 - Handle Left"),
         "Custom_Handle_Right":        custom.handle_half("14 - Handle Right"),
         "Custom_Ring_Spinner":        custom.ring_spinner_slim(),
+        "Spinner Lever 05 - Gear":    custom.gear_clean(),
     }
     made.update({A.slug(name): mesh for name, mesh in custom.custom_rod_parts()})
     made.update({A.slug(name): mesh

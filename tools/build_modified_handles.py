@@ -7,10 +7,10 @@ Modifications implemented:
    - Functioning Hinge D-bore at (0.0, 58.12) for 15 - Handle Rotating Lock.stl
    - The residue/scar of the old unused hole at (17.53, 58.59) right next to the neck lock
      is solidly filled and flush with the surface (zero residue!).
-2. Shortened pod spring encapsulation pocket depth:
-   - Pocket depth shortened from 18.30 mm to 16.80 mm (shortened by 1.50 mm),
-     preloading Spinner Lever 04 - Spring against Spinner Lever 05 - Gear
-     (0.42 mm preload at root, 1.61 mm deflection at tip) for crisp, positive clicking.
+2. Optimized pod spring encapsulation pocket depth:
+   - Pocket depth tuned to 17.40 mm (increased by +0.60 mm from 16.80 mm),
+     giving Spinner Lever 04 - Spring 0.18 mm play at the gear root to eliminate binding
+     while maintaining a positive 1.01 mm click stroke at the tooth tips for crisp, easy clicking.
 3. Pristine turned circular cheeks (All fin residues completely eliminated):
    - Replaced exposed cheek volume (295 deg -> 360/0 deg -> 185 deg) with mathematically
      pure revolved solids (r <= 16.30 mm). All stepped contours, chamfers, boss depressions,
@@ -45,7 +45,7 @@ DST_SET_DIR = os.path.join(
 )
 
 C = custom.HEAD_C
-SPRING_POCKET_LEN = 16.80  # Shortened from 18.30 mm for positive spring compression
+SPRING_POCKET_LEN = 17.40  # Balanced depth: relieves stiffness, gives 0.18 mm play at root and 1.01 mm click stroke at tip
 
 
 def clean_cheek_solid(sign: float) -> trimesh.Trimesh:
@@ -351,8 +351,8 @@ This directory contains the complete, self-contained printable 3D model set with
 3. **Pristine Turned Circular Cheeks (Zero Fin Residues)**:
    - The exposed cheek volumes across 295 deg -> 360 deg/0 deg -> 185 deg are replaced with mathematically pure turned circular solids (r <= 16.30 mm).
    - All stepped contours, chamfer facets, boss depressions, and fin remnants at 45 deg, 105 deg, and 345 deg on the outer surface are 100% eliminated, exposing {open_deg:.1f} deg of the gear rim.
-4. **Shortened Spring Encapsulation Pocket**:
-   - The pod internal spring pocket depth is shortened to {SPRING_POCKET_LEN:.2f} mm (shortened by {18.30 - SPRING_POCKET_LEN:.2f} mm), preloading `Spinner Lever 04 - Spring.stl` (+0.42 mm at root, +1.61 mm at tip) for positive, tactile clicking with `Spinner Lever 05 - Gear.stl`.
+4. **Optimized Pod Spring Encapsulation Pocket (Smooth & Crisp Clicking)**:
+   - The pod internal spring pocket depth is tuned to {SPRING_POCKET_LEN:.2f} mm (increased by +0.60 mm from 16.80 mm), providing `Spinner Lever 04 - Spring.stl` 0.18 mm play at the gear root to eliminate binding while maintaining a positive 1.01 mm click stroke at the tooth tips for crisp, smooth clicking with `Spinner Lever 05 - Gear.stl`.
 
 ## Printing Instructions
 - Total STL files in this set: {copied_count + 4}
