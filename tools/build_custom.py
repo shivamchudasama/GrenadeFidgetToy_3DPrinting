@@ -235,6 +235,10 @@ def build_parts():
                              "(watertight=%s bodies=%d)"
                              % (name, m.is_watertight, m.body_count))
         out.append(fidget.save(m, name + ".stl", subdir=SUBDIR + "/Parts"))
+        if name == "Custom_Mid_Shell_Spring_33":
+            fidget.save(m, name + ".stl", subdir=SUBDIR + "/Complete_STL_Set/Native_Waist_33_Click")
+        elif name == "Custom_Mid_Shell_Spring_32":
+            fidget.save(m, name + ".stl", subdir=SUBDIR + "/Complete_STL_Set/Ring_Waist_32_Click")
     return out
 
 

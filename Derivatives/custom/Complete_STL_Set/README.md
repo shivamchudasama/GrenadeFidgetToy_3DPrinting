@@ -1,12 +1,12 @@
 # Custom fidget toy — complete STL sets
 
-Choose and print **one** of the two self-contained folders:
-
+- `Custom_Hybrid_Grenade_Modified/` — 36 STL files. Complete self-contained set for the **Compact Tactical/Spinner Hybrid Grenade (Modified)**: 33-click waist, 32-click upper ratchet station, 3-part split upper yoke rod, and modified folding handle.
 - `Ring_Waist_32_Click/` — 37 STL files. Uses the visible Spinner Fuse waist
   ring, the trimmed custom two-piece mid shell, and the matching 32-notch
   custom waist spring.
 - `Native_Waist_33_Click/` — 36 STL files. Keeps the Tactical body's native
   two-piece waist and uses the matching 33-notch custom waist spring.
+- `Native_Waist_33_Click_Modified/` — 36 STL files. Custom toy with updated modified handles.
 
 Print one copy of every STL in the chosen folder. The two files
 `Custom_16_Handle_Lock.stl` and `Custom_16_Handle_Lock_pod.stl` are the same

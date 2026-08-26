@@ -11,7 +11,7 @@ sys.path.insert(0, TOOLS_DIR)
 import build_custom_hybrid_modified as BHM
 
 mod_dir = os.path.join(
-    ROOT_DIR, "Derivatives", "custom", "Complete_STL_Set", "Native_Waist_33_Click_Modified"
+    ROOT_DIR, "Derivatives", "custom", "Complete_STL_Set", "Custom_Hybrid_Grenade_Modified"
 )
 custom_dir = os.path.join(ROOT_DIR, "Derivatives", "custom")
 
@@ -29,7 +29,7 @@ for (name, m, color), disp in zip(items, displacements):
     ext = bb[1] - bb[0]
 
     # Categorize group
-    if "Bottom" in name or "Mid Shell" in name or "Internal Barrel" in name or "Upper Shell" in name:
+    if "Bottom" in name or "Mid Shell" in name or "Internal Barrel" in name or "Upper Shell" in name or "Middle Spring" in name:
         group = "Base Mechanism"
     elif "Rod" in name or "Spinner Lever 06" in name or "Spinner Lever 07" in name or "Spinner Lever 08" in name:
         group = "Full-Depth Rod"

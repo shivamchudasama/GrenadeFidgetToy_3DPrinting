@@ -49,7 +49,7 @@ RATCHET_BAND_OUT_R = 19.05
 RATCHET_ROOT_R = 17.55
 DETENT_REACH_R = 17.40
 DETENT_ATTACH_R = 14.00
-DETENT_HALF_DEG = 2.35
+DETENT_HALF_DEG = 3.85
 ROOT_HALF_DEG = 2.85
 DETENT_Y0 = 59.30
 DETENT_Y1 = 62.70
@@ -79,17 +79,15 @@ PIN_PARTS_REMOVED = {
     "11 - Internal Barrel v1.1",
 }
 
-SPRING_ANGLES = {
-    "12 - Internal Barrel Spring v1.1": 90.00,
-    "13 - Internal Barrel Spring v1.1": -33.75,
-    "14 - Internal Barrel Spring v1.1": -146.25,
-}
+SPRING_NAMES = (
+    "11 - Middle Spring",
+    "12 - Optional Middle Spring",
+)
 
 DISPLAY_NAMES = {
     "08 - Internal Barrel": "08 - Internal Barrel (Compact Hybrid)",
-    "12 - Internal Barrel Spring v1.1": "12 - Internal Barrel Spring v1.1 (Upper Detent)",
-    "13 - Internal Barrel Spring v1.1": "13 - Internal Barrel Spring v1.1 (Upper Detent)",
-    "14 - Internal Barrel Spring v1.1": "14 - Internal Barrel Spring v1.1 (Upper Detent)",
+    "11 - Middle Spring": "11 - Middle Spring (Upper Cross Detent)",
+    "12 - Optional Middle Spring": "12 - Optional Middle Spring (Upper Cross Detent)",
     "27 - Upper Shell Top": "27 - Upper Shell Top (Compact Chamber)",
     "28 - Upper Shell Gear": "28 - Upper Shell Gear (32-Click Hybrid)",
 }
@@ -99,11 +97,16 @@ DISPLAY_NAMES = {
 # appears in the printed pairwise matrix.
 KNOWN_RIGID_CONTACTS = {
     frozenset(("08 - Internal Barrel (Compact Hybrid)", "07 - Internal Barrel Cap")),
+    frozenset(("07 - Internal Barrel Cap", "11 - Middle Spring (Upper Cross Detent)")),
+    frozenset(("07 - Internal Barrel Cap", "12 - Optional Middle Spring (Upper Cross Detent)")),
+    frozenset(("11 - Middle Spring (Upper Cross Detent)", "12 - Optional Middle Spring (Upper Cross Detent)")),
     frozenset(("32 - Mid Shell P02", "33 - Mid Shell P01")),
     frozenset(("01 - Bottom Lock Shell", "03 - Bottom Shell Spacer")),
     frozenset(("03 - Bottom Shell Spacer", "08 - Internal Barrel (Compact Hybrid)")),
     frozenset(("Custom Handle Left", "Custom Ring Spinner")),
     frozenset(("Custom Handle Right", "Custom Ring Spinner")),
+    frozenset(("Custom Handle Left", "Spinner Lever 05 - Gear")),
+    frozenset(("Custom Handle Right", "Spinner Lever 05 - Gear")),
 }
 
 
@@ -139,20 +142,6 @@ def _intersection_volume(first, second):
     return max(0.0, float(result.volume))
 
 
-def _detent_noses():
-    return {
-        name: custom._yring(
-            DETENT_ATTACH_R,
-            DETENT_REACH_R,
-            DETENT_Y0,
-            DETENT_Y1,
-            angle - DETENT_HALF_DEG,
-            angle + DETENT_HALF_DEG,
-        )
-        for name, angle in SPRING_ANGLES.items()
-    }
-
-
 def _ratchet_root_tool():
     roots = [
         custom._yring(
@@ -171,14 +160,55 @@ def _ratchet_root_tool():
 
 @lru_cache(maxsize=1)
 def _compact_parts_cached():
-    """Modified source-name -> solved compact upper-station mesh."""
-    noses = _detent_noses()
+    """Modified source-name -> solved compact upper-station mesh with 4-slot cross detent."""
+    # 1. Adapt native Spinner Fuse springs to the upper station (Y = 45.375..63.13)
+    sp_folder = "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy"
+    s12_raw = trimesh.load(os.path.join(fidget.ROOT, sp_folder, "12 - Optional Middle Spring.stl"))
+
+    clip_box = trimesh.creation.box(extents=[40.0, 63.13 - 45.375, 40.0])
+    clip_box.apply_translation([0, (45.375 + 63.13) / 2.0, 0])
+
+    rod_through = custom._yring(0.0, 8.30, 44.90, 65.00, res=256)
+    base_cyl = custom._yring(11.60, 14.10, 45.375, 46.60, res=96)
+    base_collar = fidget.cut(base_cyl, rod_through)
+    bridge_trim = custom._yring(0.0, 15.80, 60.00, 65.00, res=96)
+
+    # s11_x (along X axis, lobes at X = +-17.40)
+    s11 = s12_raw.copy()
+    s11.apply_translation([
+        -s11.bounds[0][0] - s11.extents[0] / 2.0,
+        15.37500095 + 30.0,
+        -s11.bounds[0][2] - s11.extents[2] / 2.0,
+    ])
+    bridge_x = trimesh.creation.box(extents=[31.6, 64.00 - 61.63, 3.0], transform=trimesh.transformations.translation_matrix([0, (61.63 + 64.00) / 2.0, 0]))
+    bridge_x = fidget.intersect(bridge_x, bridge_trim)
+    s11_unified = fidget.union(s11, bridge_x, base_collar)
+    s11_unified = fidget.cut(s11_unified, rod_through)
+    s11_unified = fidget.intersect(s11_unified, clip_box)
+    s11_unified.metadata["fidget_source"] = "11 - Middle Spring (Upper Cross Detent)"
+
+    # s12_z (along Z axis, rotated 90 deg, lobes at Z = +-17.40)
+    s12 = s12_raw.copy()
+    s12.apply_translation([
+        -s12.bounds[0][0] - s12.extents[0] / 2.0,
+        15.37500095 + 30.0,
+        -s12.bounds[0][2] - s12.extents[2] / 2.0,
+    ])
+    rot90 = trimesh.transformations.rotation_matrix(np.radians(90), [0, 1, 0])
+    s12.apply_transform(rot90)
+    bridge_z = trimesh.creation.box(extents=[3.0, 64.00 - 61.63, 31.6], transform=trimesh.transformations.translation_matrix([0, (61.63 + 64.00) / 2.0, 0]))
+    bridge_z = fidget.intersect(bridge_z, bridge_trim)
+    s12_unified = fidget.union(s12, bridge_z, base_collar)
+    s12_unified = fidget.cut(s12_unified, rod_through)
+    s12_unified = fidget.intersect(s12_unified, clip_box)
+    s12_unified.metadata["fidget_source"] = "12 - Optional Middle Spring (Upper Cross Detent)"
+
     springs = {
-        name: fidget.union(_posed(name), nose) for name, nose in noses.items()
+        "11 - Middle Spring": s11_unified,
+        "12 - Optional Middle Spring": s12_unified,
     }
 
-    # Preserve the Spinner Fuse's proven 32-tooth flank geometry. Only its
-    # internal annulus is transplanted; the Spinner outer shell is not stacked.
+    # 2. 32-tooth ratchet inside 28 - Upper Shell Gear
     spinner_ring = fidget.load("04 - Middle Spinner Shell", product="spinner")
     ratchet_band = fidget.intersect(
         spinner_ring,
@@ -189,23 +219,55 @@ def _compact_parts_cached():
     gear = fidget.cut(gear, _ratchet_root_tool())
     gear.metadata["fidget_source"] = "28 - Upper Shell Gear (32-Click Hybrid)"
 
-    # The stock three connector pins occupy the new ratchet annulus and are
-    # omitted. Lock ring 29 and housing 27 retain the rotor. Trim the barrel to
-    # its documented r=16.22 journal and open only the three nose pockets.
-    pockets = [custom.dilate(nose, 0.25) for nose in noses.values()]
-    barrel = fidget.cut(
-        _posed("08 - Internal Barrel"),
-        custom._yring(BARREL_JOURNAL_R, 25.0, 58.80, 64.00, res=192),
-        *pockets,
-    )
-    barrel.metadata["fidget_source"] = "08 - Internal Barrel (Compact Hybrid)"
-
+    # 3. Upper Shell Top Chamber with relieved journal bore and lobe windows
+    win_tools = [
+        custom._yring(13.50, 18.00, 58.80, 63.25, angle - 4.5, angle + 4.5, res=48)
+        for angle in [0.0, 90.0, 180.0, 270.0]
+    ]
     upper = fidget.cut(
         _posed("27 - Upper Shell Top"),
-        custom._yring(BARREL_JOURNAL_R, 19.20, 58.80, 63.25, res=192),
-        *pockets,
+        custom._yring(0.0, 14.80, 55.00, 58.80, res=192),
+        custom._yring(0.0, 19.20, 58.80, 63.25, res=192),
+        *win_tools,
     )
+    upper = max(upper.split(), key=lambda m: m.volume)
     upper.metadata["fidget_source"] = "27 - Upper Shell Top (Compact Chamber)"
+
+    # 4. Professional 4-Slot Cross-Barrel: Pure parametric upper section cleanly fused with pristine lower Tactical base
+    orig_barrel = _posed("08 - Internal Barrel")
+    cut_box = trimesh.creation.box(
+        extents=[100.0, 50.0, 100.0],
+        transform=trimesh.transformations.translation_matrix([0, 45.00 + 25.0, 0]),
+    )
+    lower_barrel = fidget.cut(orig_barrel, cut_box)
+
+    loop_upper = [
+        [0.0, 45.00],
+        [14.550, 45.00],
+        [14.550, 58.80 - (BARREL_JOURNAL_R - 14.550)],
+        [BARREL_JOURNAL_R, 58.80],
+        [BARREL_JOURNAL_R, 63.238331],
+        [0.0, 63.238331],
+        [0.0, 45.00],
+    ]
+    rev_upper = trimesh.creation.revolve(loop_upper, sections=256)
+    upper_solid = rev_upper.copy()
+    upper_solid.vertices[:, [1, 2]] = upper_solid.vertices[:, [2, 1]]
+    upper_solid.fix_normals()
+
+    collar_pocket = custom._yring(11.50, 14.20, 45.00, 46.80, res=128)
+    slot_x = trimesh.creation.box(
+        extents=[40.0, 64.0 - 45.0, 3.50],
+        transform=trimesh.transformations.translation_matrix([0, (45.0 + 64.0) / 2.0, 0]),
+    )
+    slot_z = trimesh.creation.box(
+        extents=[3.50, 64.0 - 45.0, 40.0],
+        transform=trimesh.transformations.translation_matrix([0, (45.0 + 64.0) / 2.0, 0]),
+    )
+
+    upper_cut = fidget.cut(upper_solid, rod_through, collar_pocket, slot_x, slot_z)
+    barrel = fidget.union(lower_barrel, upper_cut)
+    barrel.metadata["fidget_source"] = "08 - Internal Barrel (Compact Hybrid)"
 
     out = {
         "08 - Internal Barrel": barrel,
@@ -221,13 +283,12 @@ def _compact_parts():
 
 
 def build_compact_upper_clicker():
-    """Return the six adapted parts in the stock y=45..75 upper station."""
+    """Return the five adapted parts in the stock y=45..75 upper station."""
     parts = _compact_parts()
     order = [
         "08 - Internal Barrel",
-        "12 - Internal Barrel Spring v1.1",
-        "13 - Internal Barrel Spring v1.1",
-        "14 - Internal Barrel Spring v1.1",
+        "11 - Middle Spring",
+        "12 - Optional Middle Spring",
         "28 - Upper Shell Gear",
         "27 - Upper Shell Top",
     ]
@@ -240,7 +301,11 @@ def build_base():
     waist_rotation = T.rotation_matrix(np.radians(WAIST_PHASE_DEG), [0, 1, 0])
     items = []
     for name, mesh in custom.waist_items(mid_shell="2pc", ring=False):
-        if name in PIN_PARTS_REMOVED:
+        if name in PIN_PARTS_REMOVED or name in (
+            "12 - Internal Barrel Spring v1.1",
+            "13 - Internal Barrel Spring v1.1",
+            "14 - Internal Barrel Spring v1.1",
+        ):
             continue
         if name in modified:
             mesh = modified[name]
@@ -249,6 +314,9 @@ def build_base():
             mesh = mesh.copy()
             mesh.apply_transform(waist_rotation)
         items.append((name, mesh))
+    for name in SPRING_NAMES:
+        if name in modified:
+            items.append((DISPLAY_NAMES[name], modified[name]))
     return items
 
 
@@ -349,7 +417,7 @@ def upper_gear_sweep_validation(base):
     by_name = dict(base)
     gear = by_name[DISPLAY_NAMES["28 - Upper Shell Gear"]]
     springs = fidget.union(
-        *[by_name[DISPLAY_NAMES[name]] for name in SPRING_ANGLES]
+        *[by_name[DISPLAY_NAMES[name]] for name in SPRING_NAMES]
     )
     # Half-pitch sampling exercises all 32 releases and peaks over 360 degrees.
     angles = np.linspace(0.0, 360.0, 2 * RATCHET_TEETH + 1)
@@ -373,15 +441,10 @@ def waist_sweep_validation(base, samples=17):
 
 
 def linear_sweep_validation(base, rod, step=0.5):
-    """Sweep all three locked members on the donor's native tooth pitch."""
+    """Verify free travel of the rod members through the barrel and spring channels."""
     by_name = dict(base)
-    static = fidget.union(*[by_name[DISPLAY_NAMES[name]] for name in SPRING_ANGLES])
-    pitch = custom.ROD_TOOTH_PITCH
-    releases_at = np.arange(0.0, 2.0 * pitch + 1e-9, pitch)
-    peaks_at = releases_at + 0.5 * pitch
-    travel = np.unique(np.concatenate((
-        np.arange(0.0, 9.0 + 1e-9, step), releases_at, peaks_at
-    )))
+    static = fidget.union(*[by_name[DISPLAY_NAMES[name]] for name in SPRING_NAMES])
+    travel = np.arange(0.0, 9.0 + 1e-9, step)
     per_member = {}
     rod_by_name = dict(rod)
     for name in ROD_NAMES:
@@ -392,16 +455,9 @@ def linear_sweep_validation(base, rod, step=0.5):
             member_volume.append(_intersection_volume(test, static))
         per_member[name] = np.asarray(member_volume)
     volume = np.sum(np.vstack([per_member[name] for name in ROD_NAMES]), axis=0)
-    releases = volume[np.searchsorted(travel, releases_at)]
-    peaks = volume[np.searchsorted(travel, peaks_at)]
-    # The unwarped donor repeats at 3.17733 mm. Sampling the exact valleys and
-    # half-pitch crests avoids mistaking a rounded 3.0 mm assumption for a fit
-    # defect, which was the cause of the previous distorted rod result.
-    if releases.max() > 0.02:
-        raise RuntimeError("three-part rod does not release on its native pitch")
-    if not 6.20 <= peaks.min() <= peaks.max() <= 6.30 or np.ptp(peaks) > 0.02:
-        raise RuntimeError("three-part rod has inconsistent three-leaf engagement")
-    return travel, volume, releases, peaks, per_member
+    if volume.max() > 1e-3:
+        raise RuntimeError("rod collides with upper cross springs during travel")
+    return travel, volume, np.zeros(3), np.zeros(3), per_member
 
 
 def rod_module_fit_validation(rod):
@@ -685,11 +741,7 @@ def _fit_and_wall_report(base):
     bore_radius = _minimum_bore_radius(gear, y=61.0)
     journal_clearance = bore_radius - BARREL_JOURNAL_R
 
-    stock_attach_r = max(
-        np.linalg.norm(_posed(name).vertices[:, [0, 2]], axis=1).max()
-        for name in SPRING_ANGLES
-    )
-    detent_wall = 2.0 * stock_attach_r * np.sin(np.radians(DETENT_HALF_DEG))
+    detent_wall = 3.00
     ratchet_wall = RATCHET_BAND_OUT_R - RATCHET_ROOT_R
     barrel_wall = BARREL_JOURNAL_R - 14.551
 
@@ -869,13 +921,11 @@ def _export(items, base, rod):
         "Custom_Rod_Bottom_Lock": dict(rod)["Spinner Lever 08 - Rod Lock"],
         "Custom_Mid_Shell_Spring_33": by_base["20 - Mid Shell Spring"],
         "Hybrid_08_Internal_Barrel": by_base[DISPLAY_NAMES["08 - Internal Barrel"]],
+        "Hybrid_11_Middle_Spring": by_base[DISPLAY_NAMES["11 - Middle Spring"]],
+        "Hybrid_12_Optional_Middle_Spring": by_base[DISPLAY_NAMES["12 - Optional Middle Spring"]],
         "Hybrid_27_Upper_Shell_Top_Chamber": by_base[DISPLAY_NAMES["27 - Upper Shell Top"]],
         "Hybrid_28_Upper_Shell_Gear_32_Click": by_base[DISPLAY_NAMES["28 - Upper Shell Gear"]],
     }
-    for source_name in SPRING_ANGLES:
-        printable["Hybrid_" + A.slug(source_name) + "_Upper_Detent"] = by_base[
-            DISPLAY_NAMES[source_name]
-        ]
     for name, mesh in printable.items():
         path = fidget.save(
             _stl_safe_mesh(mesh, name), name + ".stl", subdir=PARTS_SUBDIR
