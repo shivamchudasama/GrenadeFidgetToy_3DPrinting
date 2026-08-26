@@ -34,8 +34,6 @@ import fidget
 
 PACKAGE_DIR = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.1")
 ASSEMBLED_STLS_DIR = os.path.join(PACKAGE_DIR, "All_Parts_Assembled_Coordinates")
-SOURCE_DIR_WAIST = os.path.join(ROOT_DIR, "Derivatives", "custom", "Complete_STL_Set", "Native_Waist_33_Click")
-SOURCE_DIR_HEAD = os.path.join(ROOT_DIR, "Derivatives", "custom", "Complete_STL_Set", "Native_Waist_33_Click_Modified")
 
 # Comprehensive 36-part specification with PBR Material Properties
 PARTS_SPECS = [
@@ -158,8 +156,6 @@ PARTS_SPECS = [
         "name": "09_Custom_Mid_Shell_Spring_33",
         "file": "09_Custom_Mid_Shell_Spring_33.stl",
         "subassembly": "02_Waist_Mechanism",
-        "load_type": "custom_waist_stl",
-        "stl_path": os.path.join(SOURCE_DIR_WAIST, "Custom_Mid_Shell_Spring_33.stl"),
         "color": (255, 125, 40),  # Safety Orange
         "metallic": 0.2,
         "roughness": 0.35,
@@ -336,8 +332,6 @@ PARTS_SPECS = [
         "name": "22_Custom_Rod_Right",
         "file": "22_Custom_Rod_Right.stl",
         "subassembly": "04_Rod_Assembly_And_Locks",
-        "load_type": "custom_waist_stl",
-        "stl_path": os.path.join(SOURCE_DIR_WAIST, "Custom_Rod_Right.stl"),
         "color": (75, 85, 95),  # Gunmetal Steel
         "metallic": 0.4,
         "roughness": 0.4,
@@ -349,8 +343,6 @@ PARTS_SPECS = [
         "name": "23_Custom_Rod_Middle",
         "file": "23_Custom_Rod_Middle.stl",
         "subassembly": "04_Rod_Assembly_And_Locks",
-        "load_type": "custom_waist_stl",
-        "stl_path": os.path.join(SOURCE_DIR_WAIST, "Custom_Rod_Middle.stl"),
         "color": (50, 58, 68),  # Charcoal Black Center Rod
         "metallic": 0.5,
         "roughness": 0.35,
@@ -362,8 +354,6 @@ PARTS_SPECS = [
         "name": "24_Custom_Rod_Left",
         "file": "24_Custom_Rod_Left.stl",
         "subassembly": "04_Rod_Assembly_And_Locks",
-        "load_type": "custom_waist_stl",
-        "stl_path": os.path.join(SOURCE_DIR_WAIST, "Custom_Rod_Left.stl"),
         "color": (75, 85, 95),  # Gunmetal Steel
         "metallic": 0.4,
         "roughness": 0.4,
@@ -375,8 +365,6 @@ PARTS_SPECS = [
         "name": "25_Custom_Rod_Lock_Upper_06",
         "file": "25_Custom_Rod_Lock_Upper_06.stl",
         "subassembly": "04_Rod_Assembly_And_Locks",
-        "load_type": "custom_waist_stl",
-        "stl_path": os.path.join(SOURCE_DIR_WAIST, "Custom_Rod_Lock_Upper_06.stl"),
         "color": (230, 50, 50),  # Crimson Red Lock Key
         "metallic": 0.25,
         "roughness": 0.4,
@@ -388,8 +376,6 @@ PARTS_SPECS = [
         "name": "26_Custom_Rod_Lock_Lower_07",
         "file": "26_Custom_Rod_Lock_Lower_07.stl",
         "subassembly": "04_Rod_Assembly_And_Locks",
-        "load_type": "custom_waist_stl",
-        "stl_path": os.path.join(SOURCE_DIR_WAIST, "Custom_Rod_Lock_Lower_07.stl"),
         "color": (230, 50, 50),  # Crimson Red Lock Key
         "metallic": 0.25,
         "roughness": 0.4,
@@ -401,8 +387,6 @@ PARTS_SPECS = [
         "name": "27_Spinner_Lever_08_Rod_Lock",
         "file": "27_Spinner_Lever_08_Rod_Lock.stl",
         "subassembly": "04_Rod_Assembly_And_Locks",
-        "load_type": "tactical_pose",
-        "tactical_key": "Spinner Lever 08 - Rod Lock",
         "color": (60, 70, 80),  # Gunmetal Retainer Disc
         "metallic": 0.45,
         "roughness": 0.4,
@@ -416,7 +400,6 @@ PARTS_SPECS = [
         "name": "28_09_Rod_Spring_Hinge",
         "file": "28_09_Rod_Spring_Hinge.stl",
         "subassembly": "05_Folding_Head_And_Spinner",
-        "load_type": "spinner_spring_posed",
         "color": (255, 110, 30),  # Safety Orange Hinge Leaf Spring
         "metallic": 0.2,
         "roughness": 0.35,
@@ -428,8 +411,6 @@ PARTS_SPECS = [
         "name": "29_Custom_Handle_Left",
         "file": "29_Custom_Handle_Left.stl",
         "subassembly": "05_Folding_Head_And_Spinner",
-        "load_type": "head_transformed_stl",
-        "stl_path": os.path.join(SOURCE_DIR_HEAD, "Custom_Handle_Left.stl"),
         "color": (122, 181, 102),  # Olive Drab Green
         "metallic": 0.1,
         "roughness": 0.6,
@@ -441,8 +422,6 @@ PARTS_SPECS = [
         "name": "30_Custom_Handle_Right",
         "file": "30_Custom_Handle_Right.stl",
         "subassembly": "05_Folding_Head_And_Spinner",
-        "load_type": "head_transformed_stl",
-        "stl_path": os.path.join(SOURCE_DIR_HEAD, "Custom_Handle_Right.stl"),
         "color": (122, 181, 102),  # Olive Drab Green
         "metallic": 0.1,
         "roughness": 0.6,
@@ -455,8 +434,6 @@ PARTS_SPECS = [
         "name": "31_Custom_Ring_Spinner",
         "file": "31_Custom_Ring_Spinner.stl",
         "subassembly": "05_Folding_Head_And_Spinner",
-        "load_type": "head_transformed_stl",
-        "stl_path": os.path.join(SOURCE_DIR_HEAD, "Custom_Ring_Spinner.stl"),
         "color": (235, 185, 65),  # Silk Gold / Polished Brass
         "metallic": 0.9,
         "roughness": 0.2,
@@ -468,7 +445,6 @@ PARTS_SPECS = [
         "name": "32_Spinner_Lever_05_Gear",
         "file": "32_Spinner_Lever_05_Gear.stl",
         "subassembly": "05_Folding_Head_And_Spinner",
-        "load_type": "gear_posed",
         "color": (200, 210, 220),  # Silk Silver Chrome Gear
         "metallic": 0.85,
         "roughness": 0.25,
@@ -480,7 +456,6 @@ PARTS_SPECS = [
         "name": "33_Spinner_Lever_04_Spring",
         "file": "33_Spinner_Lever_04_Spring.stl",
         "subassembly": "05_Folding_Head_And_Spinner",
-        "load_type": "spring_posed",
         "color": (255, 125, 40),  # Safety Orange Clicker Spring
         "metallic": 0.2,
         "roughness": 0.35,
@@ -492,8 +467,6 @@ PARTS_SPECS = [
         "name": "34_Custom_16_Handle_Lock_Neck",
         "file": "34_Custom_16_Handle_Lock_Neck.stl",
         "subassembly": "05_Folding_Head_And_Spinner",
-        "load_type": "head_transformed_stl",
-        "stl_path": os.path.join(SOURCE_DIR_HEAD, "Custom_16_Handle_Lock.stl"),
         "color": (230, 50, 50),  # Crimson Red Pin
         "metallic": 0.25,
         "roughness": 0.4,
@@ -505,8 +478,6 @@ PARTS_SPECS = [
         "name": "35_Custom_16_Handle_Lock_Pod",
         "file": "35_Custom_16_Handle_Lock_Pod.stl",
         "subassembly": "05_Folding_Head_And_Spinner",
-        "load_type": "head_transformed_stl",
-        "stl_path": os.path.join(SOURCE_DIR_HEAD, "Custom_16_Handle_Lock_pod.stl"),
         "color": (230, 50, 50),  # Crimson Red Pin
         "metallic": 0.25,
         "roughness": 0.4,
@@ -518,8 +489,6 @@ PARTS_SPECS = [
         "name": "36_15_Handle_Rotating_Lock_D_Pin",
         "file": "36_15_Handle_Rotating_Lock_D_Pin.stl",
         "subassembly": "05_Folding_Head_And_Spinner",
-        "load_type": "head_transformed_stl",
-        "stl_path": os.path.join(SOURCE_DIR_HEAD, "15 - Handle Rotating Lock.stl"),
         "color": (230, 50, 50),  # Crimson Red Keyed D-Pin
         "metallic": 0.25,
         "roughness": 0.4,
@@ -530,33 +499,11 @@ PARTS_SPECS = [
 
 
 def load_all_posed_parts() -> list[dict]:
-    """Load and transform all 36 parts into exact global assembled coordinates."""
-    tactical_poses = {r["part"]: r for r in A.poses("tactical")["parts"]}
-    M_head = custom.module_transform()
-
+    """Load all 36 parts from exact global assembled coordinates."""
     loaded_parts = []
     for spec in PARTS_SPECS:
-        ltype = spec["load_type"]
-        if ltype == "tactical_pose":
-            m = A.posed(tactical_poses[spec["tactical_key"]], "tactical")
-        elif ltype == "custom_waist_stl":
-            m = trimesh.load(spec["stl_path"], force="mesh", process=True)
-        elif ltype == "spinner_spring_posed":
-            spring_raw = fidget.load("09 - Rod Spring", product="spinner")
-            m = spring_raw.copy()
-            m.apply_transform(M_head)
-        elif ltype == "gear_posed":
-            m = custom.gear_posed()
-            m.apply_transform(M_head)
-        elif ltype == "spring_posed":
-            m = custom.gear_spring_arm()
-            m.apply_transform(M_head)
-        elif ltype == "head_transformed_stl":
-            m = trimesh.load(spec["stl_path"], force="mesh", process=True)
-            m.apply_transform(M_head)
-        else:
-            raise ValueError(f"Unknown load type: {ltype}")
-
+        stl_path = os.path.join(ASSEMBLED_STLS_DIR, spec["file"])
+        m = trimesh.load(stl_path, force="mesh", process=True)
         loaded_parts.append({
             "spec": spec,
             "mesh": m,

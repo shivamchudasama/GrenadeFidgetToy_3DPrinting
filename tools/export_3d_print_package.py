@@ -26,10 +26,8 @@ import numpy as np
 import trimesh
 import manifold3d
 
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SOURCE_DIR = os.path.join(ROOT_DIR, "Derivatives", "custom", "Complete_STL_Set", "Native_Waist_33_Click")
-SOURCE_DIR_HEAD = os.path.join(ROOT_DIR, "Derivatives", "custom", "Complete_STL_Set", "Native_Waist_33_Click_Modified")
 OUTPUT_DIR = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.1")
+ASSEMBLED_STLS_DIR = os.path.join(OUTPUT_DIR, "All_Parts_Assembled_Coordinates")
 
 PARTS_MANIFEST = [
     # 01 - Base & Bottom Shell
@@ -457,21 +455,16 @@ def export_complete_package():
     for sd in subdirs:
         os.makedirs(os.path.join(OUTPUT_DIR, sd), exist_ok=True)
 
-    print(f"Loading {len(PARTS_MANIFEST)} native parts from {SOURCE_DIR}...")
+    print(f"Processing {len(PARTS_MANIFEST)} native parts from {ASSEMBLED_STLS_DIR}...")
     flat_parts_by_plate = {}
 
     for item in PARTS_MANIFEST:
-        dir_to_use = SOURCE_DIR_HEAD if item["subassembly"] == "05_Folding_Head_And_Spinner" else SOURCE_DIR
-        src_path = os.path.join(dir_to_use, item["source_file"])
+        src_path = os.path.join(ASSEMBLED_STLS_DIR, item["export_filename"])
         if not os.path.exists(src_path):
             raise FileNotFoundError(f"Source file missing: {src_path}")
 
         mesh = trimesh.load(src_path, force="mesh", process=True)
-        mesh = _stl_safe(mesh, item["source_file"])
-
-        # 1. Assembled / Solved Coordinates
-        assembled_path = os.path.join(OUTPUT_DIR, "All_Parts_Assembled_Coordinates", item["export_filename"])
-        mesh.export(assembled_path)
+        mesh = _stl_safe(mesh, item["export_filename"])
 
         # 2. Bed-Oriented (centered XY, placed on Z=0)
         flat_mesh = _center_on_bed(mesh)
