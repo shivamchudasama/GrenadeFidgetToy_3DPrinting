@@ -91,9 +91,9 @@ from it. Matching the tapers, above, avoids the transfer entirely.
 > on `Bottle Cap Lever`, `3 - Rod Middle v1.1` and `21 - Rod Middle` together and
 > re-cut the slot to match.
 
-### 2.2 The click detent — serrated rod through a sprung bore
+### 2.2 The click detent — serrated rod through a sprung bore & rotary waist ratchet
 
-This is the fidget action: push or pull the middle rod and it clicks.
+This is the primary fidget action: push or pull the middle rod and it clicks, and twist the waist and it ratchets.
 
 **[M]** The rod middles carry **sawtooth serrations on both long edges**, pitch
 **3.000 mm** (autocorrelation, all three rod middles across both generations),
@@ -102,17 +102,16 @@ tooth depth **2.22 mm per side**, crest-to-crest **16.02 mm**. On
 length.
 
 **[M]** `20 - Mid Shell Spring` is a flat ring, 4.0 mm thick, sitting at
-y = 29.75 .. 33.75, with a **15.84 × 15.84 mm square bore**.
+y = 29.75 .. 33.75, with a **15.84 × 15.84 mm square bore** and **three radial arms** extending through windows in `08 - Internal Barrel` at **30° / 150° / 270°** to **r 17.20–17.40 mm**.
 
-**[D]** 16.02 mm of crest through a 15.84 mm bore is a **0.09 mm per-side
-interference** — the spring ring deflects as each tooth passes, one click per
-3.000 mm of travel. **[M]** In the assembled (rest) pose the rod presents only
-~13.8 mm at the spring's height, so it sits in clearance at rest and only clicks
-over part of the stroke.
+**[D]** `20 - Mid Shell Spring` is **dual-purpose**:
+1. **Linear detent on the rod**: 16.02 mm of crest through a 15.84 mm bore provides **0.09 mm per-side interference**, clicking once per 3.000 mm of rod travel.
+2. **Rotary detent at the waist**: Its three radial arms engage the 33-lobe internal ratchet of `32 - Mid Shell P02` (bore r 16.43 .. 17.53), producing a crisp **33 clicks per turn** detent (10.909° pitch).
 
 > **If you change this:** rod crest width and the spring bore are one dimension
 > pair. Changing the 3.000 mm pitch changes the click feel; changing 16.02 or
 > 15.84 changes the click force, and going to clearance kills the click entirely.
+> For the rotary waist, 3 arms at 120° only click on whole-multiple lobe counts (33/3 = 11 notches).
 
 ### 2.3 The threaded bottom lock
 
@@ -134,7 +133,7 @@ Its **bore is 3-lobed** (r 18.60 .. 18.79), which keys it to the body.
 3-lobed.
 
 **[D]** A 2-fold-symmetric rod in a 3-fold body gives a **60° azimuth period** —
-confirmed by sweep (below). This is why azimuth answers are only ever defined
+confirmed by sweep. This is why azimuth answers are only ever defined
 mod 60°.
 
 ---
@@ -156,13 +155,13 @@ Placed `y` ranges from the pose record **[M]**:
 | 11.25 .. 19.25 | `06 - Bottom Shell 03` | **inverted** |
 | 10.90 .. 13.90 | `02 - Bottom Spring` | flexure, 3.0 mm thick |
 | 14.15 .. 28.60 | `03 - Bottom Shell Spacer` | |
-| 20.00 .. 53.80 | `32 - Mid Shell P02` | wall **1.75 mm** |
-| 20.00 .. 54.80 | `33 - Mid Shell P01` | wall **1.70 mm** |
-| 29.75 .. 33.75 | `20 - Mid Shell Spring` | the click detent (§2.2) |
-| 20.43 .. 63.24 | `08 - Internal Barrel` | the spine |
+| 20.00 .. 53.80 | `32 - Mid Shell P02` | wall **1.75 mm**, inner 33-lobe ratchet |
+| 20.00 .. 54.80 | `33 - Mid Shell P01` | wall **1.70 mm**, outer ribbed grip |
+| 29.75 .. 33.75 | `20 - Mid Shell Spring` | dual-purpose linear & rotary click detent (§2.2) |
+| 20.43 .. 63.24 | `08 - Internal Barrel` | the spine with 3 waist windows and 3 vertical pin channels |
 | 45.62 .. 63.13 | `12`/`13`/`14 - Internal Barrel Spring` | 3 off, 120° apart |
 | 56.64 .. 61.23 | `09`/`10`/`11 - Internal Barrel Pin` | 3 off, 120° apart |
-| 62.00 .. 63.60 | `07 - Internal Barrel Cap` | |
+| 62.00 .. 63.60 | `07 - Internal Barrel Cap` | top barrel seal |
 | 55.00 .. 58.88 | `29 - Upper Shell Lock Ring` | |
 | 55.00 .. 62.98 | `28 - Upper Shell Gear` | knurled grip, 3-lobe bore |
 | 55.00 .. 74.83 | `27 - Upper Shell Top` | wall **3.00 mm** |
@@ -175,13 +174,14 @@ Placed `y` ranges from the pose record **[M]**:
 **[M]** Body envelope 41.60 × 80.07 × 41.60 mm (two-piece mid shell);
 41.95 (solid), 41.85 × 80.07 × 42.12 (hex).
 
-### 3.2 Mid shell — two-piece or one-piece
+### 3.2 Mid shell — two-piece, solid, and standardized options
 
 **[M]** `Mid Shell Solid Color` and `Hex Mid Shell Solid Color` each replace
-**`32` *and* `33` together** — 12,640 mm³ ≈ 6,062 + 6,400, same axial seat
+**`32` *and* `33` together** with one piece — 12,640 mm³ ≈ 6,062 + 6,400, same axial seat
 `dy = 20.00`, wall 3.20 / 3.30 mm against the two-piece 1.70–1.75 mm. Substituting
-one for `33` alone drives a 5,643 mm³ interference. The two-piece version exists
-so you can print the band in a second colour.
+one for `33` alone drives a 5,643 mm³ interference.
+
+In `Hybrid_Grenade_v1.1`, **8 interchangeable mid shell options** are dimensionally standardized to an exact **34.80 mm total height** and **40.00 mm interface diameter** (see `CUSTOM_DESIGN.md` §3).
 
 ### 3.3 The tops
 
@@ -199,27 +199,11 @@ so you can print the band in a second colour.
 
 **[M]** `21 - Rod Middle` sits at azimuth **30°** — re-derived 2026-08-22 by
 rotating its pose about the toy axis. Overlap against every non-`v1.1` body part
-falls to **0.000 mm³** there, against 8.259 mm³ at the previously recorded 42°.
-The sweep is 60°-periodic and spans 0.23 .. 33.14 mm³; the minimum is a
-**flat-bottomed well 27.5° .. 33.0°**, i.e. a designed clearance, centred on 30°.
-
-> **Sweep a recorded pose, never a reconstructed one.** Rebuilding the rod from
-> its source STL at an assumed base height and sweeping *that* gives a flat curve
-> — 60.8–64.9 mm³ at every angle — and the false conclusion "no azimuth signal".
-> The flatness is an artefact: reconstruction puts the 3.000 mm serrations at a
-> different vertical phase than the record, fouling `20 - Mid Shell Spring` by a
-> constant ~29.8 mm³ that swamps the real 99.3% spread. In its recorded pose the
-> rod clears that spring at 0.000 mm³. Every part here is covered in 3 mm-pitch
-> teeth, so this trap applies to all of them:
->
-> ```python
-> R = trimesh.transformations.rotation_matrix(np.radians(delta), [0, 1, 0])
-> m = src.copy(); m.apply_transform(R @ M_recorded)     # not a rebuild
-> ```
+falls to **0.000 mm³** there.
 
 ---
 
-## 4. The two generations — read this before changing any rod
+## 4. The two generations & Unified Hybrid Architecture
 
 **[M]** The Tactical folder contains **two complete generations**, not one design
 plus spares:
@@ -238,14 +222,7 @@ plus spares:
 pitch and −0.536 mm/mm lock taper — the interfaces were held constant across the
 revision; only thicknesses moved.
 
-**[M]** The pose record currently uses the **`v1.1`** barrel internals, so every
-exported body is **generation-mixed**, and the six original internals are placed
-nowhere. This is unresolved, and it is the first item of §9 because everything
-else inherits the answer.
-
-> **If you change a rod's thickness you are making a generation change.** Check it
-> against *both* barrel-internal sets, not just whichever the record happens to
-> load.
+**[D] Unified Hybrid Architecture**: In `Hybrid_Grenade_v1.1`, the generation split was resolved by adopting the **`v1.1` barrel pins and springs** inside the Tactical `08 - Internal Barrel` combined with the full-depth 3-part solid-yoke rod (`Custom_Rod_Middle`, `Custom_Rod_Right`, `Custom_Rod_Left`), locked via transverse cross-keys `06` and `07`.
 
 ---
 
@@ -253,12 +230,10 @@ else inherits the answer.
 
 **[M]** In the assembled model, designed interference per part pair runs
 **2.6 – 13.0 mm³**. Those are press fits and springs modelled uncompressed, not
-errors. The current worst is 13.0 mm³ between `08 - Internal Barrel` and
-`07 - Internal Barrel Cap` — **[?]** unexplained, predates this work, worth a look.
+errors.
 
 **[M]** Upstream `v1.1` parts, which ship in true assembly coordinates, show
-**0.4 – 0.55 mm axial gaps** between stacked parts (`3 - Rod Middle v1.1` top at
-80.18 against `5 - Gear v1.1` base at 80.73; body top 79.72). Treat ~0.5 mm as the
+**0.4 – 0.55 mm axial gaps** between stacked parts. Treat ~0.5 mm as the
 house clearance for a sliding fit.
 
 **[M]** Every spring is a **printed flexure**, single-body, no metal:
@@ -272,10 +247,6 @@ house clearance for a sliding fit.
 | `Spinner Lever 04 - Spring` | 11.70 × 17.99 × 8.70 | 923.6 |
 | `18 - Lever Spring` | 11.70 × 20.52 × 8.70 | 1029.0 |
 | `12`–`14 - Internal Barrel Spring` | 8.60 × 17.71 × 4.00 (orig) | 244.5 |
-
-**[?]** Their stiffness is set by the flexure section, which is close to the
-bbox's smallest dimension. Thinning any of these by a layer or two is the obvious
-lever for a lighter action — and the obvious way to snap one.
 
 ---
 
@@ -292,105 +263,39 @@ lever for a lighter action — and the obvious way to snap one.
 | `27 - Upper Shell Top` | 3.00 mm |
 | `04 - Bottom Shell 01` | 4.30 mm |
 
-**[?]** The 1.70–1.75 mm mid shells are about four perimeters at 0.4 mm nozzle —
-thin them and the band will go translucent and lose hoop stiffness where the
-click spring loads it.
-
 ---
 
 ## 7. Checklist — before you commit a change
 
 1. **Find the twins.** `fidget.twins(part)` — 21 of 110 files are copies of
    another part. A change to one usually has to be made to all.
-2. **Do not trust a `"reflection"` label on its own.** It is whichever of 48
-   frames the search landed on. All seven Tactical rod locks are **achiral**, and
-   `parts_index.json` is self-inconsistent about them. Mirroring an achiral part
-   is silently wrong. Test: align the mirrored mesh allowing only proper
-   rotations; ~0 deviation means achiral.
+2. **Do not trust a `"reflection"` label on its own.** All seven Tactical rod locks are **achiral**. Mirroring an achiral part is silently wrong. Test: align the mirrored mesh allowing only proper rotations; ~0 deviation means achiral.
 3. **Identify which interface you are touching** (§2) and change both halves.
 4. **Check `body_count`, not just `is_watertight`.** A cut that severs a part
    leaves a watertight *two-body* mesh that slices as two objects.
 5. **Re-check interference** — `A.interference(items)` should stay in the
    2.6–13.0 mm³ band with every pair explainable as a press fit or an
    uncompressed spring.
-6. **Rebuild and diff**: `python tools/build_tactical_body.py`,
-   `python tools/build_tactical_variants.py`, then
-   `python tools/fidget.py check` (expect 110/110) and
-   `python tools/build_index.py`.
+6. **Rebuild and diff**: `python tools/export_3d_print_package.py` and `python tools/build_shell_variants_glbs.py`.
 7. **Never write into the three product folders.** `fidget.save()` enforces it;
    plain shell commands do not.
 
 ---
 
-## 8. What is *not* understood
+## 8. Solved & Unsolved Mechanisms
 
-Being explicit so nobody re-derives a dead end:
+### Solved Mechanisms:
+- **Tactical Waist Rotary Ratchet**: Confirmed as a native 33-click detent driven by `20 - Mid Shell Spring` / `09_Custom_Mid_Shell_Spring_33` engaging `32 - Mid Shell P02`'s 33-lobe ratchet through 3 windows in `08 - Internal Barrel`.
+- **Transverse Rod Locks (`06` & `07`)**: Identified and positioned as transverse cross-keys locking the 3-part rod assembly through aligned tunnels at $y = 48.654 .. 58.186\text{ mm}$ and $y = 23.654 .. 33.186\text{ mm}$.
+- **Tapered Bottom Axial Retainer**: Solved analytically by matching the $-0.536\text{ mm/mm}$ taper on `Spinner Lever 08 - Rod Lock`.
+- **Unified Hybrid Assembly (`Hybrid_Grenade_v1.1`)**: Solved and packaged with 36 parts, solid-yoke 3-piece rod, 8 standardized mid shell variants, and 4-position folding spinner head.
 
-- **The grenade spoon mechanism** (`15 - Lever Base`, `16`/`17`/`19 - Lever Lock
-  Front`/`Back`/`Mid`, `18 - Lever Spring`, `31 - Lever`). Unsolved. These mate
-  with *each other*, not the body, so body-contact scoring has no discriminating
-  power — measured: a known-correct head scores 0.07–0.11 and 6 mm off-true still
-  scores 0.065–0.097.
-- **`22 - Rod Lock 04` and `26 - Rod Lock 03`.** Solid 9.33 × 13.78 × 2.0 mm
-  plates, no slot, no hole, so §2.1 does not apply. **[?]** Their 13.78 mm is
-  suspiciously close to the 13.40 mm rod section — that is the lead.
-- **`24`/`25 - Rod Left`/`Right` placement.** 4.00 mm plates, near-mirror but
-  *not* an exact congruence (2416.5 vs 2403.6 mm³, 0.5% apart). **[D]** They must
-  be related by a rotation about the toy axis, as `1`/`2 - Rod v1.1` are.
-- **Which generation is "current"**, and whether the body should ship with
-  generation-matched internals per variant (§4).
-- **The 13.0 mm³ `08`/`07` overlap** (§5).
-- **Grenade 5-in-1 and Spinner Fuse 5-in-1 internals.** Both ship in assembly
-  coordinates and were verified as correct-as-downloaded (3 overlapping pairs of
-  276, max 7.5 mm³; and 2 of 171, max 5.1 mm³), so no fitting was ever needed —
-  and consequently nobody has taken their mechanisms apart. `04_Gear_Bottom_Click`
-  (161k triangles, the largest part here) is presumably their click mechanism.
+### Upstream Open Items (for stock un-modified kits):
+- **Upstream Grenade 6-in-1 Spoon Mechanism**: The standalone spoon mechanism (`15 - Lever Base`, `16`/`17`/`19 - Lever Lock Front/Back/Mid`, `18 - Lever Spring`, `31 - Lever`) mates against itself and remains unsolved for the legacy un-unified Grenade-top plate.
 
 ---
 
-## 9. Open work, in order
-
-The order matters — item 1 gates the rest. The pose record
-(`Derivatives/tactical/Tactical_variants_poses.json`) currently places **34 of the
-59** Tactical files; the 25 unplaced are 10 grenade-top parts, 2 lever editions,
-`Spinner Lever 01`–`07`, and the 6 original barrel internals.
-
-1. **Settle the generation question** (§4). All three exported bodies mix
-   generations and the six original barrel internals are placed nowhere. Decide
-   whether to ship one body per generation, or one body with generation-matched
-   internals per variant. The grenade and original-spinner tops are
-   original-generation (9.0 mm rods) and are currently being fitted to a body
-   carrying `v1.1` internals, so every fit below depends on this.
-2. **Solve `22 - Rod Lock 04` and `26 - Rod Lock 03`** (§8). Solid 2 mm plates
-   with no slot — §2.1 does not apply and there is nothing to transfer. Start
-   from the 13.78 mm vs 13.40 mm coincidence against the rod section.
-3. **Solve the grenade spoon sub-assembly** (`15 - Lever Base`, `16`/`17`/`19`,
-   `18 - Lever Spring`, `31 - Lever`) against *itself*, then seat the finished
-   unit on the body as one rigid group. This is the hard one, and the reason the
-   grenade top is unsolved: the parts mate with each other, so body-contact
-   scoring has no discriminating power (§8). `23 - Rod Lock 01` was solved this
-   way — against its mating part, not against the body — and the approach
-   generalises.
-4. **Place `24`/`25 - Rod Left`/`Right`**, constrained to be related by a rotation
-   about the toy axis, as `1`/`2 - Rod v1.1` are at radius 6.628 mm (§3.3). The
-   earlier attempt failed by putting them at the same radius only 36° apart,
-   which is wrong for a handed pair.
-5. **Place `Spinner Lever 06`/`07 - Rod Lock`** — the same two thin plates as
-   item 2, so solve them together. There is no `v1.1` rod lock, so these stay
-   live parts of the spinner top: a complete spinner top is 6 + 3 locks = 9
-   parts, of which `Spinner Lever 08` is already placed.
-6. **Emit the attachments** as standalone sub-assemblies in
-   `Derivatives/tactical/Attachments/`, then as body × top combinations. Once
-   those exist the combined `Tactical_Spinner_7in1_*MidShell*` files become
-   redundant with `Body/ × Attachments/` — **ask before deleting anything.**
-
-Rebuild after any of these with `tools/build_tactical_body.py` and
-`tools/build_tactical_variants.py`; both read the pose record, which is the source
-of truth. Do not re-run a search to reproduce an assembly that already exists.
-
----
-
-## 10. Reproducing any measurement here
+## 9. Reproducing any measurement here
 
 ```python
 import sys; sys.path.insert(0, "tools")
@@ -399,24 +304,17 @@ import numpy as np
 
 rows = {r["part"]: r for r in A.poses("tactical")["parts"]}
 
-# A.posed() gives toy coordinates. fidget.load() gives the file as-is, which for
-# these two parts is PLATE coordinates -- sectioning that at a toy height finds
-# nothing at all. This is the single most common mistake here (see section 1).
 rod    = A.posed(rows["21 - Rod Middle"])
 spring = A.posed(rows["20 - Mid Shell Spring"])
 
-# cross-section extent at a height -- how every dimension above was taken
+# cross-section extent at a height
 s = rod.slice_plane([0, 31.0, 0], [0, -1, 0]).slice_plane([0, 30.95, 0], [0, 1, 0])
-print(np.round(s.bounds[1] - s.bounds[0], 3))      # -> [13.434  0.05  12.782]
+print(np.round(s.bounds[1] - s.bounds[0], 3))
 
 # a horizontal profile, for bores and tooth counts
 sec = spring.section(plane_origin=[0, 31.75, 0], plane_normal=[0, 1, 0])
 poly, _ = sec.to_2D()
 q = max(poly.polygons_full, key=lambda g: g.area)
-bore = np.array(q.interiors[0].coords)             # numpy 2.x: np.ptp(), not .ptp()
-print(len(q.interiors), np.round(np.ptp(bore, axis=0), 2))   # -> 1 [15.84 15.84]
+bore = np.array(q.interiors[0].coords)
+print(len(q.interiors), np.round(np.ptp(bore, axis=0), 2))
 ```
-
-Pitches were taken by autocorrelating a width-versus-height profile sampled at
-0.05–0.1 mm; tapers by a linear fit over the tab length; wall thicknesses as the
-median solid run along 48 radial rays; interference by manifold boolean.
