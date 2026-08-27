@@ -1,4 +1,4 @@
-"""Export all 36 parts for the Native Tactical/Spinner Hybrid Grenade Fidget Toy for 3D printing.
+"""Export every part of the Native Tactical/Spinner Hybrid Grenade Fidget Toy for 3D printing.
 
 This package uses the original Tactical Internal Barrel & Upper Station mechanism
 and the solid-yoke 3-piece rod assembly (joined by transverse 06 & 07 cross-keys and
@@ -11,10 +11,10 @@ Output directory:
     ├── 03_Internal_Barrel_And_Upper_Station/   (12 STLs - Original Tactical Mechanism)
     ├── 04_Rod_Assembly_And_Locks/              (6 STLs - Solid Yoke Rod & Cross Keys)
     ├── 05_Folding_Head_And_Spinner/            (9 STLs - Folding Cheeks, Gear, Spinner Ring & Pins)
-    ├── All_Parts_Flat_Bed_Oriented/            (36 STLs - pre-oriented flat on Z=0, centered at (0,0))
-    ├── All_Parts_Assembled_Coordinates/        (36 STLs - exact global solved assembly space)
+    ├── All_Parts_Flat_Bed_Oriented/            (pre-oriented flat on Z=0, centered at (0,0))
+    ├── All_Parts_Assembled_Coordinates/        (exact global solved assembly space)
     ├── Plates_3MF/                             (Multi-part 3MF project plates)
-    └── README_3D_PRINTING.md                   (Complete 36-part BOM & Assembly Manual)
+    └── README_3D_PRINTING.md                   (Complete BOM & Assembly Manual)
 """
 from __future__ import annotations
 
@@ -26,8 +26,24 @@ import numpy as np
 import trimesh
 import manifold3d
 
-OUTPUT_DIR = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.1")
-ASSEMBLED_STLS_DIR = os.path.join(OUTPUT_DIR, "All_Parts_Assembled_Coordinates")
+from package_paths import (ROOT_DIR, TOOLS_DIR, PACKAGE_DIR, ASSEMBLED_SUBDIR,
+                           ASSEMBLED_DIR, guard)
+
+OUTPUT_DIR = PACKAGE_DIR
+ASSEMBLED_STLS_DIR = ASSEMBLED_DIR
+
+# Rebuilt from scratch on every run.  ASSEMBLED_SUBDIR is deliberately absent:
+# it is the input, and 02_Waist_Mechanism/Mid_Shell_Options plus the two other
+# Mid_Shell_Options folders are refilled afterwards by build_shell_variants_glbs.
+_DERIVED_SUBDIRS = [
+    "01_Base_And_Bottom_Shell",
+    "02_Waist_Mechanism",
+    "03_Internal_Barrel_And_Upper_Station",
+    "04_Rod_Assembly_And_Locks",
+    "05_Folding_Head_And_Spinner",
+    "All_Parts_Flat_Bed_Oriented",
+    "Plates_3MF",
+]
 
 PARTS_MANIFEST = [
     # 01 - Base & Bottom Shell
@@ -127,8 +143,8 @@ PARTS_MANIFEST = [
     # 03 - Original Tactical Internal Barrel & Upper Station
     {
         "id": 10,
-        "source_file": "08 - Internal Barrel.stl",
-        "export_filename": "10_08_Internal_Barrel.stl",
+        "source_file": "Custom_Internal_Barrel_Stop.stl",
+        "export_filename": "10_Custom_Internal_Barrel_Stop.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Black / Gunmetal",
@@ -152,7 +168,7 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Black / Tough PLA",
-        "desc": "Original internal detent pin 1 (linear rod clicks)",
+        "desc": "Upper station key 1 - keys 28 Gear to the barrel (not a rod detent)",
         "supports": "No",
     },
     {
@@ -162,7 +178,7 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Black / Tough PLA",
-        "desc": "Original internal detent pin 2 (linear rod clicks)",
+        "desc": "Upper station key 2 - keys 28 Gear to the barrel (not a rod detent)",
         "supports": "No",
     },
     {
@@ -172,37 +188,27 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Black / Tough PLA",
-        "desc": "Original internal detent pin 3 (linear rod clicks)",
+        "desc": "Upper station key 3 - keys 28 Gear to the barrel (not a rod detent)",
         "supports": "No",
     },
     {
         "id": 15,
-        "source_file": "12 - Internal Barrel Spring v1.1.stl",
-        "export_filename": "15_12_Internal_Barrel_Spring_01.stl",
+        "source_file": "Custom_Rod_C_Follower.stl",
+        "export_filename": "15_Custom_Rod_C_Follower_01.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Safety Orange / PETG",
-        "desc": "Original leaf spring 1 biasing pin 1 against rod rack",
+        "desc": "Long-arm C follower 1 (az 90), rides the rod rack -- build_rod_detent.py",
         "supports": "No",
     },
     {
         "id": 16,
-        "source_file": "13 - Internal Barrel Spring v1.1.stl",
-        "export_filename": "16_13_Internal_Barrel_Spring_02.stl",
+        "source_file": "Custom_Rod_C_Follower.stl",
+        "export_filename": "16_Custom_Rod_C_Follower_02.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Safety Orange / PETG",
-        "desc": "Original leaf spring 2 biasing pin 2 against rod rack",
-        "supports": "No",
-    },
-    {
-        "id": 17,
-        "source_file": "14 - Internal Barrel Spring v1.1.stl",
-        "export_filename": "17_14_Internal_Barrel_Spring_03.stl",
-        "subassembly": "03_Internal_Barrel_And_Upper_Station",
-        "plate": "Plate_2_Internal_Barrel_And_Springs",
-        "color": "Safety Orange / PETG",
-        "desc": "Original leaf spring 3 biasing pin 3 against rod rack",
+        "desc": "Long-arm C follower 2 (az 270), rides the rod rack -- build_rod_detent.py",
         "supports": "No",
     },
     {
@@ -402,6 +408,84 @@ PARTS_MANIFEST = [
 ]
 
 
+def _roty(deg):
+    """Proper rotation about the toy's vertical axis."""
+    t = np.radians(float(deg))
+    c, sn = np.cos(t), np.sin(t)
+    return np.array([[c, 0.0, sn], [0.0, 1.0, 0.0], [-sn, 0.0, c]])
+
+
+# Flat-bed print pose, one entry per part.
+#
+# The assembled STLs are in toy coordinates -- Y up, axis at X = Z = 0 -- and
+# most parts are seated at some azimuth about Y.  A flat-bed file has to undo
+# that seating and stand the part on the plate with Z up, and *which* face goes
+# down is a per-part decision, not one global rotation.  Centring on the bed
+# alone (what this script used to do) leaves two thirds of the set standing on
+# edge.
+#
+# Each entry is (base, y_degrees) and means R = base @ Ry(y_degrees): turn the
+# part about Y to cancel its seating, then map toy axes onto plate axes.
+# _center_on_bed() then drops it to Z = 0 and centres it in XY.
+#
+# Recovered by registering every assembled mesh onto its checked-in flat-bed
+# twin (Kabsch over matched vertices).  All 36 reproduce to 2.4e-5 mm; 35 of
+# them decompose to a whole number of degrees about Y.
+BED_POSES = {
+    "01_04_Bottom_Shell_01.stl": ([[1, 0, 0], [0, 0, -1], [0, 1, 0]], 24),
+    "02_05_Bottom_Shell_02.stl": ([[-1, 0, 0], [0, 0, 1], [0, 1, 0]], 60),
+    "03_06_Bottom_Shell_03.stl": ([[-1, 0, 0], [0, 0, -1], [0, -1, 0]], 60),
+    "04_01_Bottom_Lock_Shell.stl": ([[1, 0, 0], [0, 0, -1], [0, 1, 0]], 66),
+    "05_02_Bottom_Spring.stl": ([[1, 0, 0], [0, 0, -1], [0, 1, 0]], 66),
+    "06_03_Bottom_Shell_Spacer.stl": ([[1, 0, 0], [0, 0, -1], [0, 1, 0]], 66),
+    "07_32_Mid_Shell_P02_Ratchet.stl": ([[1, 0, 0], [0, 0, -1], [0, 1, 0]], 38),
+    "08_33_Mid_Shell_P01_Outer.stl": ([[0, 0, -1], [1, 0, 0], [0, -1, 0]], 2),
+    "09_Custom_Mid_Shell_Spring_33.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "10_Custom_Internal_Barrel_Stop.stl": ([[1, 0, 0], [0, 0, 1], [0, -1, 0]], 0),
+    "11_07_Internal_Barrel_Cap.stl": ([[0, 0, 1], [-1, 0, 0], [0, -1, 0]], 30),
+    "12_09_Internal_Barrel_Pin_01.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "13_10_Internal_Barrel_Pin_02.stl": ([[-1, 0, 0], [0, 1, 0], [0, 0, -1]], 60),
+    "14_11_Internal_Barrel_Pin_03.stl": ([[0, 0, 1], [0, 1, 0], [-1, 0, 0]], 30),
+    "15_Custom_Rod_C_Follower_01.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "16_Custom_Rod_C_Follower_02.stl": ([[-1, 0, 0], [0, 1, 0], [0, 0, -1]], 60),
+    "18_27_Upper_Shell_Top.stl": ([[-1, 0, 0], [0, 0, -1], [0, -1, 0]], 60),
+    "19_28_Upper_Shell_Gear.stl": ([[0, 0, 1], [1, 0, 0], [0, 1, 0]], 62),
+    "20_29_Upper_Shell_Lock_Ring.stl": ([[1, 0, 0], [0, 0, 1], [0, -1, 0]], 60),
+    "21_30_Upper_Shell_Rotating_Spring.stl": ([[0, 0, -1], [-1, 0, 0], [0, 1, 0]], 30),
+    "22_Custom_Rod_Right.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "23_Custom_Rod_Middle.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "24_Custom_Rod_Left.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "25_Custom_Rod_Lock_Upper_06.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "26_Custom_Rod_Lock_Lower_07.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "27_Spinner_Lever_08_Rod_Lock.stl": ([[0, 0, 1], [1, 0, 0], [0, 1, 0]], 0),
+    "28_09_Rod_Spring_Hinge.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
+    "29_Custom_Handle_Left.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
+    "30_Custom_Handle_Right.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
+    "31_Custom_Ring_Spinner.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
+    "32_Spinner_Lever_05_Gear.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
+    # compound head-module pose; no whole-degree Y decomposition
+    "33_Spinner_Lever_04_Spring.stl": ([[-3.18962461979967e-10, 0.0697564853123495, -0.997564049450895], [-9.26299647068396e-11, 0.997564049450895, 0.0697564853123497], [1, 1.14654136882141e-10, -3.11724234885343e-10]], 0),
+    "34_Custom_16_Handle_Lock_Neck.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
+    "35_Custom_16_Handle_Lock_Pod.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
+    "36_15_Handle_Rotating_Lock_D_Pin.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
+}
+
+
+def _to_bed_pose(mesh, export_filename):
+    """Turn an assembled-coordinate part into its flat-bed print pose."""
+    pose = BED_POSES.get(export_filename)
+    if pose is None:
+        raise KeyError(
+            "no flat-bed pose recorded for %s -- add one to BED_POSES, or the "
+            "part will be exported standing on edge" % export_filename)
+    base, y_deg = pose
+    T = np.eye(4)
+    T[:3, :3] = np.asarray(base, dtype=float) @ _roty(y_deg)
+    out = mesh.copy()
+    out.apply_transform(T)
+    return out
+
+
 def _center_on_bed(mesh: trimesh.Trimesh) -> trimesh.Trimesh:
     """Center mesh in XY and set Z_min = 0 for clean build plate placement."""
     m = mesh.copy()
@@ -438,21 +522,16 @@ def _stl_safe(mesh: trimesh.Trimesh, label: str) -> trimesh.Trimesh:
 
 def export_complete_package():
     print(f"Cleaning and preparing output folder: {OUTPUT_DIR}")
-    if os.path.exists(OUTPUT_DIR):
-        shutil.rmtree(OUTPUT_DIR)
+    # All_Parts_Assembled_Coordinates is this script's *input*, not its output --
+    # it is the checked-in solved assembly and lives inside OUTPUT_DIR.  Clearing
+    # the whole tree deletes the sources before they are read back below.
+    for sd in _DERIVED_SUBDIRS:
+        path = guard(os.path.join(OUTPUT_DIR, sd))
+        if os.path.exists(path):
+            shutil.rmtree(path)
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    subdirs = [
-        "01_Base_And_Bottom_Shell",
-        "02_Waist_Mechanism",
-        "03_Internal_Barrel_And_Upper_Station",
-        "04_Rod_Assembly_And_Locks",
-        "05_Folding_Head_And_Spinner",
-        "All_Parts_Flat_Bed_Oriented",
-        "All_Parts_Assembled_Coordinates",
-        "Plates_3MF",
-    ]
-    for sd in subdirs:
+    for sd in _DERIVED_SUBDIRS + [ASSEMBLED_SUBDIR]:
         os.makedirs(os.path.join(OUTPUT_DIR, sd), exist_ok=True)
 
     print(f"Processing {len(PARTS_MANIFEST)} native parts from {ASSEMBLED_STLS_DIR}...")
@@ -466,16 +545,16 @@ def export_complete_package():
         mesh = trimesh.load(src_path, force="mesh", process=True)
         mesh = _stl_safe(mesh, item["export_filename"])
 
-        # 2. Bed-Oriented (centered XY, placed on Z=0)
-        flat_mesh = _center_on_bed(mesh)
+        # 2. Bed-Oriented (print pose, centered XY, placed on Z=0)
+        flat_mesh = _center_on_bed(_to_bed_pose(mesh, item["export_filename"]))
         flat_mesh = _stl_safe(flat_mesh, item["source_file"])
 
         # Export into category subassembly
-        sub_path = os.path.join(OUTPUT_DIR, item["subassembly"], item["export_filename"])
+        sub_path = guard(os.path.join(OUTPUT_DIR, item["subassembly"], item["export_filename"]))
         flat_mesh.export(sub_path)
 
         # Export into All_Parts_Flat_Bed_Oriented
-        all_flat_path = os.path.join(OUTPUT_DIR, "All_Parts_Flat_Bed_Oriented", item["export_filename"])
+        all_flat_path = guard(os.path.join(OUTPUT_DIR, "All_Parts_Flat_Bed_Oriented", item["export_filename"]))
         flat_mesh.export(all_flat_path)
 
         # Collect for 3MF build plates
@@ -497,12 +576,13 @@ def export_complete_package():
     print("Writing Comprehensive README_3D_PRINTING.md...")
     _write_readme()
 
-    print("\n[SUCCESS] All 36 parts and GLB models exported successfully!")
+    print("\n[SUCCESS] All %d parts and GLB models exported successfully!"
+          % len(PARTS_MANIFEST))
 
 
 
 def _export_3mf_plates(flat_parts_by_plate):
-    plates_dir = os.path.join(OUTPUT_DIR, "Plates_3MF")
+    plates_dir = guard(os.path.join(OUTPUT_DIR, "Plates_3MF"))
 
     # Individual Plate 3MFs
     for plate_name, part_tuples in flat_parts_by_plate.items():
@@ -546,14 +626,46 @@ def _export_3mf_plates(flat_parts_by_plate):
 
 
 def _write_readme():
-    readme_path = os.path.join(OUTPUT_DIR, "README_3D_PRINTING.md")
+    readme_path = guard(os.path.join(OUTPUT_DIR, "README_3D_PRINTING.md"))
+    from package_paths import PACKAGE_NAME
 
     md_content = """# 🎯 Native Tactical/Spinner Hybrid Grenade Fidget Toy — 3D Printing & Assembly Guide
+### Package {{PACKAGE}}
 
 This directory contains the complete, production-ready 3D printing package for the **Native Tactical/Spinner Hybrid Grenade Fidget Toy**.
 
+## What changed in v1.2
+
+Two changes, both to the **up/down click of the central rod**. Everything else — the 33-click waist, the 20-click rim gear, the 4-position fold, the spinner ring, all 8 mid shell options — is untouched and measures identically to v1.1.
+
+### 1. The rod detent is now a long-arm C spring
+
+The reference is the Spinner Fuse Grenade's `11 - Middle Spring`: a C with two long opposed arms. Measured, what makes it good is **not** force — it peaks at 2.00 N, well under v1.1's 5.53 N — but how gently it works its material: **1.207 N/mm on 0.714% strain per millimetre of travel**, against the v1.1 leaf's 2.951 N/mm on 1.278%. Over the tens of thousands of clicks a fidget sees, that is the difference between a flexure that lasts and one that cracks.
+
+That shape needs room, so **the barrel was opened to give it room**. Two axial pockets are cut at azimuth 90° and 270° — the middle rod's two rack faces, which are *opposed*, so the pair loads the rod with no net side force. The barrel could afford it: over y 36–47 its wall was a uniform 7.96 mm with no window, slot or channel anywhere in it. The pockets stop at r 12.60 and leave 3.62 mm of wall — still more than the 3.05 mm the barrel already carries at its waist — and nothing is cut through to the outside, so the journal the mid shell rides on is untouched. Total material removed: **449.8 mm³, 2.3% of the barrel**.
+
+| | v1.1 | v1.2 | `11 - Middle Spring` |
+|---|---|---|---|
+| architecture | 3 short leaves | **2 long opposed C arms** | 2 long opposed C arms |
+| spring rate | 2.951 N/mm | **1.005 N/mm** | 1.207 N/mm |
+| strain per mm | 1.278 % | **0.831 %** | 0.714 % |
+| **strain per click** | 1.11 % | **1.07 %** | 0.59 % |
+| peak force | 5.53 N | **1.73 N** | 2.00 N |
+| held at every click | 0.00 N | **0.30 N** | 0.00 N |
+| dead band | 12% of pitch | **0%** | 3% |
+
+In v1.1 the nose sat 0.10 mm *clear* of the rack at every click, so the force fell to exactly zero across the middle 12% of each tooth — nothing held the rod between clicks, and since 0.10 mm is inside normal print variation a given print could have had no click at all. That is gone: the arms are preloaded 0.40 mm and never lose contact.
+
+This is a **light** click by design — it matches the Spinner Fuse rather than v1.1. Parts `15` and `16` are the new `Custom_Rod_C_Follower`; the old part `17` is gone, so the kit is **35 parts, not 36**. Print the followers in **PETG**, not PLA.
+
+### 2. The rod now has an up-stop
+
+In v1.1 nothing limited the rod's upward travel and it could be pulled out of the toy. Part `10` also gains two small internal lands that the existing retainer catches, giving a defined stroke of **14.07 mm, about 4.4 clicks**. It is renamed `Custom_Internal_Barrel_Stop`.
+
+**v1.1 and v1.2 barrels are not interchangeable.** The v1.2 followers need the v1.2 pockets to sit in, and the up-stop only exists on the v1.2 barrel.
+
 ### Key Architectural Highlights
-1. **Original Tactical Internal Spine**: Retains the native `08 - Internal Barrel` with its 3 internal pin channels (`09/10/11 Pins`) and 3 leaf springs (`12/13/14 Springs`) providing crisp linear clicks against the rod.
+1. **Original Tactical Internal Spine**: The native `08 - Internal Barrel`, with the up-stop lands added, carrying 3 pins (`12/13/14`) that key the rotating upper station, and 3 preloaded followers (`15/16/17`) that ride the rod's rack and produce the axial click.
 2. **Original Tactical Upper Station**: Retains `28 - Upper Shell Gear`, `27 - Upper Shell Top`, `29 - Lock Ring`, and `30 - Rotating Spring`.
 3. **Solid-Yoke 3-Piece Rod**: Full-depth rod assembly with seamless integral yoke (`Custom_Rod_Middle`, `Custom_Rod_Right`, and `Custom_Rod_Left`) locked via transverse `06` and `07` cross-keys and retained axially by `Spinner Lever 08 - Rod Lock`. (No upper wedge lock and no unnecessary keyway holes).
 4. **Folding Head & Spinner**: High-tactile folding lever mechanism with 4 detent positions (0°, 30°, 60°, 90°), free-spinning center ring (360°), and outer rim clicker gear (20 clicks/turn).
@@ -564,16 +676,16 @@ This directory contains the complete, production-ready 3D printing package for t
 
 ```text
 3D_Print_Custom_Hybrid_Grenade/
-├── 3D_Print_Custom_Hybrid_Grenade_Assembled.glb # Complete 36-part full 3D assembly (PBR materials & metadata)
+├── 3D_Print_Custom_Hybrid_Grenade_Assembled.glb # Complete full 3D assembly (PBR materials & metadata)
 ├── 3D_Print_Custom_Hybrid_Grenade_Exploded.glb  # Fully parted exploded view showing all 36 internal parts
 ├── 3D_Print_Custom_Hybrid_Grenade_Cutaway.glb   # Coronal/sagittal cutaway revealing internal rack & springs
 ├── 01_Base_And_Bottom_Shell/               # 6 STLs: Bottom lock cylinder, spacer, flexure spring & 3 outer shell tiers
 ├── 02_Waist_Mechanism/                     # 3 STLs: 33-lobe ratchet ring, outer shell body & 3-arm detent spring
-├── 03_Internal_Barrel_And_Upper_Station/   # 12 STLs: Original Tactical barrel, cap, 3 pins, 3 leaf springs, gear, top & lock ring
+├── 03_Internal_Barrel_And_Upper_Station/   # 12 STLs: barrel (+up-stop), cap, 3 upper-station pins, 3 rod followers, gear, top & lock ring
 ├── 04_Rod_Assembly_And_Locks/              # 6 STLs: Full-depth 3-part rod (solid yoke), 2 cross-keys & bottom axial retainer
 ├── 05_Folding_Head_And_Spinner/            # 9 STLs: Folding lever cheeks, center spinner ring, rim gear & clicker, hinge lock pins
-├── All_Parts_Flat_Bed_Oriented/            # All 36 individual STLs pre-oriented flat on Z=0 for instant drag-and-drop slicing
-├── All_Parts_Assembled_Coordinates/        # All 36 individual STLs in exact solved global assembly space
+├── All_Parts_Flat_Bed_Oriented/            # Every STL pre-oriented flat on Z=0 for instant drag-and-drop slicing
+├── All_Parts_Assembled_Coordinates/        # Every STL in exact solved global assembly space
 ├── Plates_3MF/                             # Multi-part 3MF build plates arranged for Bambu Studio / OrcaSlicer / PrusaSlicer
 └── README_3D_PRINTING.md                   # Complete BOM, slicer recommendations & step-by-step assembly manual
 ```
@@ -593,14 +705,13 @@ This directory contains the complete, production-ready 3D printing package for t
 | **07** | Waist Mech | `07_32_Mid_Shell_P02_Ratchet.stl` | PLA (Olive Drab Green) | 1 | No |
 | **08** | Waist Mech | `08_33_Mid_Shell_P01_Outer.stl` | PLA (Olive Drab Green) | 1 | No |
 | **09** | Waist Mech | `09_Custom_Mid_Shell_Spring_33.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
-| **10** | Upper Station | `10_08_Internal_Barrel.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
+| **10** | Upper Station | `10_Custom_Internal_Barrel_Stop.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
 | **11** | Upper Station | `11_07_Internal_Barrel_Cap.stl` | PLA (Gunmetal / Black) | 1 | No |
 | **12** | Upper Station | `12_09_Internal_Barrel_Pin_01.stl` | PLA+ / Tough PLA (Gunmetal / Black) | 1 | No |
 | **13** | Upper Station | `13_10_Internal_Barrel_Pin_02.stl` | PLA+ / Tough PLA (Gunmetal / Black) | 1 | No |
 | **14** | Upper Station | `14_11_Internal_Barrel_Pin_03.stl` | PLA+ / Tough PLA (Gunmetal / Black) | 1 | No |
-| **15** | Upper Station | `15_12_Internal_Barrel_Spring_01.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
-| **16** | Upper Station | `16_13_Internal_Barrel_Spring_02.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
-| **17** | Upper Station | `17_14_Internal_Barrel_Spring_03.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **15** | Upper Station | `15_Custom_Rod_C_Follower_01.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **16** | Upper Station | `16_Custom_Rod_C_Follower_02.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **18** | Upper Station | `18_27_Upper_Shell_Top.stl` | PLA (Olive Drab Green) | 1 | No |
 | **19** | Upper Station | `19_28_Upper_Shell_Gear.stl` | PLA (Silver / Gunmetal) | 1 | No |
 | **20** | Upper Station | `20_29_Upper_Shell_Lock_Ring.stl` | PLA (Olive Drab Green) | 1 | No |
@@ -629,7 +740,7 @@ This directory contains the complete, production-ready 3D printing package for t
 - **Wall Loops / Perimeters**: `4` walls for all structural parts, gears, and springs.
 - **Top / Bottom Shells**: `5` top layers, `4` bottom layers.
 - **Infill**: `25% - 30% Gyroid` or `Cubic`.
-- **Supports**: Disabled on 35/36 parts (only minimal support needed under the central rod's hinge yoke overhang).
+- **Supports**: Disabled on every part but one (only minimal support under the central rod's hinge yoke overhang).
 
 ---
 
@@ -642,13 +753,13 @@ This directory contains the complete, production-ready 3D printing package for t
 4. Stack `02_05_Bottom_Shell_02.stl` over the shoulder, then seat `03_06_Bottom_Shell_03.stl` on top.
 
 ### Stage 2: Waist Mechanism & 33-Lobe Clicker
-1. Insert `09_Custom_Mid_Shell_Spring_33.stl` through the 3 lower windows of `10_08_Internal_Barrel.stl`.
+1. Insert `09_Custom_Mid_Shell_Spring_33.stl` through the 3 lower windows of `10_Custom_Internal_Barrel_Stop.stl`.
 2. Slide `07_32_Mid_Shell_P02_Ratchet.stl` onto the barrel until its internal lobes engage the 3 spring arms.
 3. Place `08_33_Mid_Shell_P01_Outer.stl` over the ratchet ring.
 
 ### Stage 3: Original Internal Barrel Clicking Pins & Upper Station
-1. Insert the 3 pins (`12_09`, `13_10`, `14_11`) into the vertical pin slots of `10_08_Internal_Barrel.stl`.
-2. Seat the 3 leaf springs (`15_12`, `16_13`, `17_14`) behind the pins.
+1. Insert the 3 pins (`12_09`, `13_10`, `14_11`) into the vertical pin slots of `10_Custom_Internal_Barrel_Stop.stl`.
+2. Seat the 3 rod detent followers (`15`, `16`, `17`) in the barrel's three slots at 90 deg / 210 deg / 330 deg. They are preloaded: their noses stand 0.45 mm proud of where the rack will hold them, so the rod snaps past them on the way in. They do not touch the pins.
 3. Seal the top of the barrel with `11_07_Internal_Barrel_Cap.stl`.
 4. Slide `19_28_Upper_Shell_Gear.stl` over the upper barrel station.
 5. Install `21_30_Upper_Shell_Rotating_Spring.stl` and `20_29_Upper_Shell_Lock_Ring.stl`.
@@ -670,7 +781,7 @@ This directory contains the complete, production-ready 3D printing package for t
 6. Mount the assembled folding head onto the rod's upper hinge yoke and insert `36_15_Handle_Rotating_Lock_D_Pin.stl` to complete the toy!
 """
     with open(readme_path, "w", encoding="utf-8") as f:
-        f.write(md_content)
+        f.write(md_content.replace("{{PACKAGE}}", PACKAGE_NAME))
 
 
 if __name__ == "__main__":

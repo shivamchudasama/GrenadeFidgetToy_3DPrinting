@@ -10,7 +10,9 @@ Do not ask on turns that change nothing here (questions, inspection, small edits
 
 ## Scope — stay inside the repo root
 
-**This repo, `D:\GIT_Repo\GrenadeFidgetToy_3DPrinting\`, is the whole working area. Never create, modify, move, rename or delete anything outside it without asking first.** Everything needed is in here: the three product folders, `Hybrid_Grenade_v1.1/`, `tools/`, and `Derivatives/`.
+**This repo, `D:\GIT_Repo\GrenadeFidgetToy_3DPrinting\`, is the whole working area. Never create, modify, move, rename or delete anything outside it without asking first.** Everything needed is in here: the three product folders, the `Hybrid_Grenade_v*/` packages, `tools/`, and `Derivatives/`.
+
+**Released packages are frozen too.** A published package folder is the record of what somebody printed, so build scripts must never write back into one. Bump `PACKAGE_NAME` in `tools/package_paths.py`, copy the previous folder forward, and build into the new one. `package_paths.guard()` enforces it — it refuses any write landing under a `Hybrid_Grenade_v*` folder other than the current `PACKAGE_NAME`, and any write outside the repo.
 
 - The upstream source `D:\3D Printing\Fidget Fuse\` holds the `.zip` downloads, the `+`-named unpacked folders these were copied from, `.webp` assembly images, `.3mf` slicer projects, and the `Originals\` folder this repo was copied out of. **Reading it is fine. Writing, moving or deleting is not** — ask, and say exactly which file and why.
 - This extends to anywhere else on the machine: no writes to sibling project folders, no edits to global config, no new directories next to the repo.
@@ -21,12 +23,12 @@ Do not ask on turns that change nothing here (questions, inspection, small edits
 
 ## Companion documents
 
-- **`DESIGN.md`** — how the upstream toys work mechanically: the four recurring interfaces (tapered lock tab, click detent, thread, upper-shell rotation), the body stack with heights, wall thicknesses, fits and clearances, and a "before you commit a change" checklist. Read it before modifying any part's geometry. Every number is tagged measured / derived / guessed. It also records the solved/unsolved assembly status (§8) and open work in dependency order (§9).
-- **`CUSTOM_DESIGN.md`** — our production custom build: the Tactical base with its native 33-click rotary waist detent, 8 standardized interchangeable mid shell variants, the solid-yoke 3-piece rod mechanism, and the folding handle carrying a 20-click rim gear and 360° spinner ring. Same evidence tags. Its §4.6 is worth reading before trusting any geometry check: a cut tool whose face lands coplanar with a part's own face leaves a **zero-thickness skin** that passes watertightness, body-count and interference and still closes a hole in the slicer.
+- **`DESIGN.md`** — how the upstream toys work mechanically: the four recurring interfaces (tapered lock tab, click detent, thread, upper-shell rotation), the body stack with heights, wall thicknesses, fits and clearances, and a "before you commit a change" checklist. Read it before modifying any part's geometry. Every number is tagged measured / derived / guessed. It also records the solved/unsolved assembly status (§8). §9 is *not* open work — it is the snippet for reproducing any measurement in the file; the only open item lives in §8.
+- **`CUSTOM_DESIGN.md`** — our production custom build: the Tactical base with its native 33-click rotary waist detent, 8 standardized interchangeable mid shell variants, the solid-yoke 3-piece rod mechanism, and the folding handle carrying a 20-click rim gear and 360° spinner ring. Same evidence tags. §5.2 and §5.3 cover the axial rod detent and the rod's stroke. One lesson from an earlier revision is worth carrying: a cut tool whose face lands coplanar with a part's own face leaves a **zero-thickness skin** that passes watertightness, body-count and interference and still closes a hole in the slicer — only a ray cast catches it. The full account is at commit `2521336`, §4.6; what survives at HEAD is the ray-check bullet in §8.
 
 ## Repository nature
 
-A **3D printing asset directory** holding pristine downloaded parts for three fidget-toy products, our custom hybrid production package, and associated tools. The pristine upstream folders are read-only; authored content lives in `Hybrid_Grenade_v1.1/`, `tools/`, and `Derivatives/`. No dependency manifest and no test runner — **do not fabricate build/lint/test commands**. There is a comprehensive toolkit for analyzing, modifying, and exporting parts; see **Modifying parts**.
+A **3D printing asset directory** holding pristine downloaded parts for three fidget-toy products, our custom hybrid production package, and associated tools. The pristine upstream folders are read-only; authored content lives in the `Hybrid_Grenade_v*/` packages, `tools/`, and `Derivatives/`. No dependency manifest and no test runner — **do not fabricate build/lint/test commands**. There is a comprehensive toolkit for analyzing, modifying, and exporting parts; see **Modifying parts**.
 
 All 110 upstream files are **binary STL** and every one carries the same `MW 1.0 <n> US` header, so the whole set came off one exporter. Sizes check out as `84 + 50 × triangles` with no mismatches (verified 2026-08-21).
 
@@ -34,15 +36,21 @@ All 110 upstream files are **binary STL** and every one carries the same `MW 1.0
 
 ## Layout
 
-Everything lives at the repo root: three pristine product folders, our hybrid production package, the toolkit, and derivative exports:
+Everything lives at the repo root: three pristine product folders, the hybrid production packages, the toolkit, and derivative exports.
 
-- `Hybrid_Grenade_v1.1/` — Complete, production-ready 3D printing package for the Native Tactical/Spinner Hybrid Grenade with 8 interchangeable mid shell options. Contains 36 numbered STLs across 5 subassemblies (`01_Base_And_Bottom_Shell/`, `02_Waist_Mechanism/` + `Mid_Shell_Options/`, `03_Internal_Barrel_And_Upper_Station/`, `04_Rod_Assembly_And_Locks/`, `05_Folding_Head_And_Spinner/`), flat-bed oriented STLs (`All_Parts_Flat_Bed_Oriented/`), assembled-coordinate STLs (`All_Parts_Assembled_Coordinates/`), slicer project plates (`Plates_3MF/`), multi-view GLBs (assembled, cutaway, exploded, shell variants), the realtime web studio (`Interactive_Shell_Variants_Viewer.html`), and `README_3D_PRINTING.md`.
+**`Hybrid_Grenade_v1.2/` is the current package; `Hybrid_Grenade_v1.1/` is frozen.** They differ only in the axial rod detent and the rod's up-stop — see **The custom hybrid build**. Both hold the same folder layout:
+
+- `Hybrid_Grenade_v1.2/` — 35 numbered STLs; `Hybrid_Grenade_v1.1/` — 36. Production-ready 3D printing package for the Native Tactical/Spinner Hybrid Grenade with 8 interchangeable mid shell options, across 5 subassemblies (`01_Base_And_Bottom_Shell/`, `02_Waist_Mechanism/` + `Mid_Shell_Options/`, `03_Internal_Barrel_And_Upper_Station/`, `04_Rod_Assembly_And_Locks/`, `05_Folding_Head_And_Spinner/`), flat-bed oriented STLs (`All_Parts_Flat_Bed_Oriented/`), assembled-coordinate STLs (`All_Parts_Assembled_Coordinates/`), slicer project plates (`Plates_3MF/`), multi-view GLBs (assembled, cutaway, exploded, shell variants), the realtime web studio (`Interactive_Shell_Variants_Viewer.html`), and `README_3D_PRINTING.md`.
 - `tools/` — Python toolchain:
   - `fidget.py` — core mesh toolkit (fast Manifold-backed CSG, watertight checks, twin detection).
   - `assembly.py` — scene builder, exploded views, interference checking, and 3MF/GLB exporter.
-  - `custom.py` — geometric definitions and CSG transforms for the custom hybrid toy.
+  - `package_paths.py` — the one place the current package folder is named (`PACKAGE_NAME`), plus `guard()`, which refuses writes into a frozen package or outside the repo. Bump it to start a new version.
+  - `custom.py` — geometric definitions and CSG transforms for the custom hybrid toy. **Note it still builds the earlier split-yoke rod**, not the shipped solid-yoke one; the package is regenerated from `All_Parts_Assembled_Coordinates/`, not from here.
   - `build_custom.py` — driver for custom build phases (`waist`, `head`, `toy`, `parts`).
-  - `export_3d_print_package.py` — builds and organizes the full 36-part `Hybrid_Grenade_v1.1/` package.
+  - `build_rod_detent.py` — builds the rod's long-arm C followers and cuts the barrel's arm pockets and up-stop lands. `--dry-run` reports without writing.
+  - `score_detent.py` — sweeps and scores all five detents (peak, trough, **force**, dead band). Run it after touching the rod, the followers or the barrel; nothing else re-measures them.
+  - `flexure_rate.py` — solves a printed planar flexure's spring rate and peak strain on a plane-stress grid. A cantilever formula does not apply to these serpentines: a section normal to the leaf cuts three separate strands.
+  - `export_3d_print_package.py` — builds and organizes the package named by `PACKAGE_NAME`.
   - `build_shell_variants_glbs.py` — exports all 8 mid shell assembled/cutaway/exploded GLBs.
   - `build_custom_hybrid_modified.py` / `render_hybrid_viewer.py` — assembly pipeline and standalone HTML 3D viewer generator.
   - `build_tactical_body.py` / `build_tactical_variants.py` — Tactical body and variant exports.
@@ -58,7 +66,7 @@ The three product folders are **pristine upstream and read-only** — never writ
 
 ## Assemblies
 
-Built into `Derivatives/` and `Hybrid_Grenade_v1.1/`. Each assembly provides separate, individually coloured parts in `.3mf` and `.glb`, and merged `.stl`.
+Built into `Derivatives/` and the `Hybrid_Grenade_v*/` packages. Each assembly provides separate, individually coloured parts in `.3mf` and `.glb`, and merged `.stl`.
 
 **Grenade and Spinner Fuse were already exported in assembly coordinates upstream.** Loading their parts as-is *is* the assembly — no fitting needed. Verified by pairwise boolean interference: 3 overlapping pairs out of 276 for Grenade (max 7.5 mm³) and 2 of 171 for Spinner (max 5.1 mm³), all of them springs modelled uncompressed or a designed press-fit. Do not "re-assemble" these.
 
@@ -83,21 +91,25 @@ Each variant ships a **complete** kit — all three have their own Rod Middle, R
 
 The three complete body variants are in `Derivatives/tactical/Body/` (two-piece, solid, and hex mid shell). Their final lower stack is `04 → inverted 05 → inverted 06`; `01` enters from below and threads into `08`, carrying `02` and `03` on the same axis. Current body envelopes are 41.60 × 80.07 × 41.60 mm (two-piece), 41.95 × 80.07 × 41.95 mm (solid), and 41.85 × 80.07 × 42.12 mm (hex).
 
-### The custom hybrid build (`Hybrid_Grenade_v1.1`)
+### The custom hybrid build (`Hybrid_Grenade_v1.2`)
 
-The production-ready design is documented in `CUSTOM_DESIGN.md` and packaged in `Hybrid_Grenade_v1.1/` (BOM and assembly guide in `README_3D_PRINTING.md`).
+The production-ready design is documented in `CUSTOM_DESIGN.md` and packaged in `Hybrid_Grenade_v1.2/` (BOM and assembly guide in `README_3D_PRINTING.md`). `v1.1` is the frozen predecessor.
 
 Key mechanical features:
 - **33-Click Waist Detent**: The Tactical base features a native 33-click rotary detent: `08 - Internal Barrel` carries 3 windows at 30°/150°/270°; `20 - Mid Shell Spring` / `09_Custom_Mid_Shell_Spring_33` extends 3 arms through them to r 17.40; `32 - Mid Shell P02` carries a 33-lobe inner ratchet (10.909° pitch).
 - **8 Interchangeable Mid Shell Options**: 100% verified identical **34.80 mm total height** and **40.00 mm mating interface diameters** across Baseline (2-piece), 01 AeroFlow, 02 Vector Chevron, 03 Orbit, 04 Ergo Scoops, 05 Contour Twist (2-piece dual color), 06 Hex Tactical, and 07 Classic Solid Tactical.
-- **Tactical Internal Spine & Upper Station**: Uses `08 - Internal Barrel` with 3 pins (`09/10/11`) and 3 leaf springs (`12/13/14`), capped by `07 - Cap`, and the rotating top assembly (`27`, `28`, `29`, `30`).
+- **Tactical Internal Spine & Upper Station**: `08 - Internal Barrel` capped by `07 - Cap`, carrying the rotating top assembly (`27`, `28`, `29`, `30`). Its 3 pins (`09/10/11`) key that top assembly to the barrel — they sit **1.47–3.33 mm clear of the rod** and are *not* part of the axial detent, whatever older notes say. Nor is `09_Custom_Mid_Shell_Spring_33`, which clears the rod by 1.158 mm and is rotary only.
+- **Axial Rod Detent** (`v1.2`): a **long-arm C spring on the Spinner Fuse `11 - Middle Spring` pattern** — two opposed arms at azimuth 90°/270°, the middle rod's two rack faces, so the pair loads the rod with no net side force. They live in axial pockets cut into the barrel (449.8 mm³, 2.3%, outer surface untouched, 3.62 mm of wall left). Rate **1.005 N/mm at 0.831 %/mm** against `11`'s 1.207/0.714 and v1.1's 2.951/1.278; preloaded 0.40 mm, so the **12% dead band v1.1 had is gone**. It is a *light* detent by design — 1.73 N peak against v1.1's 5.53 N — because it matches the reference. **v1.1 and v1.2 barrels are not interchangeable.**
+- **Rod Stroke** (`v1.2`): two internal lands in the barrel that the retainer catches, giving **14.07 mm ≈ 4.4 clicks**. In v1.1 nothing limited upward travel and the rod could be pulled out.
 - **Solid-Yoke 3-Piece Rod**: Full-depth rod assembly with seamless integral yoke on `Custom_Rod_Middle` with side clamps `Custom_Rod_Right` and `Custom_Rod_Left`, locked by transverse `06` and `07` cross-keys and retained axially by `Spinner Lever 08 - Rod Lock` (no upper wedge lock).
 - **Folding Head & Spinner**: 4-position detent fold (0°, 30°, 60°, 90° on `15 - Handle Rotating Lock` and `09 - Rod Spring`), 360° free-spinning center ring (`Custom_Ring_Spinner` at ⌀22.10 mm), 20-click outer rim gear (`Spinner Lever 05 - Gear` against `04 - Spring` in a 274° pod), and refined turned 45°-chamfered cheeks with flush exterior surfaces.
 
-Rebuild / export:
+Rebuild / export — **in this order and only this order**, because `export_3d_print_package.py` clears `Plates_3MF/` and `build_shell_variants_glbs.py` writes into it:
 ```bash
+python tools/build_rod_detent.py            # only if the detent or up-stop changed
 python tools/export_3d_print_package.py
 python tools/build_shell_variants_glbs.py
+python tools/score_detent.py                # confirm no detent regressed
 ```
 
 ## Provenance
@@ -135,6 +147,9 @@ Rules that bite if ignored:
 - **Change a part, change its twins.** 21 of the 110 files are copies of another part, rotated or reflected. Call `fidget.twins(part)` before editing — it returns `(file, "rotation"|"reflection", deviation_mm)`. A reflected twin needs the mirrored edit, not the same one.
 - **Don't trust `"reflection"` on its own — check whether the part is achiral first.** All seven Tactical rod locks are in fact **achiral** (mirror maps back onto the original under a proper rotation, 0.0000 mm). Test it: align the mirrored mesh to the original allowing only proper rotations; ~0 deviation means achiral.
 
+- **Swept volume is not force.** A detent that overlaps a lot can still be mush: v1.1's rod click swept 6.28 mm³ and yet fell to *exactly zero newtons* across 12% of every tooth. `score_detent.py` reports both; judge by the force column and the dead band.
+- **Anchor a flexure where it is actually held.** `flexure_rate.follower_rate()` anchors on the part's outer face, right for a leaf reacting on the barrel behind it and wrong for the C arm, which is held by its foot — it reads ~35% soft. `build_rod_detent.arm_rate()` is authoritative for the shipped follower.
+
 Verify with `python tools/fidget.py check` (loads all 110, asserts watertight) and re-run `build_index.py` after anything changes in the product folders.
 
 ## Naming
@@ -165,9 +180,9 @@ Git LFS was wired up **before** the first commit, so no binary ever landed in hi
 
 ### What is tracked, and what is not
 
-**Tracked (~55 MB LFS + production package):**
+**Tracked:**
 - The three pristine product folders (110 STLs + Grenade zip).
-- `Hybrid_Grenade_v1.1/` — complete 36-part package, 8 mid shell variants, 3MF project plates, GLB models, `Interactive_Shell_Variants_Viewer.html`, and `README_3D_PRINTING.md`.
+- `Hybrid_Grenade_v1.1/` (36 parts) and `Hybrid_Grenade_v1.2/` (35 parts) — each a complete package: 8 mid shell variants, 3MF project plates, GLB models, `Interactive_Shell_Variants_Viewer.html`, and `README_3D_PRINTING.md`.
 - Documentation (`CLAUDE.md`, `CUSTOM_DESIGN.md`, `DESIGN.md`).
 - `tools/` toolchain.
 - `Derivatives/tactical/Tactical_variants_poses.json` (essential solved pose record).
@@ -188,4 +203,8 @@ python tools/build_professional_shell_designs.py
 **The one deliberate exception is `Tactical_variants_poses.json`, which is un-ignored by a negation rule and must stay that way.** It is an *input* to those scripts, holding the solved Tactical poses.
 
 If a future change adds a new binary type, add it to `.gitattributes` **before** committing the first such file.
+
+### The cost of a new package version
+
+Each `Hybrid_Grenade_v*` folder is ~340 MB on disk, but LFS dedupes by content, so a version that changes a few parts costs far less than that. **v1.2 added ~83 MB** over v1.1: the unchanged STLs share their blobs, and almost all of the 83 MB is the seven variant GLBs at ~10 MB each, which differ because the barrel geometry did. Against a 1 GB free tier where bandwidth is the scarce resource, that is roughly a dozen versions — worth a thought before regenerating every variant GLB for a change that touches two parts.
 

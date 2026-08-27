@@ -95,23 +95,44 @@ from it. Matching the tapers, above, avoids the transfer entirely.
 
 This is the primary fidget action: push or pull the middle rod and it clicks, and twist the waist and it ratchets.
 
-**[M]** The rod middles carry **sawtooth serrations on both long edges**, pitch
-**3.000 mm** (autocorrelation, all three rod middles across both generations),
-tooth depth **2.22 mm per side**, crest-to-crest **16.02 mm**. On
-`21 - Rod Middle` the serrated span runs roughly y = 20.5 .. 42.4 of its 68.4 mm
-length.
+These are two **separate** mechanisms, not one dual-purpose part. Corrected
+2026-08-27 against the shipped meshes; the earlier reading of this section was
+wrong in every number, and the error is recorded below because it survived a
+long time by being self-consistent.
 
-**[M]** `20 - Mid Shell Spring` is a flat ring, 4.0 mm thick, sitting at
-y = 29.75 .. 33.75, with a **15.84 × 15.84 mm square bore** and **three radial arms** extending through windows in `08 - Internal Barrel` at **30° / 150° / 270°** to **r 17.20–17.40 mm**.
+**[M] The rack.** The rod middles carry sawtooth serrations on both long edges:
+pitch **3.17733 mm** (crest spacing, measured 3.177–3.178 and matching
+`custom.py:ROD_TOOTH_PITCH`), crest **|z| 6.8901**, V-root **|z| 5.7652** — so
+**crest-to-crest 13.780 mm** and **tooth depth 1.125 mm per side**. The flanks
+are straight at **40.63°** and the crest is crowned over ±0.41 mm. Both side
+clamps carry the same rack, so the rod presents three rack faces, at azimuth
+**90° / 210° / 330°**.
 
-**[D]** `20 - Mid Shell Spring` is **dual-purpose**:
-1. **Linear detent on the rod**: 16.02 mm of crest through a 15.84 mm bore provides **0.09 mm per-side interference**, clicking once per 3.000 mm of rod travel.
-2. **Rotary detent at the waist**: Its three radial arms engage the 33-lobe internal ratchet of `32 - Mid Shell P02` (bore r 16.43 .. 17.53), producing a crisp **33 clicks per turn** detent (10.909° pitch).
+> **The 16.02 mm figure is the rod's overall bounding box** at the yoke
+> shoulder, not the tooth crest, and 3.000 mm was an autocorrelation result
+> rounded onto its own sampling grid.
 
-> **If you change this:** rod crest width and the spring bore are one dimension
-> pair. Changing the 3.000 mm pitch changes the click feel; changing 16.02 or
-> 15.84 changes the click force, and going to clearance kills the click entirely.
-> For the rotary waist, 3 arms at 120° only click on whole-multiple lobe counts (33/3 = 11 notches).
+**[M] The axial detent** is `12`/`13`/`14 - Internal Barrel Spring` alone —
+three planar serpentine followers in slots in `08 - Internal Barrel`, one per
+rack face. Nothing else touches the rod: the barrel pins `09`/`10`/`11` clear
+it by **1.47–3.33 mm** and `20 - Mid Shell Spring` by **1.158 mm**.
+
+**[M] The rotary waist detent** is `20 - Mid Shell Spring`: a flat ring, 4.0 mm
+thick, at y = 29.75 .. 33.75, with a **15.84 × 15.84 mm square bore** and three
+radial arms through the barrel windows at **30° / 150° / 270°** to
+**r 17.20–17.40 mm**, engaging the 33-lobe ratchet of `32 - Mid Shell P02`
+(bore r 16.43 .. 17.53) — **33 clicks per turn**, 10.909° pitch.
+
+> **[D] Its square bore is not a linear detent.** 13.780 mm of crest through a
+> 15.84 mm bore is **1.03 mm of clearance per side**, and the measured
+> clearance to the rod is 1.158 mm. The old claim of 0.09 mm interference came
+> from pairing the bore against the rod's bbox instead of its crest.
+
+> **If you change this:** the rack and the followers are one dimension pair;
+> the waist spring is independent of both and cannot change the axial feel.
+> Measure any change with `tools/score_detent.py`, which reports **force**, not
+> just swept volume — swept volume hides a dead band. For the rotary waist,
+> 3 arms at 120° only click on whole-multiple lobe counts (33/3 = 11 notches).
 
 ### 2.3 The threaded bottom lock
 
@@ -128,9 +149,10 @@ Its **bore is 3-lobed** (r 18.60 .. 18.79), which keys it to the body.
 **[M]** `29 - Upper Shell Lock Ring` (⌀39.99 × 3.88) and
 `30 - Upper Shell Rotating Spring` (y 63.75 .. 79.72) complete the rotating group.
 
-**[M]** The body has **3-fold symmetry**: barrel pins `09`/`10`/`11` at
-**0° / 120° / 240°**, barrel springs `12`/`13`/`14` likewise, and the gear bore is
-3-lobed.
+**[M]** The body has **3-fold symmetry**, but the two families are **not
+co-located**: barrel pins `09`/`10`/`11` sit at **30° / 150° / 270°** (the
+window azimuths) and the followers `12`/`13`/`14` at **90° / 210° / 330°**,
+58.5° away from the nearest pin. The gear bore is 3-lobed.
 
 **[D]** A 2-fold-symmetric rod in a 3-fold body gives a **60° azimuth period** —
 confirmed by sweep. This is why azimuth answers are only ever defined
@@ -181,7 +203,7 @@ Placed `y` ranges from the pose record **[M]**:
 `dy = 20.00`, wall 3.20 / 3.30 mm against the two-piece 1.70–1.75 mm. Substituting
 one for `33` alone drives a 5,643 mm³ interference.
 
-In `Hybrid_Grenade_v1.1`, **8 interchangeable mid shell options** are dimensionally standardized to an exact **34.80 mm total height** and **40.00 mm interface diameter** (see `CUSTOM_DESIGN.md` §3).
+In the hybrid package, **8 interchangeable mid shell options** are dimensionally standardized to an exact **34.80 mm total height** and **40.00 mm interface diameter** (see `CUSTOM_DESIGN.md` §3).
 
 ### 3.3 The tops
 
@@ -218,11 +240,13 @@ plus spares:
 | grenade top | all of it | — none — |
 | bottle top | both parts | — none — |
 
-**[M]** Both generations keep the **same** 16.02 mm serration crest, 3.000 mm
-pitch and −0.536 mm/mm lock taper — the interfaces were held constant across the
-revision; only thicknesses moved.
+**[M]** Both generations keep the **same rack and lock taper** — crest
+**13.780 mm**, pitch **3.177 mm**, depth **1.11–1.12 mm per side**, taper
+−0.536 mm/mm. The interfaces were held constant across the revision; only
+thicknesses moved. (See §2.2: the 16.02 / 3.000 pair quoted here previously was
+the bounding box and a rounded autocorrelation, not the crest and pitch.)
 
-**[D] Unified Hybrid Architecture**: In `Hybrid_Grenade_v1.1`, the generation split was resolved by adopting the **`v1.1` barrel pins and springs** inside the Tactical `08 - Internal Barrel` combined with the full-depth 3-part solid-yoke rod (`Custom_Rod_Middle`, `Custom_Rod_Right`, `Custom_Rod_Left`), locked via transverse cross-keys `06` and `07`.
+**[D] Unified Hybrid Architecture**: In the hybrid package, the generation split was resolved by adopting the **`v1.1` barrel pins and springs** inside the Tactical `08 - Internal Barrel` combined with the full-depth 3-part solid-yoke rod (`Custom_Rod_Middle`, `Custom_Rod_Right`, `Custom_Rod_Left`), locked via transverse cross-keys `06` and `07`.
 
 ---
 
@@ -247,6 +271,7 @@ house clearance for a sliding fit.
 | `Spinner Lever 04 - Spring` | 11.70 × 17.99 × 8.70 | 923.6 |
 | `18 - Lever Spring` | 11.70 × 20.52 × 8.70 | 1029.0 |
 | `12`–`14 - Internal Barrel Spring` | 8.60 × 17.71 × 4.00 (orig) | 244.5 |
+| `12`–`14 - Internal Barrel Spring v1.1` | 3.75 × 17.51 × 8.43 | 211.7 |
 
 ---
 
@@ -288,7 +313,8 @@ house clearance for a sliding fit.
 - **Tactical Waist Rotary Ratchet**: Confirmed as a native 33-click detent driven by `20 - Mid Shell Spring` / `09_Custom_Mid_Shell_Spring_33` engaging `32 - Mid Shell P02`'s 33-lobe ratchet through 3 windows in `08 - Internal Barrel`.
 - **Transverse Rod Locks (`06` & `07`)**: Identified and positioned as transverse cross-keys locking the 3-part rod assembly through aligned tunnels at $y = 48.654 .. 58.186\text{ mm}$ and $y = 23.654 .. 33.186\text{ mm}$.
 - **Tapered Bottom Axial Retainer**: Solved analytically by matching the $-0.536\text{ mm/mm}$ taper on `Spinner Lever 08 - Rod Lock`.
-- **Unified Hybrid Assembly (`Hybrid_Grenade_v1.1`)**: Solved and packaged with 36 parts, solid-yoke 3-piece rod, 8 standardized mid shell variants, and 4-position folding spinner head.
+- **Unified Hybrid Assembly**: Solved and packaged as `Hybrid_Grenade_v1.1` (36 parts) and `v1.2` (35 parts), with the solid-yoke 3-piece rod, 8 standardized mid shell variants, and the 4-position folding spinner head.
+- **Axial Rod Detent** (`v1.2`, 2026-08-27): rebuilt as a **long-arm C spring on the Spinner Fuse's `11 - Middle Spring` pattern** — two opposed arms at azimuth 90°/270°, housed in new axial pockets cut into `08 - Internal Barrel` (449.8 mm³, 2.3%, outer surface untouched). Rate **1.005 N/mm at 0.831%/mm** against `11`'s 1.207 / 0.714 and v1.1's 2.951 / 1.278. Preloaded 0.40 mm, so the **12% dead band is gone**. The rod also gained a defined stroke — **14.07 mm, about 4.4 clicks** — where it previously had no upward stop and could be pulled out. Built by `tools/build_rod_detent.py`, scored by `tools/score_detent.py`.
 
 ### Upstream Open Items (for stock un-modified kits):
 - **Upstream Grenade 6-in-1 Spoon Mechanism**: The standalone spoon mechanism (`15 - Lever Base`, `16`/`17`/`19 - Lever Lock Front/Back/Mid`, `18 - Lever Spring`, `31 - Lever`) mates against itself and remains unsolved for the legacy un-unified Grenade-top plate.

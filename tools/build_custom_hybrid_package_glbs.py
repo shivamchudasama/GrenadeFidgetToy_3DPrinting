@@ -32,7 +32,9 @@ import assembly as A
 import custom
 import fidget
 
-PACKAGE_DIR = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.1")
+if TOOLS_DIR not in sys.path:
+    sys.path.insert(0, TOOLS_DIR)
+from package_paths import PACKAGE_DIR
 ASSEMBLED_STLS_DIR = os.path.join(PACKAGE_DIR, "All_Parts_Assembled_Coordinates")
 
 # Comprehensive 36-part specification with PBR Material Properties
@@ -166,8 +168,8 @@ PARTS_SPECS = [
     # 03 - Internal Barrel & Upper Station
     {
         "id": 10,
-        "name": "10_08_Internal_Barrel",
-        "file": "10_08_Internal_Barrel.stl",
+        "name": "10_Custom_Internal_Barrel_Stop",
+        "file": "10_Custom_Internal_Barrel_Stop.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "load_type": "tactical_pose",
         "tactical_key": "08 - Internal Barrel",
@@ -233,11 +235,11 @@ PARTS_SPECS = [
     },
     {
         "id": 15,
-        "name": "15_12_Internal_Barrel_Spring_01",
-        "file": "15_12_Internal_Barrel_Spring_01.stl",
+        "name": "15_Custom_Rod_C_Follower_01",
+        "file": "15_Custom_Rod_C_Follower_01.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "load_type": "tactical_pose",
-        "tactical_key": "12 - Internal Barrel Spring v1.1",
+        "tactical_key": "Custom_Rod_Detent_Follower_01",
         "color": (255, 130, 45),  # Safety Orange
         "metallic": 0.2,
         "roughness": 0.35,
@@ -246,29 +248,16 @@ PARTS_SPECS = [
     },
     {
         "id": 16,
-        "name": "16_13_Internal_Barrel_Spring_02",
-        "file": "16_13_Internal_Barrel_Spring_02.stl",
+        "name": "16_Custom_Rod_C_Follower_02",
+        "file": "16_Custom_Rod_C_Follower_02.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "load_type": "tactical_pose",
-        "tactical_key": "13 - Internal Barrel Spring v1.1",
+        "tactical_key": "Custom_Rod_Detent_Follower_02",
         "color": (255, 130, 45),  # Safety Orange
         "metallic": 0.2,
         "roughness": 0.35,
         "is_cutaway_shell": False,
         "disp": np.array([44.0, 0.0, 24.0]),
-    },
-    {
-        "id": 17,
-        "name": "17_14_Internal_Barrel_Spring_03",
-        "file": "17_14_Internal_Barrel_Spring_03.stl",
-        "subassembly": "03_Internal_Barrel_And_Upper_Station",
-        "load_type": "tactical_pose",
-        "tactical_key": "14 - Internal Barrel Spring v1.1",
-        "color": (255, 130, 45),  # Safety Orange
-        "metallic": 0.2,
-        "roughness": 0.35,
-        "is_cutaway_shell": False,
-        "disp": np.array([0.0, 0.0, -48.0]),
     },
     {
         "id": 18,
