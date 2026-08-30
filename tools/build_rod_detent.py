@@ -213,10 +213,18 @@ SWING_MARGIN = 0.15      # clear air left between the swung arm and the slot wal
 LEAF_R0 = 7.40           # the arm's inner face at the root; clears the crest by 0.51
 RAIL_R1 = 12.20          # the foot's bearing face, against the slot's outer wall
 RIB_R0 = 11.55           # the extended notch: full width outboard of here
-FOOT_Y0 = 36.30                          # the foot: rigid, and the whole anchor
+FOOT_Y0 = 36.00                          # the foot: rigid, and the whole anchor.  It
+                                         # bottoms *on* the slot floor, which is at
+                                         # exactly SLOT_Y0 -- the foot is the one rigid
+                                         # part of the spring, so seating it there is
+                                         # free and takes 0.302 mm out of the spring's
+                                         # axial float.  The 0.342 mm left, up to the
+                                         # cap's relief ceiling at 63.260, is coupled to
+                                         # ARM_SCALE_Y and cannot be closed here.
 FOOT_OVERLAP = 0.70                      # how far the foot runs past the arm's cut end
 FOOT_Y1 = ARM_Y0 + FOOT_OVERLAP
-FLANK_TOP = 7.20         # where the tongue's flanks stop, as on the stock nose
+FLANK_TOP = 7.20         # where the transplanted arm is cut off and the tongue takes
+                         # over; the reference's own blunt tip lies inboard of it
 
 # The nose, and where its preload actually comes from.
 #
@@ -253,6 +261,28 @@ NOSE_R = 0.75            # the stock tip radius, which this rack is cut for
 NOSE_FLANK_DEG = 90.0 - FLANK_DEG   # the rack's own flank angle, 49.37 from radial
 NOSE_HALF = np.radians(NOSE_FLANK_DEG)
 NOSE_APEX = 5.54         # free state; chosen from the sweep above
+
+# How far out the matched flanks run, and what happens above them.
+#
+# The flanks are only doing work where the rack can reach them, and the rack's
+# outermost surface is the crest at r 6.8901.  A tongue point at *local* radius u
+# sits at global u + d, where d is how far the spring is deflected, and d is never
+# less than the 0.209 mm it carries at its deepest seat -- so nothing above local
+# r 6.681 can ever touch the rod, and r 7.00 clears even the d = 0 bound with
+# margin.  Everything outboard of that is dead weight, and expensive dead weight:
+# the flanks diverge at tan 49.37 = 1.165, so each further millimetre of radius
+# costs 2.33 mm of axial height.
+#
+# Running them to FLANK_TOP + 0.9 = 8.10, as the first build did, is what made the
+# nose a 6.52 mm arrow-head -- two and a half times the reference lobe it was
+# supposed to be, and taller than the 3.96 mm that the rack actually asks for.
+# Above NOSE_FLARE_TOP the tongue now turns back in at 45 degrees and lands on the
+# crown of the arm's own nose lobe at r 7.75, so the outline outboard of there is
+# the reference's, not ours.  Nothing at or below r 7.00 moves by so much as a
+# micron, which is why the swept force is unchanged.
+NOSE_FLARE_TOP = 7.00    # where the rack-matched flanks stop
+NOSE_SHOULDER_DEG = 45.0 # the back-taper from there into the lobe
+NOSE_TOP = 8.20          # where the tongue ends, buried inside the lobe
 
 BODY_W = 4.00                           # across the rib
 NARROW_W = 3.00                         # the reference's own thickness
@@ -627,16 +657,23 @@ def _nose_wedge(nose_y, apex=NOSE_APEX):
     the arm above FLANK_TOP is transplanted and the last millimetre is rebuilt:
     a 0.75 mm tip on flanks at the V's own 49.37 degree half angle, which is the
     form this rod is cut for and the one the stock Tactical follower uses.
+
+    Those flanks stop at NOSE_FLARE_TOP -- past every radius the rack can reach,
+    and no further -- and the tongue then closes back in at NOSE_SHOULDER_DEG
+    until it is inside the arm's own nose lobe, which carries the outline from
+    there on.  See the note on NOSE_FLARE_TOP for why running them further is
+    what turns a nose into an arrow-head.
     """
     import shapely
 
     cv = apex + NOSE_R
     half = lambda v: NOSE_R / np.cos(NOSE_HALF) + (v - cv) * np.tan(NOSE_HALF)
-    top = FLANK_TOP + 0.9
-    pts = [(nose_y + half(top), top), (nose_y + half(FLANK_TOP), FLANK_TOP)]
+    h_flare = half(NOSE_FLARE_TOP)
+    h_top = h_flare - (NOSE_TOP - NOSE_FLARE_TOP) / np.tan(np.radians(NOSE_SHOULDER_DEG))
+    pts = [(nose_y + h_top, NOSE_TOP), (nose_y + h_flare, NOSE_FLARE_TOP)]
     for th in np.linspace(np.pi / 2 - NOSE_HALF, -(np.pi / 2 - NOSE_HALF), 48):
         pts.append((nose_y + NOSE_R * np.sin(th), cv - NOSE_R * np.cos(th)))
-    pts += [(nose_y - half(FLANK_TOP), FLANK_TOP), (nose_y - half(top), top)]
+    pts += [(nose_y - h_flare, NOSE_FLARE_TOP), (nose_y - h_top, NOSE_TOP)]
     return shapely.Polygon(pts)
 
 
@@ -661,6 +698,14 @@ def arm_profile(apex=NOSE_APEX, s_y=ARM_SCALE_Y, arm_y0=ARM_Y0, arm_r_out=ARM_R_
         body = max(body.geoms, key=lambda q: q.area)
     nose_y = min(mapped.exterior.coords, key=lambda c: c[1])[0]
     foot_y1 = arm_y0 + FOOT_OVERLAP
+    # The reference's cut end is wider than its leaf, and mapped in it reaches
+    # r 7.20 -- 0.20 mm inboard of the foot's own inner face.  Left alone it hangs
+    # a 0.20 x 0.16 mm lip off the bottom inside corner of the finished spring,
+    # overhanging the bore on the side the rod runs down.  Clip it, so the inner
+    # face is one flush plane the whole height of the foot.
+    body = body.difference(shapely.box(0.0, 0.0, foot_y1, LEAF_R0))
+    if body.geom_type == "MultiPolygon":
+        body = max(body.geoms, key=lambda q: q.area)
     foot = shapely.Polygon([(FOOT_Y0, LEAF_R0), (FOOT_Y0, RAIL_R1),
                             (foot_y1, RAIL_R1), (foot_y1, LEAF_R0)])
     merged = unary_union([body, _nose_wedge(nose_y, apex), foot])
