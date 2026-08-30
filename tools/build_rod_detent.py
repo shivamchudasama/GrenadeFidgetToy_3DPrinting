@@ -123,19 +123,70 @@ PIN_Y0, PIN_Y1 = 56.30, 61.45
 PIN_R_IN = 8.80                         # inside the channel's 8.95, still barrel material
 PIN_PROFILE_Y = 56.20                   # where the outer radius is sampled: below the apex
 
-# Legacy follower slot fill.  The stock slots run y 47 .. 63.24 from the bore out
-# to r 14.55, 3.20 mm at the neck and 4.20 mm behind the step.  Filling them is
-# what leaves the barrel with four slots and no leftovers -- at azimuth 90 the
-# old slot and a new one overlap, and without this the result is a hybrid of the
-# two profiles.  The fill runs to the bore, which is not a constant radius, so
-# its inner edge is measured rather than assumed.
+# Legacy follower slot fill.  Each stock slot opens as a 45 degree V at y 45.35,
+# reaches its full section by y 48.7, and runs from the bore out to r 14.55 --
+# 3.20 mm at the neck, 4.20 mm behind the step -- to the top face at y 63.238.
+# Filling them is what leaves the barrel with four slots and no leftovers: at
+# azimuth 90 the old slot and a new one overlap, and without this the result is a
+# hybrid of the two profiles.
+#
+# The fill is a plain prism.  It starts *inside* the bore and runs to the barrel's
+# own top face, and ``bore_solid`` then cuts the hole back out of it.  Making the
+# prism follow the bore instead is what left the two traces of the old layout that
+# the first build of this part shipped with:
+#
+#   * its top edge came off a 0.25 mm sample grid that stopped at y 63.00, so the
+#     last 0.238 mm of every slot stayed open -- three 4.2 mm wide pockets sunk
+#     into the top face at 90 / 210 / 330, the most visible thing on the part;
+#   * its inner edge was set 0.05 mm inside the measured bore, so the fill stood
+#     0.05 mm proud of the hole for the whole 20 mm of its height -- three ridges
+#     down the bore, 120 degrees apart, right where the rod runs.
+#
+# Neither is possible now: the prism cannot stop short of a top face it is built
+# from, and nothing it leaves in the bore survives the re-bore.
 LEGACY_X0, LEGACY_X1 = -1.75, 2.75
+LEGACY_R_IN = 5.00                      # well inside every bore radius; the re-bore
+                                        # takes this back out again
 LEGACY_R_OUT = 14.62
-LEGACY_Y0 = 43.00                       # the stock slots start at 47; this clears them
+LEGACY_Y0 = 44.50                       # below the slots' V lead-in at 45.35, and above
+                                        # BORE_BLEND_Y1 so the fill only ever sits where
+                                        # the re-bore is already at full width
                                         # LEGACY_Y1 is the barrel's own top face, read at
-                                        # run time: a fill that overshoots it by even
-                                        # 0.06 mm moves the part's bounds
-BORE_MARGIN = 0.05                      # start just inside the bore, so no hairline is left
+                                        # run time and used exactly
+
+# Re-boring.  Over this band the bore is a turned profile -- a cylinder, a square
+# shoulder, a narrower cylinder, a 45 degree chamfer to the top -- and it is round
+# to 0.011 mm, its own faceting, at all 360 azimuths (measured on the stock barrel,
+# y 34.6 .. 63.238).  Cutting that profile back out of the filled barrel is what
+# makes the hole smooth: the fill is free to be generous, and no azimuth is left
+# carrying a trace of where a slot used to be.  Below y 34.6 the barrel's inside is
+# threads and ribs and is not a turned surface -- do not extend the cut into it.
+BORE_OVERCUT = 0.008                    # outside the bore's circumscribed radius, so the
+                                        # cut never lands tangent to a facet
+BORE_BLEND_Y0 = 42.80                   # the cut fades in from here to BORE_BLEND_Y1,
+BORE_BLEND_Y1 = 44.40                   # below any fill, so the band's lower edge is a
+BORE_BLEND_DROP = 0.05                  # shallow taper and not a 0.02 mm step right round
+                                        # the hole
+SHOULDER_LIFT = 0.01                    # carry the wide cylinder this far past the
+                                        # shoulder.  Landing the cut's step *on* the
+                                        # shoulder face is the coplanar case that leaves a
+                                        # zero-thickness skin; stopping short of it leaves
+                                        # a 0.01 mm fin of fill standing 1.1 mm into the
+                                        # bore.  Lifting it costs a 0.01 mm relief in the
+                                        # shoulder, right round, and that is the harmless
+                                        # one of the three.
+BORE_SECTIONS = 360                     # 1 degree: the cut is round to 0.0003 mm
+BORE_EXPECT = {"r_low": 8.2726, "r_high": 7.1256, "y_shoulder": 53.982,
+               "y_chamfer": 60.238, "slope": 1.000}
+BORE_TOL = {"r_low": 0.02, "r_high": 0.02, "y_shoulder": 0.05,
+            "y_chamfer": 0.05, "slope": 0.02}
+# What the finished part is allowed to show of the old layout.  The stock barrel
+# reads 0.0115 mm out of round in its own bore -- that is the facet polygon, not a
+# defect -- so the bore tolerance is set just above it, and the top face has to be
+# flat to a hundredth.  Both are far below anything a 0.2 mm layer can print; the
+# point is that neither can drift back to the tenths the first build shipped.
+BORE_ROUND_TOL = 0.020
+TOP_FACE_TOL = 0.010
 
 # ------------------------------------------------------------------- spring --
 # The spring is one arm of the Spinner Fuse `11 - Middle Spring`, cut off where
@@ -375,26 +426,120 @@ def cap_disc(cap=None):
 
 
 # ------------------------------------------------- filling the stock slots ---
-def bore_profile(barrel, az=45.0, step=0.25):
-    """The barrel's bore radius against height, measured at a slot-free azimuth.
+def clean_azimuths(step=0.25, margin=16.0):
+    """Azimuths where the stock bore ring is unbroken by a follower slot."""
+    azs = np.arange(0.0, 360.0, step)
+    keep = np.ones(len(azs), bool)
+    for az in LEGACY_AZIMUTHS:
+        keep &= np.abs((azs - az + 180.0) % 360.0 - 180.0) > margin
+    return azs[keep]
 
-    The bore is not one radius: 8.27 up to y 53.5, 7.12 from 54 to 60, then a
-    chamfer out to 9.89 at the top.  A fill that assumed a constant radius would
-    either leave the old slot open along its inner edge or plug the bore.
+
+def bore_ring(barrel, y, azs=None):
+    """The bore radius at one height, azimuth by azimuth, by ray cast."""
+    azs = clean_azimuths() if azs is None else azs
+    rmi = trimesh.ray.ray_triangle.RayMeshIntersector(barrel)
+    o = np.tile([0.0, y, 0.0], (len(azs), 1))
+    d = np.stack([np.cos(np.radians(azs)), np.zeros(len(azs)),
+                  np.sin(np.radians(azs))], axis=1)
+    locs, idx, _ = rmi.intersects_location(o, d, multiple_hits=True)
+    out = np.full(len(azs), np.inf)
+    np.minimum.at(out, idx, np.linalg.norm(locs - o[idx], axis=1))
+    out[~np.isfinite(out)] = np.nan
+    return out
+
+
+def bore_geometry(barrel):
+    """Measure the bore's turned profile over the band the fill covers.
+
+    Five numbers describe it and all five are measured, not assumed: a cylinder at
+    ``r_low``, a square shoulder at ``y_shoulder``, a cylinder at ``r_high``, then
+    a chamfer of ``slope`` starting at ``y_chamfer`` and running to the top face.
+    The radii are the *widest* reading over every azimuth clear of a stock slot --
+    the circumscribed radius of the bore's own facet polygon -- because that is
+    what the cut has to clear to leave nothing standing.
     """
-    rs = np.arange(SLOT_R_IN, 11.0, 0.01)
-    a = np.radians(az)
-    ys = np.arange(LEGACY_Y0 - 1.0, barrel.bounds[1][1] + 1.0 + 1e-9, step)
-    out = []
-    for y in ys:
-        pts = np.stack([rs * np.cos(a), np.full_like(rs, y), rs * np.sin(a)], axis=1)
-        hit = np.flatnonzero(barrel.contains(pts))
-        out.append(rs[hit[0]] if len(hit) else 11.0)
-    return ys, np.asarray(out)
+    azs = clean_azimuths()
+    r_low = max(np.nanmax(bore_ring(barrel, y, azs)) for y in (46.0, 50.0, 53.0))
+    r_high = max(np.nanmax(bore_ring(barrel, y, azs)) for y in (56.0, 58.0, 60.0))
+
+    # the shoulder, by bisection on a ring of points at a radius between the two:
+    # below it they are in the bore, above it they are in barrel material
+    ring = np.radians(np.array([5.0, 65.0, 125.0, 185.0, 245.0, 305.0]))
+    probe = 0.5 * (r_low + r_high)
+    lo, hi = 52.0, 55.0
+    for _ in range(40):
+        mid = 0.5 * (lo + hi)
+        pts = np.stack([probe * np.cos(ring), np.full(len(ring), mid),
+                        probe * np.sin(ring)], axis=1)
+        lo, hi = (lo, mid) if barrel.contains(pts).all() else (mid, hi)
+    y_shoulder = 0.5 * (lo + hi)
+
+    # the chamfer, from two readings taken on it
+    y_a, y_b = 61.0, 63.0
+    r_a = np.nanmax(bore_ring(barrel, y_a, azs))
+    r_b = np.nanmax(bore_ring(barrel, y_b, azs))
+    slope = (r_b - r_a) / (y_b - y_a)
+
+    got = {"r_low": r_low, "r_high": r_high, "y_shoulder": y_shoulder,
+           "y_chamfer": y_a - (r_a - r_high) / slope, "slope": slope}
+    off = ["%s %.4f (expected %.4f)" % (k, got[k], BORE_EXPECT[k])
+           for k in sorted(BORE_EXPECT) if abs(got[k] - BORE_EXPECT[k]) > BORE_TOL[k]]
+    if off:
+        raise RuntimeError("the bore does not measure as expected: " + ", ".join(off))
+    return got
+
+
+def bore_radius(geom, y):
+    """The bore's turned radius at one height, from a ``bore_geometry`` reading."""
+    if y < geom["y_shoulder"]:
+        return geom["r_low"]
+    if y < geom["y_chamfer"]:
+        return geom["r_high"]
+    return geom["r_high"] + geom["slope"] * (y - geom["y_chamfer"])
+
+
+def bore_solid(barrel, geom=None):
+    """The bore over the fill band, as a solid of revolution to cut back out.
+
+    Cutting this is what smooths the hole.  It runs ``BORE_OVERCUT`` outside the
+    bore's circumscribed radius, so it takes the fill out of the bore completely
+    and leaves a turned surface at every azimuth rather than a facet polygon
+    interrupted three times.  The price is 0.008 .. 0.020 mm off the stock bore
+    wall inside the band, which is a fifth of a layer and axisymmetric: whatever
+    it changes, it cannot read as three slots.
+    """
+    g = bore_geometry(barrel) if geom is None else geom
+    y_end = barrel.bounds[1][1] + 1.0
+    r_low = g["r_low"] + BORE_OVERCUT
+    r_high = g["r_high"] + BORE_OVERCUT
+    y_step = g["y_shoulder"] + SHOULDER_LIFT
+    profile = np.array([
+        [0.0, BORE_BLEND_Y0],
+        [g["r_low"] - BORE_BLEND_DROP, BORE_BLEND_Y0],   # inside the wall: cuts nothing
+        [r_low, BORE_BLEND_Y1],
+        [r_low, y_step],
+        [r_high, y_step],
+        [r_high, g["y_chamfer"]],
+        [r_high + g["slope"] * (y_end - g["y_chamfer"]), y_end],
+        [0.0, y_end],
+    ])
+    solid = trimesh.creation.revolve(profile, sections=BORE_SECTIONS)
+    # revolve builds about the 2D Y axis and hands back 2D Y as 3D Z; -90 about x
+    # sends (x, y, z) to (x, z, -y), which stands it up on the toy's Y axis
+    solid.apply_transform(trimesh.transformations.rotation_matrix(
+        -np.pi / 2.0, [1.0, 0.0, 0.0]))
+    if solid.body_count != 1 or not solid.is_watertight:
+        raise RuntimeError("the re-bore solid is not a single watertight solid")
+    return solid
 
 
 def legacy_fill(barrel):
     """The three stock follower slots, as a solid to union back in.
+
+    A plain prism: from inside the bore out past the slot's r 14.55 wall, and from
+    below the V lead-in up to the barrel's own top face.  It stands in the bore on
+    purpose; ``bore_solid`` cuts it back out.
 
     Without this the barrel keeps six voids, and at azimuth 90 the stock slot and
     a new one overlap into a hybrid of the two profiles -- deeper and wider above
@@ -402,13 +547,7 @@ def legacy_fill(barrel):
     """
     import shapely
 
-    ys, rb = bore_profile(barrel)
-    keep = (ys >= LEGACY_Y0) & (ys <= barrel.bounds[1][1])
-    ys, rb = ys[keep], rb[keep] - BORE_MARGIN
-    section = shapely.Polygon(list(zip(ys, rb)) +
-                              [(ys[-1], LEGACY_R_OUT), (ys[0], LEGACY_R_OUT)])
-    if not section.is_valid:
-        raise RuntimeError("the legacy fill section is self-intersecting")
+    section = shapely.box(LEGACY_Y0, LEGACY_R_IN, barrel.bounds[1][1], LEGACY_R_OUT)
     solid = trimesh.creation.extrude_polygon(section, height=LEGACY_X1 - LEGACY_X0)
     solid.apply_transform(np.array([[0.0, 0.0, 1.0, LEGACY_X0],
                                     [1.0, 0.0, 0.0, 0.0],
@@ -436,19 +575,26 @@ def slot_cut(azimuth):
 
 
 def barrel_with_slots(barrel=None):
-    """Stock barrel -> pin channels and stock slots filled -> four slots cut.
+    """Stock barrel -> pins and stock slots filled -> bore re-cut -> four slots.
 
     Filling before cutting is what matters: at azimuth 90 a new slot lands on top
     of a stock one, and cutting first would leave the deeper stock profile behind
-    around it.
+    around it.  The re-bore goes between the two, because the legacy fill runs into
+    the bore on purpose and the slot cut is what finally opens the bore again at
+    the four new azimuths.
     """
     stock = barrel if barrel is not None else _load(STOCK_BARREL)
-    filled = trimesh.boolean.union(
+    plugged = trimesh.boolean.union(
         [stock, pin_fill(stock), legacy_fill(stock)], engine=ENGINE)
-    if filled.body_count != 1:
-        raise RuntimeError("filling left %d bodies" % filled.body_count)
-    if not np.allclose(stock.bounds, filled.bounds, atol=1e-6):
+    if plugged.body_count != 1:
+        raise RuntimeError("filling left %d bodies" % plugged.body_count)
+    if not np.allclose(stock.bounds, plugged.bounds, atol=1e-6):
         raise RuntimeError("the fill grew the barrel past its own surface")
+    filled = trimesh.boolean.difference([plugged, bore_solid(stock)], engine=ENGINE)
+    if filled.body_count != 1:
+        raise RuntimeError("the re-bore left %d bodies" % filled.body_count)
+    if not np.allclose(stock.bounds, filled.bounds, atol=1e-6):
+        raise RuntimeError("the re-bore moved the barrel's bounds")
     out = trimesh.boolean.difference(
         [filled] + [slot_cut(az) for az in SLOT_AZIMUTHS], engine=ENGINE)
     if out.body_count != 1:
@@ -652,6 +798,105 @@ def pin_channels_closed(barrel, r_min=9.2):
     return pts[~barrel.contains(pts)]
 
 
+def legacy_slots_closed(barrel, geom, r_min=9.0):
+    """Points that used to be stock follower slot and are still void.
+
+    The companion to ``pin_channels_closed``, and aimed the same way: at the
+    barrel before the slots are cut, or -- with ``r_min`` outboard of them -- at
+    the finished one, since the new slot at azimuth 90 legitimately re-opens part
+    of the stock slot it lands on.  The inner limit follows the bore rather than
+    sitting at a fixed radius: the chamfer opens out to r 10.12 by the top face,
+    and a probe that ignored it would report the hole as a leftover.
+
+    The y grid closes up towards the top face on purpose.  What the first build of
+    this part left open was the last 0.238 mm of every slot, and a probe spaced
+    every 0.4 mm through the middle of the part would have walked straight past
+    the one place it mattered.
+    """
+    y_top = barrel.bounds[1][1]
+    ys = np.concatenate([np.arange(48.9, y_top - 0.30, 0.4),
+                         np.arange(y_top - 0.30, y_top - 0.01, 0.05)])
+    pts = []
+    for az in LEGACY_AZIMUTHS:
+        a = np.radians(az)
+        radial = np.array([np.cos(a), 0.0, np.sin(a)])
+        tangent = np.array([-np.sin(a), 0.0, np.cos(a)])
+        for y in ys:
+            lo = max(r_min, bore_radius(geom, y) + 0.15)
+            for x in np.arange(-1.4, 2.41, 0.4):        # inside the 3.20/4.20 mm widths
+                for r in np.arange(lo, 14.46, 0.4):     # bore .. the slot's r 14.55 wall
+                    p = r * radial + x * tangent
+                    pts.append([p[0], y, p[2]])
+    pts = np.asarray(pts)
+    return pts[~barrel.contains(pts)]
+
+
+def bore_round(barrel, step=0.5):
+    """Worst departure from a turned bore, over the band the re-bore covers.
+
+    Azimuths inside a new slot are skipped -- there the bore is meant to be open.
+    Anything the fill left standing in the hole, or any hairline it left unfilled,
+    shows up here as spread at a height where the bore should read one radius.
+    """
+    azs = np.arange(0.0, 360.0, step)
+    keep = np.ones(len(azs), bool)
+    for az in SLOT_AZIMUTHS:
+        keep &= np.abs((azs - az + 180.0) % 360.0 - 180.0) > 21.0
+    azs = azs[keep]
+    worst = (0.0, None)
+    for y in np.arange(LEGACY_Y0 + 0.5, barrel.bounds[1][1] - 0.1, 0.5):
+        r = bore_ring(barrel, y, azs)
+        if not np.isfinite(r).any():
+            continue
+        spread = np.nanmax(r) - np.nanmin(r)
+        if spread > worst[0]:
+            worst = (spread, (y, np.nanmin(r), np.nanmax(r)))
+    return worst
+
+
+def top_face(barrel, step=1.0):
+    """Worst dip in the barrel's top face, on a polar grid, and where it is.
+
+    The three pockets the old fill left were 0.238 mm deep in this face and
+    nothing in the pipeline ever looked at it.  Radii inside a new slot are
+    skipped -- there the face is meant to be open.
+    """
+    y_top = barrel.bounds[1][1]
+    rmi = trimesh.ray.ray_triangle.RayMeshIntersector(barrel)
+    azs = np.arange(0.0, 360.0, step)
+
+    # how far out the top face reaches at each azimuth: the three lobes carry it
+    # to r 17.1, the troughs stop at 13.95.  Probing past that reads whatever is
+    # 9 mm further down and calls it a pocket.
+    o = np.zeros((len(azs), 3))
+    o[:, 1] = y_top - 0.30
+    d = np.stack([np.cos(np.radians(azs)), np.zeros(len(azs)),
+                  np.sin(np.radians(azs))], axis=1)
+    locs, idx, _ = rmi.intersects_location(o, d, multiple_hits=True)
+    outer = np.zeros(len(azs))
+    np.maximum.at(outer, idx, np.linalg.norm(locs - o[idx], axis=1))
+
+    grid_az, grid_r = [], []
+    for az, r_out in zip(azs, outer):
+        near = min(abs((az - s + 180.0) % 360.0 - 180.0) for s in SLOT_AZIMUTHS)
+        for r in np.arange(10.40, r_out - 0.25 + 1e-9, 0.25):
+            if near < 21.0 and r < SLOT_R_OUT + 0.3:
+                continue
+            grid_az.append(az)
+            grid_r.append(r)
+    grid_az, grid_r = np.asarray(grid_az), np.asarray(grid_r)
+    o = np.stack([grid_r * np.cos(np.radians(grid_az)),
+                  np.full(len(grid_az), y_top + 2.0),
+                  grid_r * np.sin(np.radians(grid_az))], axis=1)
+    locs, idx, _ = rmi.intersects_location(o, np.tile([0.0, -1.0, 0.0], (len(o), 1)),
+                                           multiple_hits=True)
+    top = np.full(len(o), np.inf)
+    np.maximum.at(top, idx, locs[:, 1])
+    dip = np.where(np.isfinite(top), y_top - top, 0.0)
+    i = int(np.argmax(dip))
+    return dip[i], (grid_az[i], grid_r[i])
+
+
 def main():
     ap = argparse.ArgumentParser(description="Build the rod detent springs.")
     ap.add_argument("--dry-run", action="store_true",
@@ -685,6 +930,7 @@ def main():
 
     springs = followers()
     stock, filled, barrel = barrel_with_slots()
+    geom = bore_geometry(stock)
     stock_cap, cap = cap_disc()
 
     problems = []
@@ -705,6 +951,21 @@ def main():
         if len(missed):
             problems.append("%d probe points in the old pin channels are still void %s"
                             % (len(missed), label))
+        missed = legacy_slots_closed(mesh, geom, max(r_min, 9.0))
+        if len(missed):
+            problems.append("%d probe points in the old follower slots are still void "
+                            "%s (lowest at y %.3f)"
+                            % (len(missed), label, missed[:, 1].min()))
+
+    out_of_round, round_at = bore_round(barrel)
+    if out_of_round > BORE_ROUND_TOL:
+        problems.append("the bore is out of round by %.3f mm at y %.2f (r %.4f .. %.4f): "
+                        "the fill is still showing in the hole"
+                        % (out_of_round, round_at[0], round_at[1], round_at[2]))
+    face_dip, dip_at = top_face(barrel)
+    if face_dip > TOP_FACE_TOL:
+        problems.append("the top face is sunk %.3f mm at azimuth %.0f, r %.2f: a stock "
+                        "slot is still open there" % (face_dip, dip_at[0], dip_at[1]))
 
     reach, limit = swing_clearance(crest)
     if reach > limit:
@@ -755,6 +1016,8 @@ def main():
         print("  thinnest wall outboard of a slot: %.2f mm at azimuth %.0f, y %.0f "
               "(r %.2f .. %.2f); stock was %.2f mm"
               % (thin, where[0], where[1], where[2], where[3], thin0))
+    print("  over the old slot band: bore round to %.4f mm, top face flat to %.4f mm"
+          % (out_of_round, face_dip))
     print("    %-42s %7.2f mm3  watertight=%s bodies=%d"
           % (CAP_OUT, cap.volume, cap.is_watertight, cap.body_count))
     for name, m in zip(OUTPUTS, springs):
