@@ -8,7 +8,7 @@ Output directory:
   3D_Print_Custom_Hybrid_Grenade/
     ├── 01_Base_And_Bottom_Shell/               (6 STLs)
     ├── 02_Waist_Mechanism/                     (3 STLs)
-    ├── 03_Internal_Barrel_And_Upper_Station/   (12 STLs - Original Tactical Mechanism)
+    ├── 03_Internal_Barrel_And_Upper_Station/   (10 STLs - 4-slot barrel & detent springs)
     ├── 04_Rod_Assembly_And_Locks/              (6 STLs - Solid Yoke Rod & Cross Keys)
     ├── 05_Folding_Head_And_Spinner/            (9 STLs - Folding Cheeks, Gear, Spinner Ring & Pins)
     ├── All_Parts_Flat_Bed_Oriented/            (pre-oriented flat on Z=0, centered at (0,0))
@@ -140,75 +140,65 @@ PARTS_MANIFEST = [
         "supports": "No",
     },
 
-    # 03 - Original Tactical Internal Barrel & Upper Station
+    # 03 - Tactical Internal Barrel & Upper Station
     {
         "id": 10,
-        "source_file": "Custom_Internal_Barrel_Stop.stl",
-        "export_filename": "10_Custom_Internal_Barrel_Stop.stl",
+        "source_file": "Custom_Internal_Barrel_4Slot.stl",
+        "export_filename": "10_Custom_Internal_Barrel_4Slot.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Black / Gunmetal",
-        "desc": "Original Tactical barrel spine with 3 pin channels and waist windows",
+        "desc": "Barrel spine: 4 spring slots at 0/90/180/270, pin channels filled",
         "supports": "No",
     },
     {
         "id": 11,
-        "source_file": "07 - Internal Barrel Cap.stl",
-        "export_filename": "11_07_Internal_Barrel_Cap.stl",
+        "source_file": "Custom_Internal_Barrel_Cap.stl",
+        "export_filename": "11_Custom_Internal_Barrel_Cap.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Black / Gunmetal",
-        "desc": "Original barrel top sealing cap",
+        "desc": "Barrel top cap, 2 keys (the az 90 finger makes way for a spring)",
         "supports": "No",
     },
     {
         "id": 12,
-        "source_file": "09 - Internal Barrel Pin v1.1.stl",
-        "export_filename": "12_09_Internal_Barrel_Pin_01.stl",
+        "source_file": "Custom_Rod_Detent_Spring.stl",
+        "export_filename": "12_Custom_Rod_Detent_Spring_01.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
-        "color": "Black / Tough PLA",
-        "desc": "Upper station key 1 - keys 28 Gear to the barrel (not a rod detent)",
+        "color": "Safety Orange / PETG",
+        "desc": "Axial rod detent spring 1 (az 0), rides the rod rack -- build_rod_detent.py",
         "supports": "No",
     },
     {
         "id": 13,
-        "source_file": "10 - Internal Barrel v1.1.stl",
-        "export_filename": "13_10_Internal_Barrel_Pin_02.stl",
+        "source_file": "Custom_Rod_Detent_Spring.stl",
+        "export_filename": "13_Custom_Rod_Detent_Spring_02.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
-        "color": "Black / Tough PLA",
-        "desc": "Upper station key 2 - keys 28 Gear to the barrel (not a rod detent)",
+        "color": "Safety Orange / PETG",
+        "desc": "Axial rod detent spring 2 (az 90), rides the rod rack -- build_rod_detent.py",
         "supports": "No",
     },
     {
         "id": 14,
-        "source_file": "11 - Internal Barrel v1.1.stl",
-        "export_filename": "14_11_Internal_Barrel_Pin_03.stl",
+        "source_file": "Custom_Rod_Detent_Spring.stl",
+        "export_filename": "14_Custom_Rod_Detent_Spring_03.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
-        "color": "Black / Tough PLA",
-        "desc": "Upper station key 3 - keys 28 Gear to the barrel (not a rod detent)",
+        "color": "Safety Orange / PETG",
+        "desc": "Axial rod detent spring 3 (az 180), rides the rod rack -- build_rod_detent.py",
         "supports": "No",
     },
     {
         "id": 15,
-        "source_file": "Custom_Rod_C_Follower.stl",
-        "export_filename": "15_Custom_Rod_C_Follower_01.stl",
+        "source_file": "Custom_Rod_Detent_Spring.stl",
+        "export_filename": "15_Custom_Rod_Detent_Spring_04.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Safety Orange / PETG",
-        "desc": "Long-arm C follower 1 (az 90), rides the rod rack -- build_rod_detent.py",
-        "supports": "No",
-    },
-    {
-        "id": 16,
-        "source_file": "Custom_Rod_C_Follower.stl",
-        "export_filename": "16_Custom_Rod_C_Follower_02.stl",
-        "subassembly": "03_Internal_Barrel_And_Upper_Station",
-        "plate": "Plate_2_Internal_Barrel_And_Springs",
-        "color": "Safety Orange / PETG",
-        "desc": "Long-arm C follower 2 (az 270), rides the rod rack -- build_rod_detent.py",
+        "desc": "Axial rod detent spring 4 (az 270), rides the rod rack -- build_rod_detent.py",
         "supports": "No",
     },
     {
@@ -441,13 +431,16 @@ BED_POSES = {
     "07_32_Mid_Shell_P02_Ratchet.stl": ([[1, 0, 0], [0, 0, -1], [0, 1, 0]], 38),
     "08_33_Mid_Shell_P01_Outer.stl": ([[0, 0, -1], [1, 0, 0], [0, -1, 0]], 2),
     "09_Custom_Mid_Shell_Spring_33.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
-    "10_Custom_Internal_Barrel_Stop.stl": ([[1, 0, 0], [0, 0, 1], [0, -1, 0]], 0),
-    "11_07_Internal_Barrel_Cap.stl": ([[0, 0, 1], [-1, 0, 0], [0, -1, 0]], 30),
-    "12_09_Internal_Barrel_Pin_01.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
-    "13_10_Internal_Barrel_Pin_02.stl": ([[-1, 0, 0], [0, 1, 0], [0, 0, -1]], 60),
-    "14_11_Internal_Barrel_Pin_03.stl": ([[0, 0, 1], [0, 1, 0], [-1, 0, 0]], 30),
-    "15_Custom_Rod_C_Follower_01.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
-    "16_Custom_Rod_C_Follower_02.stl": ([[-1, 0, 0], [0, 1, 0], [0, 0, -1]], 60),
+    "10_Custom_Internal_Barrel_4Slot.stl": ([[1, 0, 0], [0, 0, 1], [0, -1, 0]], 0),
+    "11_Custom_Internal_Barrel_Cap.stl": ([[0, 0, 1], [-1, 0, 0], [0, -1, 0]], 30),
+    # the four springs are one solid at four azimuths, so they share a base and
+    # differ only by the turn that cancels their seating
+    # planar parts: lay the profile on the bed with the 3.75 mm width up the Z
+    # axis, then cancel each one's seating with Ry(90 - azimuth)
+    "12_Custom_Rod_Detent_Spring_01.stl": ([[0, 1, 0], [0, 0, 1], [1, 0, 0]], 90),
+    "13_Custom_Rod_Detent_Spring_02.stl": ([[0, 1, 0], [0, 0, 1], [1, 0, 0]], 0),
+    "14_Custom_Rod_Detent_Spring_03.stl": ([[0, 1, 0], [0, 0, 1], [1, 0, 0]], -90),
+    "15_Custom_Rod_Detent_Spring_04.stl": ([[0, 1, 0], [0, 0, 1], [1, 0, 0]], -180),
     "18_27_Upper_Shell_Top.stl": ([[-1, 0, 0], [0, 0, -1], [0, -1, 0]], 60),
     "19_28_Upper_Shell_Gear.stl": ([[0, 0, 1], [1, 0, 0], [0, 1, 0]], 62),
     "20_29_Upper_Shell_Lock_Ring.stl": ([[1, 0, 0], [0, 0, 1], [0, -1, 0]], 60),
@@ -636,36 +629,44 @@ This directory contains the complete, production-ready 3D printing package for t
 
 ## What changed in v1.2
 
-Two changes, both to the **up/down click of the central rod**. Everything else — the 33-click waist, the 20-click rim gear, the 4-position fold, the spinner ring, all 8 mid shell options — is untouched and measures identically to v1.1.
+One change, to the **up/down click of the central rod** — and one thing it costs, recorded plainly below. Everything else — the 33-click waist, the 20-click rim gear, the 4-position fold, the spinner ring, all 8 mid shell options — is untouched and measures identically to v1.1.
 
-### 1. The rod detent is now a long-arm C spring
+### The rod detent is now four arms of `11 - Middle Spring`
 
-The reference is the Spinner Fuse Grenade's `11 - Middle Spring`: a C with two long opposed arms. Measured, what makes it good is **not** force — it peaks at 2.00 N, well under v1.1's 5.53 N — but how gently it works its material: **1.207 N/mm on 0.714% strain per millimetre of travel**, against the v1.1 leaf's 2.951 N/mm on 1.278%. Over the tens of thousands of clicks a fidget sees, that is the difference between a flexure that lasts and one that cracks.
+The reference is the Spinner Fuse Grenade's `11 - Middle Spring`. Measured, what makes it good is **not** force — it peaks at 2.00 N, well under v1.1's 5.53 N — but how gently it works its material: **1.207 N/mm on 0.714% strain per millimetre of travel**, against the v1.1 leaf's 2.951 N/mm on 1.278%. Over the tens of thousands of clicks a fidget sees, that is the difference between a flexure that lasts and one that cracks.
 
-That shape needs room, so **the barrel was opened to give it room**. Two axial pockets are cut at azimuth 90° and 270° — the middle rod's two rack faces, which are *opposed*, so the pair loads the rod with no net side force. The barrel could afford it: over y 36–47 its wall was a uniform 7.96 mm with no window, slot or channel anywhere in it. The pockets stop at r 12.60 and leave 3.62 mm of wall — still more than the 3.05 mm the barrel already carries at its waist — and nothing is cut through to the outside, so the journal the mid shell rides on is untouched. Total material removed: **449.8 mm³, 2.3% of the barrel**.
+That part is a closed C, 34.81 × 32.63 × 3.00 mm, and it cannot go in whole — the rod is inserted full depth through the barrel and there is nowhere for a closed C to sit. So it is **cut in half at the middle** and one arm is transplanted: the reference's own outline, trimmed of the bridge and of the shell tab, mapped into the slot at **0.53 radial / 0.74 axial** scale. It keeps the shape that matters — the long slanted leg, the fold out to an outer rail, the U-turn, and the hook back inward to the nose — and only the two ends are ours: a rigid foot where `11` had its bridge, carrying the **extended notch**, and a nose cut for this rod's rack.
 
 | | v1.1 | v1.2 | `11 - Middle Spring` |
 |---|---|---|---|
-| architecture | 3 short leaves | **2 long opposed C arms** | 2 long opposed C arms |
-| spring rate | 2.951 N/mm | **1.005 N/mm** | 1.207 N/mm |
+| architecture | 3 short leaves at 90/210/330 | **4 transplanted arms at 0/90/180/270** | 2 arms on one C |
+| rate per arm | 2.951 N/mm | **0.631 N/mm** | 1.207 N/mm |
 | strain per mm | 1.278 % | **0.831 %** | 0.714 % |
-| **strain per click** | 1.11 % | **1.07 %** | 0.59 % |
-| peak force | 5.53 N | **1.73 N** | 2.00 N |
-| held at every click | 0.00 N | **0.30 N** | 0.00 N |
+| **strain per click** | 1.11 % | **1.12 %** | 0.59 % |
+| peak force | 5.53 N | **2.26 N** | 2.00 N |
+| held at every click | 0.00 N | **0.45 N** | 0.00 N |
 | dead band | 12% of pitch | **0%** | 3% |
 
-In v1.1 the nose sat 0.10 mm *clear* of the rack at every click, so the force fell to exactly zero across the middle 12% of each tooth — nothing held the rod between clicks, and since 0.10 mm is inside normal print variation a given print could have had no click at all. That is gone: the arms are preloaded 0.40 mm and never lose contact.
+In v1.1 the nose sat 0.10 mm *clear* of the rack at every click, so the force fell to exactly zero across the middle 12% of each tooth — nothing held the rod between clicks, and since 0.10 mm is inside normal print variation a given print could have had no click at all. That is gone. The fix is not obvious and is worth stating: the rack's groove is only **2.58 mm wide at crest level**, and a tongue whose flanks match the rack's is 2.618 mm wide there *whatever* tip radius it uses — so it can never be pushed deeper than a perfect fit, and a perfect fit carries no preload. This nose is deliberately **wider** than the groove and wedges down onto the crest shoulders instead, which is what gives it 0.45 N to hold with.
 
-This is a **light** click by design — it matches the Spinner Fuse rather than v1.1. Parts `15` and `16` are the new `Custom_Rod_C_Follower`; the old part `17` is gone, so the kit is **35 parts, not 36**. Print the followers in **PETG**, not PLA.
+The rod's rack is a **turned ring**, the same at every azimuth, so all four arms bite equally. Print the springs in **PETG**, not PLA.
 
-### 2. The rod now has an up-stop
+### What it cost: the barrel's other slots, the pins and the cap's keys
 
-In v1.1 nothing limited the rod's upward travel and it could be pulled out of the toy. Part `10` also gains two small internal lands that the existing retainer catches, giving a defined stroke of **14.07 mm, about 4.4 clicks**. It is renamed `Custom_Internal_Barrel_Stop`.
+The barrel now carries **exactly four slots and nothing else**. Three sets of features had to go to get there:
 
-**v1.1 and v1.2 barrels are not interchangeable.** The v1.2 followers need the v1.2 pockets to sit in, and the up-stop only exists on the v1.2 barrel.
+- **The three pin channels at 30° / 150° / 270° are filled**, and parts `09/10/11 - Internal Barrel Pin` leave the kit. Four slots 90° apart cannot fit around three channels 120° apart — the nearest miss is 15°, and clearing one needs r ≥ 17.4 mm against the barrel's 16.22.
+- **The three stock follower slots at 90° / 210° / 330° are filled too.** At azimuth 90 a new slot lands on an old one, and leaving it gave a hybrid of the two profiles — deeper and wider above r 12.30 than the new section, shallower below.
+- **The cap loses all three keys**, because they keyed into those same slots. `11_Custom_Internal_Barrel_Cap` is the plain lobed disc that remains; it still presses onto the barrel's top face and its underside at y 63.205 is what holds all four springs down. Its rotational lock is gone — measured, the rim alone does not replace it.
+
+> **The upper station is no longer retained axially.** Those pins were the only thing holding `27 - Upper Shell Top` down on the barrel — lift it and it now comes straight off, meeting zero interference. Rotation is unaffected: the barrel keys the shell with its own lobes. A replacement retention is still to be designed; do not print this package expecting a finished toy.
+
+The slots keep the stock two-step section — a neck with a one-sided widening that the notch rides in — 0.30 mm wider than stock so the spring can be the reference's own 3.00 mm thickness, and they stop at r 12.30 instead of 14.55. They have to: above y 54 the barrel is a **narrow** cylinder, 13.95 in the troughs and 14.70 at 0° and 180°, with three lobes to 17.10 at 90° / 210° / 330° that were the only reason the stock slots could be as deep as they were. Filling and cutting together take the barrel from 19365 mm³ to 19022 mm³, a net 1.8%, and the thinnest wall left outboard of any slot is **1.50 mm** — thicker than the 0.49 mm the stock barrel already carries elsewhere. Nothing is cut through to the outside, so the journal the mid shell rides on is untouched.
+
+**v1.1 and v1.2 barrels are not interchangeable**, and neither are the caps.
 
 ### Key Architectural Highlights
-1. **Original Tactical Internal Spine**: The native `08 - Internal Barrel`, with the up-stop lands added, carrying 3 pins (`12/13/14`) that key the rotating upper station, and 3 preloaded followers (`15/16/17`) that ride the rod's rack and produce the axial click.
+1. **Tactical Internal Spine**: The native `08 - Internal Barrel`, its three pin channels filled and four spring slots cut at 0° / 90° / 180° / 270°, carrying the 4 preloaded springs (`12/13/14/15`) that ride the rod's rack and are the whole of the axial click.
 2. **Original Tactical Upper Station**: Retains `28 - Upper Shell Gear`, `27 - Upper Shell Top`, `29 - Lock Ring`, and `30 - Rotating Spring`.
 3. **Solid-Yoke 3-Piece Rod**: Full-depth rod assembly with seamless integral yoke (`Custom_Rod_Middle`, `Custom_Rod_Right`, and `Custom_Rod_Left`) locked via transverse `06` and `07` cross-keys and retained axially by `Spinner Lever 08 - Rod Lock`. (No upper wedge lock and no unnecessary keyway holes).
 4. **Folding Head & Spinner**: High-tactile folding lever mechanism with 4 detent positions (0°, 30°, 60°, 90°), free-spinning center ring (360°), and outer rim clicker gear (20 clicks/turn).
@@ -677,13 +678,13 @@ In v1.1 nothing limited the rod's upward travel and it could be pulled out of th
 ```text
 3D_Print_Custom_Hybrid_Grenade/
 ├── 3D_Print_Custom_Hybrid_Grenade_Assembled.glb # Complete full 3D assembly (PBR materials & metadata)
-├── 3D_Print_Custom_Hybrid_Grenade_Exploded.glb  # Fully parted exploded view showing all 36 internal parts
+├── 3D_Print_Custom_Hybrid_Grenade_Exploded.glb  # Fully parted exploded view showing all {{N_TOTAL}} internal parts
 ├── 3D_Print_Custom_Hybrid_Grenade_Cutaway.glb   # Coronal/sagittal cutaway revealing internal rack & springs
-├── 01_Base_And_Bottom_Shell/               # 6 STLs: Bottom lock cylinder, spacer, flexure spring & 3 outer shell tiers
-├── 02_Waist_Mechanism/                     # 3 STLs: 33-lobe ratchet ring, outer shell body & 3-arm detent spring
-├── 03_Internal_Barrel_And_Upper_Station/   # 12 STLs: barrel (+up-stop), cap, 3 upper-station pins, 3 rod followers, gear, top & lock ring
-├── 04_Rod_Assembly_And_Locks/              # 6 STLs: Full-depth 3-part rod (solid yoke), 2 cross-keys & bottom axial retainer
-├── 05_Folding_Head_And_Spinner/            # 9 STLs: Folding lever cheeks, center spinner ring, rim gear & clicker, hinge lock pins
+├── 01_Base_And_Bottom_Shell/               # {{N_01}} STLs: Bottom lock cylinder, spacer, flexure spring & 3 outer shell tiers
+├── 02_Waist_Mechanism/                     # {{N_02}} STLs: 33-lobe ratchet ring, outer shell body & 3-arm detent spring
+├── 03_Internal_Barrel_And_Upper_Station/   # {{N_03}} STLs: barrel (4 slots), cap, 4 rod detent springs, gear, top & lock ring
+├── 04_Rod_Assembly_And_Locks/              # {{N_04}} STLs: Full-depth 3-part rod (solid yoke), 2 cross-keys & bottom axial retainer
+├── 05_Folding_Head_And_Spinner/            # {{N_05}} STLs: Folding lever cheeks, center spinner ring, rim gear & clicker, hinge lock pins
 ├── All_Parts_Flat_Bed_Oriented/            # Every STL pre-oriented flat on Z=0 for instant drag-and-drop slicing
 ├── All_Parts_Assembled_Coordinates/        # Every STL in exact solved global assembly space
 ├── Plates_3MF/                             # Multi-part 3MF build plates arranged for Bambu Studio / OrcaSlicer / PrusaSlicer
@@ -692,7 +693,7 @@ In v1.1 nothing limited the rod's upward travel and it could be pulled out of th
 
 ---
 
-## 📋 Complete Bill of Materials (BOM) — 36 Parts Total
+## 📋 Complete Bill of Materials (BOM) — {{N_TOTAL}} Parts Total
 
 | Part # | Subassembly | Filename | Material / Recommended Color | Qty | Supports |
 |:---|:---|:---|:---|:---:|:---:|
@@ -705,13 +706,12 @@ In v1.1 nothing limited the rod's upward travel and it could be pulled out of th
 | **07** | Waist Mech | `07_32_Mid_Shell_P02_Ratchet.stl` | PLA (Olive Drab Green) | 1 | No |
 | **08** | Waist Mech | `08_33_Mid_Shell_P01_Outer.stl` | PLA (Olive Drab Green) | 1 | No |
 | **09** | Waist Mech | `09_Custom_Mid_Shell_Spring_33.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
-| **10** | Upper Station | `10_Custom_Internal_Barrel_Stop.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
-| **11** | Upper Station | `11_07_Internal_Barrel_Cap.stl` | PLA (Gunmetal / Black) | 1 | No |
-| **12** | Upper Station | `12_09_Internal_Barrel_Pin_01.stl` | PLA+ / Tough PLA (Gunmetal / Black) | 1 | No |
-| **13** | Upper Station | `13_10_Internal_Barrel_Pin_02.stl` | PLA+ / Tough PLA (Gunmetal / Black) | 1 | No |
-| **14** | Upper Station | `14_11_Internal_Barrel_Pin_03.stl` | PLA+ / Tough PLA (Gunmetal / Black) | 1 | No |
-| **15** | Upper Station | `15_Custom_Rod_C_Follower_01.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
-| **16** | Upper Station | `16_Custom_Rod_C_Follower_02.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **10** | Upper Station | `10_Custom_Internal_Barrel_4Slot.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
+| **11** | Upper Station | `11_Custom_Internal_Barrel_Cap.stl` | PLA (Gunmetal / Black) | 1 | No |
+| **12** | Upper Station | `12_Custom_Rod_Detent_Spring_01.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **13** | Upper Station | `13_Custom_Rod_Detent_Spring_02.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **14** | Upper Station | `14_Custom_Rod_Detent_Spring_03.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **15** | Upper Station | `15_Custom_Rod_Detent_Spring_04.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **18** | Upper Station | `18_27_Upper_Shell_Top.stl` | PLA (Olive Drab Green) | 1 | No |
 | **19** | Upper Station | `19_28_Upper_Shell_Gear.stl` | PLA (Silver / Gunmetal) | 1 | No |
 | **20** | Upper Station | `20_29_Upper_Shell_Lock_Ring.stl` | PLA (Olive Drab Green) | 1 | No |
@@ -753,17 +753,16 @@ In v1.1 nothing limited the rod's upward travel and it could be pulled out of th
 4. Stack `02_05_Bottom_Shell_02.stl` over the shoulder, then seat `03_06_Bottom_Shell_03.stl` on top.
 
 ### Stage 2: Waist Mechanism & 33-Lobe Clicker
-1. Insert `09_Custom_Mid_Shell_Spring_33.stl` through the 3 lower windows of `10_Custom_Internal_Barrel_Stop.stl`.
+1. Insert `09_Custom_Mid_Shell_Spring_33.stl` through the 3 lower windows of `10_Custom_Internal_Barrel_4Slot.stl`.
 2. Slide `07_32_Mid_Shell_P02_Ratchet.stl` onto the barrel until its internal lobes engage the 3 spring arms.
 3. Place `08_33_Mid_Shell_P01_Outer.stl` over the ratchet ring.
 
-### Stage 3: Original Internal Barrel Clicking Pins & Upper Station
-1. Insert the 3 pins (`12_09`, `13_10`, `14_11`) into the vertical pin slots of `10_Custom_Internal_Barrel_Stop.stl`.
-2. Seat the 3 rod detent followers (`15`, `16`, `17`) in the barrel's three slots at 90 deg / 210 deg / 330 deg. They are preloaded: their noses stand 0.45 mm proud of where the rack will hold them, so the rod snaps past them on the way in. They do not touch the pins.
-3. Seal the top of the barrel with `11_07_Internal_Barrel_Cap.stl`.
-4. Slide `19_28_Upper_Shell_Gear.stl` over the upper barrel station.
-5. Install `21_30_Upper_Shell_Rotating_Spring.stl` and `20_29_Upper_Shell_Lock_Ring.stl`.
-6. Seat `18_27_Upper_Shell_Top.stl` over the upper station to close the main body.
+### Stage 3: Rod Detent Springs & Upper Station
+1. Drop the 4 detent springs (`12`, `13`, `14`, `15`) into the barrel's four slots at 0 deg / 90 deg / 180 deg / 270 deg, **from the open top**. They are identical parts; the rib on the foot faces the same way in all four, and it catches the step in the slot so the spring cannot work its way inward. They are preloaded — the noses stand proud of where the rack will hold them, so the rod snaps past them on the way in.
+2. Seal the top of the barrel with `11_Custom_Internal_Barrel_Cap.stl`. It is a plain disc with no keys, so it drops on either way round; its underside traps all four springs.
+3. Slide `19_28_Upper_Shell_Gear.stl` over the upper barrel station.
+4. Install `21_30_Upper_Shell_Rotating_Spring.stl` and `20_29_Upper_Shell_Lock_Ring.stl`.
+5. Seat `18_27_Upper_Shell_Top.stl` over the upper station to close the main body. **It is not retained** — the three pins that used to hold it down are gone, so it will lift straight off until a replacement is designed.
 
 ### Stage 4: Three-Part Full-Depth Rod Assembly
 1. Place `22_Custom_Rod_Right.stl` and `24_Custom_Rod_Left.stl` on either side of `23_Custom_Rod_Middle.stl`.
@@ -780,8 +779,17 @@ In v1.1 nothing limited the rod's upward travel and it could be pulled out of th
 5. Secure the handle cheeks with `34_Custom_16_Handle_Lock_Neck.stl` and `35_Custom_16_Handle_Lock_Pod.stl`.
 6. Mount the assembled folding head onto the rod's upper hinge yoke and insert `36_15_Handle_Rotating_Lock_D_Pin.stl` to complete the toy!
 """
+    # Counts come from the manifest rather than from prose, because prose drifts:
+    # the v1.2 README shipped claiming 36 parts when the kit held 35.
+    counts = {"{{N_TOTAL}}": str(len(PARTS_MANIFEST))}
+    for sub in _DERIVED_SUBDIRS[:5]:
+        counts["{{N_%s}}" % sub[:2]] = str(
+            sum(1 for i in PARTS_MANIFEST if i["subassembly"] == sub))
+    md_content = md_content.replace("{{PACKAGE}}", PACKAGE_NAME)
+    for key, value in counts.items():
+        md_content = md_content.replace(key, value)
     with open(readme_path, "w", encoding="utf-8") as f:
-        f.write(md_content.replace("{{PACKAGE}}", PACKAGE_NAME))
+        f.write(md_content)
 
 
 if __name__ == "__main__":

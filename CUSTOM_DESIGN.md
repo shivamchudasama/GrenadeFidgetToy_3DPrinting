@@ -4,7 +4,7 @@
 Same evidence tags: **[M]** measured, **[D]** derived, **[?]** informed guess.
 
 Production package located in: [`Hybrid_Grenade_v1.2/`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/Hybrid_Grenade_v1.2/) (BOM & Assembly Guide: [`README_3D_PRINTING.md`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/Hybrid_Grenade_v1.2/README_3D_PRINTING.md)).
-**Versioning.** `Hybrid_Grenade_v1.1/` is frozen: it is the record of what has already been printed, and the build scripts refuse to write into it (`tools/package_paths.py`, `guard()`). Work happens in the folder named by `PACKAGE_NAME`; to start a new one, bump that constant, copy the previous folder forward, and rebuild. v1.2 changes only the axial rod detent and the rod's up-stop — §5.2 and §5.3.
+**Versioning.** `Hybrid_Grenade_v1.1/` is frozen: it is the record of what has already been printed, and the build scripts refuse to write into it (`tools/package_paths.py`, `guard()`). Work happens in the folder named by `PACKAGE_NAME`; to start a new one, bump that constant, copy the previous folder forward, and rebuild. v1.2 changes only the axial rod detent — §5.2 — and what that layout costs: the three barrel pins and one cap key.
 
 Interactive 3D Web Studio: [`Interactive_Shell_Variants_Viewer.html`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/Hybrid_Grenade_v1.2/Interactive_Shell_Variants_Viewer.html).
 Rebuild toolchain: `python tools/export_3d_print_package.py` and `python tools/build_shell_variants_glbs.py`.
@@ -17,7 +17,7 @@ The custom toy unifies the best mechanical and tactile features of the **Fidget 
 
 1. **Tactical Base & Native 33-Click Waist Detent**: Preserves the Tactical common base body, utilizing its native 3-window internal barrel and 3-arm leaf spring to drive a crisp 33-click rotary detent without increasing overall height.
 2. **8 Interchangeable Mid Shell Variants**: 100% verified mechanical standardization across 8 mid shell designs (Baseline 2-piece, 01 AeroFlow, 02 Vector Chevron, 03 Orbit, 04 Ergo Scoops, 05 Contour Twist, 06 Hex Tactical, and 07 Classic Solid Tactical) sharing an exact **34.80 mm total height** and **40.00 mm mating interface diameter**.
-3. **Tactical Internal Spine & Upper Rotating Station**: The native `08 - Internal Barrel`, with two up-stop lands added, carrying 3 pins (`09/10/11`) that key the rotating upper station (`27`, `28`, `29`, `30`) and 3 preloaded followers (`12/13/14`) that ride the rod's rack and are the whole of the axial click.
+3. **Tactical Internal Spine & Upper Rotating Station**: The native `08 - Internal Barrel`, its three pin channels filled and four spring slots cut at 0° / 90° / 180° / 270°, carrying the 4 preloaded springs that ride the rod's rack and are the whole of the axial click. The upper station (`27`, `28`, `29`, `30`) is no longer retained axially — see §5.2.
 4. **Solid-Yoke 3-Piece Rod Architecture**: Full-depth rod assembly with a seamless integral yoke on `Custom_Rod_Middle` flanked by `Custom_Rod_Right` and `Custom_Rod_Left`, locked via dual transverse cross-keys (`Custom_Rod_Lock_Upper_06` and `Custom_Rod_Lock_Lower_07`) and retained axially by `Spinner Lever 08 - Rod Lock` (no upper wedge lock or split yoke).
 5. **Folding Head & Spinner**: Folding handle with 4 detent positions (0°, 30°, 60°, 90° on `15 - Handle Rotating Lock` and `09 - Rod Spring`), 360° free-spinning center ring (`Custom_Ring_Spinner` at ⌀22.10 mm), 20-click outer rim gear (`Spinner Lever 05 - Gear` against `04 - Spring` in a 274° pod), and refined turned 45°-chamfered cheeks with flush exterior surfaces.
 
@@ -113,46 +113,53 @@ An earlier experimental iteration explored a split-yoke rod with an upper wedge 
 
 ### 5.2 Axial Click Detent
 
-**[M]** The click is produced by **three followers alone** — `15/16/17_Custom_Rod_Detent_Follower` in slots in `08 - Internal Barrel` at azimuth **90° / 210° / 330°**, one per rack face. The barrel pins clear the rod by 1.47–3.33 mm and `09_Custom_Mid_Shell_Spring_33` by 1.158 mm; neither takes part.
+**[M]** The click is produced by **four springs alone** — `12/13/14/15_Custom_Rod_Detent_Spring` in slots in `08 - Internal Barrel` at azimuth **0° / 90° / 180° / 270°**. Nothing else takes part: `09_Custom_Mid_Shell_Spring_33` clears the rod by 1.158 mm and is rotary only.
 
-**[M]** The rack: pitch **3.17733 mm**, crest **|z| 6.8901**, V-root **|z| 5.7652**, straight **40.63°** flanks.
+**[M]** The rack: pitch **3.17733 mm**, crest **r 6.8901**, V-root **r 5.7652**, straight **40.63°** flanks — and it is a **turned ring, not a pair of flat faces**. Measured at every azimuth from 0° to 350° over y 34 .. 60, the rod's outer radius is 6.88–6.89 at the crest and 5.77–5.81 at the root. A nose therefore works at any azimuth, which is what makes a four-fold layout possible at all.
+
+**[M]** The two transverse cross-keys are part of that ring. The three rod pieces part along z = 0, and between **y 48.75 and 58.09** that parting line is an open gap; `25_Custom_Rod_Lock_Upper_06` fills it and carries the same rack (crest 6.888, root 5.780). A spring at azimuth 0° or 180° rides that key. `tools/score_detent.py` omitted the cross-keys until this revision and consequently read those two springs as barely engaged — it never showed while every follower sat at 90° / 210° / 330°.
 
 **[M]** The stock follower's nose sat **0.10 mm clear** of the rack at every detent, so the force fell to **exactly zero** across the middle 12% of the pitch — a dead band with nothing holding the rod, and 0.10 mm is well inside print variation, so a given print could have no click at all.
 
-**[D] The design is the Spinner Fuse's `11 - Middle Spring`.** That part is a C with two long opposed arms. Measured, what makes it good is **not** force — it peaks at **2.00 N** against v1.1's 5.53 N — but how gently it works its material: **1.207 N/mm on 0.714% strain per mm of travel**, against the v1.1 leaf's **2.951 N/mm on 1.278%**. Its force curve is the same smooth symmetric dome as ours (both peak at 48% of the pitch, same maximum slope), so it is not "snappier" either. The difference is fatigue.
+**[D] The spring is one arm of the Spinner Fuse's `11 - Middle Spring`, transplanted.** Measured, what makes that part good is **not** force — it peaks at **2.00 N** against v1.1's 5.53 N — but how gently it works its material: **1.207 N/mm on 0.714% strain per mm of travel**, against the v1.1 leaf's **2.951 N/mm on 1.278%**. Its force curve is the same smooth symmetric dome as ours, so it is not "snappier" either. The difference is fatigue.
 
-**[D] The barrel was opened to host it.** Compliance per unit strain scales with envelope, and `11` buys its numbers with a 32.6 × 34.8 mm open C. Two axial pockets are now cut in `08 - Internal Barrel` at azimuth **90° and 270°** — the middle rod's two rack faces, which are **opposed**, so the pair loads the rod with no net side force, exactly as `11` does. The barrel could afford it: over **y 36 .. 47** its wall was a uniform **7.96 mm** with no window, slot or channel anywhere in it.
+**[D]** It is a closed C, 34.81 × 32.63 × 3.00 mm, and cannot go in whole: the rod is inserted full depth through the barrel and there is nowhere for a closed C to sit. So it is cut at the bridge and one **arm** is taken — not redrawn, but the reference's own outline, trimmed of the bridge below y 19.60 and of the shell tab beyond x 13.00, then mapped into the slot at **0.534 radial / 0.740 axial** scale. What survives is the shape that matters: the long slanted leg, the fold out to an outer rail, the U-turn, and the hook back inward to the nose. Only the two ends are ours — a rigid foot where `11` had its bridge, carrying the **extended notch**, and a nose cut for this rod's rack.
 
-| pocket | value |
+| the spring | value |
 |---|---|
-| azimuth | 90° and 270°, 3.15 mm wide (the existing slot width) |
-| radial | r 7.00 → **12.60**, leaving **3.62 mm** of wall (the waist already runs 3.05 mm) |
-| height | y 35.50 → 62.50 (az 90) and → 56.20 (az 270, stops below the pin channel at 56.64) |
-| cost | **449.8 mm³, 2.3% of the barrel**; outer surface untouched, so the mid shell journal is unaffected |
+| foot | y 36.30 → 42.60, r 7.40 → 12.20 — the whole anchor, bearing on the slot's outer wall and floor; **4.00 mm** wide outboard of r 11.55 and **3.00 mm** inboard, which is the notch |
+| arm | the reference outline, r 7.40 → 10.60, y 41.90 → 62.92, **3.00 mm** thick — the reference's own thickness |
+| nose | 0.75 mm tip on flanks at the rack's own 49.37° half angle, apex **r 5.54**, at y 57.4 |
+| volume | 207.30 mm³, watertight, single body |
 
-**[M] Why two parts and not one bridged C.** A single part cannot be got in. Below, the rod and the spacer leave **0.44 mm** at every azimuth; above, the rod's yoke and the cap bore leave **0.04 mm**. Two opposed halves keep the mechanics — long arm, opposed pair, continuous preload — and still drop into their pockets.
+**[M] What caps the rate, and what nearly went wrong.** The arm hangs free from its foot, so it swings — and the U-turn at its far end swings **1.12×** as far as the nose does, solved from the displacement field rather than assumed. At full crest the free end reaches **r 12.11** against the slot's 12.30 wall. Sizing to the nose's own travel instead would have driven it through the wall and made a spring that jams solid at every click, which nothing else in the pipeline would have caught: the parts are watertight, they do not interfere when seated, and the swept volume only rises. `swing_clearance()` is now a hard check.
 
-**[M] The arm**: 3.00 mm wide (`11`'s own 3.0 mm), **1.60 mm** radial, running y 37.0 → 54.2, with a foot keyed into the pocket at y 35.6 .. 37.0 and a tongue tipped at the same 0.75 mm radius the rack's 40.63° V is cut for. Its free tip sits at **r 5.60**; the rack forces it out to ~6.00, so it is **preloaded 0.40 mm and never loses contact**.
+**[M] Where the preload comes from.** Not from seating in the groove. Measured off the rod at 0.005 mm, one tooth is a crest at r 6.885 rounded over ~0.5 mm of y, straight 49.2° flanks, and a **sharp** root vertex at 5.770 — so the groove is only **2.58 mm wide at crest level**, not a whole 3.177 mm pitch. A tongue whose flanks match the rack's is 2.618 mm wide there *whatever* tip radius it uses; the width is invariant, so such a tongue can never be pushed deeper than a perfect fit, and a perfect fit carries no preload. That is v1.1's defect exactly. Two attempts here rediscovered it from opposite sides: an apex of 5.82 measured **0.00 N** at the seat, and giving the tongue steeper flanks of its own only made it bottom on the sharp root vertex, for 0.014 mm of bite. The nose that works is deliberately **wider** than the groove and wedges down onto the crest shoulders.
 
-| | v1.1 stock | v1.2 | `11 - Middle Spring` |
-|---|---|---|---|
-| architecture | 3 short leaves | **2 long opposed C arms** | 2 long opposed C arms |
-| spring rate | 2.951 N/mm | **1.005 N/mm** | 1.207 N/mm |
-| strain per mm | 1.278 % | **0.831 %** | 0.714 % |
-| strain per click | 1.11 % | **1.07 %** | 0.59 % |
-| peak force | 5.53 N | **1.73 N** | 2.00 N |
-| held at every seat | 0.00 N | **0.30 N** | 0.00 N |
-| dead band | 12% of pitch | **0%** | 3% |
+**[M] The barrel, and why the slots are shallower than stock.** Above **y 54** the barrel is a **narrow** cylinder: outer radius **13.95** in the troughs, **14.70** at 0° and 180°, with three lobes to **17.10** at 90° / 210° / 330°. Those lobes are the only reason the stock slots can be 14.55 deep and still reach the barrel top, which is how the stock springs are fitted. A slot that reaches the top anywhere else cannot pass **r 12.30**.
 
-**[D]** This is a **light** detent by design — it matches the reference rather than v1.1. `ARM_NOSE_R` in `tools/build_rod_detent.py` trades force against strain (5.50 → 1.86 N at 1.16%; 5.90 → 1.34 N at 0.82% but 6% dead band); `ARM_R_IN`/`ARM_R_OUT` set the rate.
+| slot | value |
+|---|---|
+| azimuth | 0° / 90° / 180° / 270°, the stock two-step section 0.30 mm wider: **3.50 mm** neck, one-sided step to **4.50 mm** |
+| radial | bore → **11.50** → **12.30** (stock: → 12.55 → 14.55) |
+| height | y 36.00 → through the barrel top at 63.238, so the springs drop in from above |
+| cost | barrel **19365 → 19022 mm³**, net **−1.8%** (fills +1391, slots −1734); thinnest wall left outboard of a slot **1.50 mm**, against the **0.49 mm** the stock barrel already carries elsewhere; outer surface untouched |
 
-**[M]** The kit is now **35 parts**: the third follower is gone, since two opposed arms replace three leaves.
+**[M] The barrel now carries four slots and nothing else.** Three sets of stock features were filled to get there, and the order matters — fill first, then cut, or the new slot at azimuth 90 inherits the old profile around it:
 
-### 5.3 Rod Stroke and Up-Stop
+- **the three pin channels at 30° / 150° / 270°**, because four slots 90° apart cannot miss three channels 120° apart: every four-fold set comes within 15° of a channel, and clearing one needs r ≥ 17.4 mm against the barrel's 16.22;
+- **the three stock follower slots at 90° / 210° / 330°**, whose inner edge is the bore — not one radius, but 8.27 up to y 53.5, 7.12 to y 60, then a chamfer to 9.89, so `bore_profile()` measures it rather than assuming;
+- **all three cap keys**, which sat in those follower slots. `11_Custom_Internal_Barrel_Cap` is the plain lobed disc left over. It still presses onto the barrel's top face by ~12 mm³ and its underside at **y 63.205** is what holds all four springs down, but its rotational lock is gone: turning the fingerless disc gives 10.7 .. 13.0 mm³ against the barrel at every angle, a preference and not a stop.
 
-**[M]** The rod previously had **no upward stop**: swept to +24 mm it met nothing, so the click count was undefined and the rod could be pulled out of the toy. Downward it bottoms after **0.30 mm** (retainer rim on the barrel's lower face), so the toy shipped essentially bottomed out.
+**[M] What the pins were for.** Not rotation — the barrel keys `27 - Upper Shell Top` with its own lobes, 39.9 mm³ of interference at 5°. Axial retention, and nothing else does it: lifting the upper shell off the barrel meets **0.000 mm³** of interference at +1, +2, +4, +6, +8, +12 and +20 mm; `29 - Lock Ring` clears the barrel by 1.469 mm and `28 - Upper Shell Gear` by 1.570 mm; each pin pressed into the shell by 0.066 mm. **A replacement retention is open work and is the one thing standing between this package and a printable toy.**
 
-**[M]** Two inward lands at **r 7.40**, azimuth **90° ± 12°** and **270° ± 12°**, over **y 34.20 .. 35.40**, are now part of `10_Custom_Internal_Barrel_Stop`. The retainer's own rim (r 7.80 at those azimuths) catches them by **0.40 mm**; the rod clears them by **0.356–0.510 mm**, because at 90°/270° it presents only its rack crest (6.890) rather than a side clamp (7.857). Stroke **14.07 mm ≈ 4.4 clicks**. Cost: **+6.9 mm³** on the barrel, single-body and watertight.
+**[D]** `NOSE_APEX` in `tools/build_rod_detent.py` trades seating force against peak and is chosen from the swept meshes, not from geometry — the geometric seat overestimates the bite two- to fourfold. `ARM_SCALE_Y` sets the rate, bounded below by the arm's swing against the slot wall and above by its top having to reach the cap.
+
+**[M]** The kit is now **34 parts**: four springs replace three leaves, and the three pins are gone.
+
+### 5.3 Rod Stroke
+
+**[M]** The rod has **no upward stop**: swept to +24 mm it meets nothing, so the click count is undefined and the rod can be pulled out of the toy. Downward it bottoms after **0.30 mm** (retainer rim on the barrel's lower face). v1.2 briefly carried two inward lands at azimuth 90°/270° that gave a 14.07 mm stroke; they were dropped with the C-follower design they belonged to, and the stroke is again unlimited.
 
 **[D]** Growing the retainer instead does not work, and the reason is worth keeping: above it the spacer bore is **8.30 mm** from y 16 to 27, and the first thing narrower is the waist spring's **7.915 mm** bore, so a collar would have to live inside a **0.385 mm** window. That is inside FDM variation — a given print would either bind in the spacer or slip past the spring.
 
@@ -162,7 +169,7 @@ An earlier experimental iteration explored a split-yoke rod with an upper wedge 
 
 ### 6.1 Assembled Envelopes & Dimensions
 
-- **Total Part Count**: 35 parts (v1.1 had 36; two opposed C arms replace three leaf followers).
+- **Total Part Count**: 34 parts (v1.1 had 36; four arm springs replace three leaf followers, and the three barrel pins are gone).
 - **Assembled Envelope**: **41.63 × 126.26 × 72.47 mm** ($X \times Y \times Z$ with handle folded down at 0°).
 - **Height**: 126.3 mm (compared to stock Tactical 116.7 mm and stock Spinner Fuse 84.6 mm).
 
@@ -184,7 +191,9 @@ The production package includes [`Interactive_Shell_Variants_Viewer.html`](file:
 
 ---
 
-## 7. Complete Bill of Materials (BOM)
+## 7. Complete Bill of Materials (BOM) — 34 parts
+
+Numbers 16 and 17 are vacant: the four springs took 12–15, and renumbering the tail would rename nineteen files for nothing.
 
 | Part # | Subassembly | Filename | Recommended Material / Color | Qty | Supports |
 |:---|:---|:---|:---|:---:|:---:|
@@ -197,14 +206,12 @@ The production package includes [`Interactive_Shell_Variants_Viewer.html`](file:
 | **07** | Waist Mech | `07_32_Mid_Shell_P02_Ratchet.stl` *(or Option 05 Inner)* | PLA (Olive Drab Accent) | 1 | No |
 | **08** | Waist Mech | `08_33_Mid_Shell_P01_Outer.stl` *(or Options 01–07)* | PLA (Olive Drab Green) | 1 | No |
 | **09** | Waist Mech | `09_Custom_Mid_Shell_Spring_33.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
-| **10** | Upper Station | `10_Custom_Internal_Barrel_Stop.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
-| **11** | Upper Station | `11_07_Internal_Barrel_Cap.stl` | PLA (Gunmetal / Black) | 1 | No |
-| **12** | Upper Station | `12_09_Internal_Barrel_Pin_01.stl` | PLA+ / Tough PLA (Crimson Red) | 1 | No |
-| **13** | Upper Station | `13_10_Internal_Barrel_Pin_02.stl` | PLA+ / Tough PLA (Crimson Red) | 1 | No |
-| **14** | Upper Station | `14_11_Internal_Barrel_Pin_03.stl` | PLA+ / Tough PLA (Crimson Red) | 1 | No |
-| **15** | Upper Station | `15_Custom_Rod_Detent_Follower_01.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
-| **16** | Upper Station | `16_Custom_Rod_Detent_Follower_02.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
-| **17** | Upper Station | `17_Custom_Rod_Detent_Follower_03.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **10** | Upper Station | `10_Custom_Internal_Barrel_4Slot.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
+| **11** | Upper Station | `11_Custom_Internal_Barrel_Cap.stl` | PLA (Gunmetal / Black) | 1 | No |
+| **12** | Upper Station | `12_Custom_Rod_Detent_Spring_01.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **13** | Upper Station | `13_Custom_Rod_Detent_Spring_02.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **14** | Upper Station | `14_Custom_Rod_Detent_Spring_03.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **15** | Upper Station | `15_Custom_Rod_Detent_Spring_04.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **18** | Upper Station | `18_27_Upper_Shell_Top.stl` | PLA (Olive Drab Green) | 1 | No |
 | **19** | Upper Station | `19_28_Upper_Shell_Gear.stl` | PLA (Silver / Gunmetal) | 1 | No |
 | **20** | Upper Station | `20_29_Upper_Shell_Lock_Ring.stl` | PLA (Olive Drab Accent) | 1 | No |
@@ -229,8 +236,8 @@ The production package includes [`Interactive_Shell_Variants_Viewer.html`](file:
 
 ## 8. Verification & 3D Print Guidelines
 
-- **Watertightness**: 100% of the 35 parts are single-body, manifold, and watertight (`python tools/fidget.py check` passes 110/110).
-- **Detent regression check**: `python tools/score_detent.py` reports peak, trough and **force** for all five motions. Run it after any change to the rod, the followers or the barrel — nothing else re-measures the axial detent, and swept volume on its own will not reveal a dead band.
+- **Watertightness**: 100% of the 34 parts are single-body, manifold, and watertight (`python tools/fidget.py check` passes 110/110).
+- **Detent regression check**: `python tools/score_detent.py` reports peak, trough and **force** for all five motions. Run it after any change to the rod, the springs or the barrel — nothing else re-measures the axial detent, and swept volume on its own will not reveal a dead band.
 - **Rebuild order matters**: `export_3d_print_package.py` clears and rewrites `Plates_3MF/`, and `build_shell_variants_glbs.py` writes one plate plus the three `Mid_Shell_Options/` folders into it. Run them in that order and only that order:
   ```bash
   python tools/build_rod_detent.py            # only if the detent changed

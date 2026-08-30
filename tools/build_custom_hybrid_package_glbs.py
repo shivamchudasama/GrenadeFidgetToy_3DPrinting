@@ -1,19 +1,20 @@
-"""Build and export Assembled, Exploded, and Cutaway GLB models for the 3D_Print_Custom_Hybrid_Grenade package.
+"""Build and export Assembled, Exploded, and Cutaway GLB models for the package
+named by ``package_paths.PACKAGE_NAME``.
 
-Package contains all 36 parts:
+Called by ``export_3d_print_package.py`` via :func:`build_all_glbs`; not a
+standalone step in the rebuild order.
+
+Reads every part from ``<PACKAGE_DIR>/All_Parts_Assembled_Coordinates``:
   - 01_Base_And_Bottom_Shell (6 parts)
   - 02_Waist_Mechanism (3 parts)
-  - 03_Internal_Barrel_And_Upper_Station (12 parts)
+  - 03_Internal_Barrel_And_Upper_Station (10 parts)
   - 04_Rod_Assembly_And_Locks (6 parts)
   - 05_Folding_Head_And_Spinner (9 parts)
 
-Outputs:
-  - 3D_Print_Custom_Hybrid_Grenade/3D_Print_Custom_Hybrid_Grenade_Assembled.glb
-  - 3D_Print_Custom_Hybrid_Grenade/3D_Print_Custom_Hybrid_Grenade_Exploded.glb
-  - 3D_Print_Custom_Hybrid_Grenade/3D_Print_Custom_Hybrid_Grenade_Cutaway.glb
-  - 3D_Print_Custom_Hybrid_Grenade/Custom_Hybrid_Grenade_Assembled.glb
-  - 3D_Print_Custom_Hybrid_Grenade/Custom_Hybrid_Grenade_Exploded.glb
-  - 3D_Print_Custom_Hybrid_Grenade/Custom_Hybrid_Grenade_Cutaway.glb
+Outputs, into ``<PACKAGE_DIR>``:
+  - 3D_Print_Custom_Hybrid_Grenade_Assembled.glb
+  - 3D_Print_Custom_Hybrid_Grenade_Exploded.glb
+  - 3D_Print_Custom_Hybrid_Grenade_Cutaway.glb
 """
 from __future__ import annotations
 
@@ -168,8 +169,8 @@ PARTS_SPECS = [
     # 03 - Internal Barrel & Upper Station
     {
         "id": 10,
-        "name": "10_Custom_Internal_Barrel_Stop",
-        "file": "10_Custom_Internal_Barrel_Stop.stl",
+        "name": "10_Custom_Internal_Barrel_4Slot",
+        "file": "10_Custom_Internal_Barrel_4Slot.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "load_type": "tactical_pose",
         "tactical_key": "08 - Internal Barrel",
@@ -182,8 +183,8 @@ PARTS_SPECS = [
     },
     {
         "id": 11,
-        "name": "11_07_Internal_Barrel_Cap",
-        "file": "11_07_Internal_Barrel_Cap.stl",
+        "name": "11_Custom_Internal_Barrel_Cap",
+        "file": "11_Custom_Internal_Barrel_Cap.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "load_type": "tactical_pose",
         "tactical_key": "07 - Internal Barrel Cap",
@@ -196,50 +197,11 @@ PARTS_SPECS = [
     },
     {
         "id": 12,
-        "name": "12_09_Internal_Barrel_Pin_01",
-        "file": "12_09_Internal_Barrel_Pin_01.stl",
+        "name": "12_Custom_Rod_Detent_Spring_01",
+        "file": "12_Custom_Rod_Detent_Spring_01.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "load_type": "tactical_pose",
-        "tactical_key": "09 - Internal Barrel Pin v1.1",
-        "color": (225, 60, 60),  # Crimson Red
-        "metallic": 0.25,
-        "roughness": 0.4,
-        "is_cutaway_shell": False,
-        "disp": np.array([-28.0, 0.0, 16.0]),
-    },
-    {
-        "id": 13,
-        "name": "13_10_Internal_Barrel_Pin_02",
-        "file": "13_10_Internal_Barrel_Pin_02.stl",
-        "subassembly": "03_Internal_Barrel_And_Upper_Station",
-        "load_type": "tactical_pose",
-        "tactical_key": "10 - Internal Barrel v1.1",
-        "color": (225, 60, 60),  # Crimson Red
-        "metallic": 0.25,
-        "roughness": 0.4,
-        "is_cutaway_shell": False,
-        "disp": np.array([28.0, 0.0, 16.0]),
-    },
-    {
-        "id": 14,
-        "name": "14_11_Internal_Barrel_Pin_03",
-        "file": "14_11_Internal_Barrel_Pin_03.stl",
-        "subassembly": "03_Internal_Barrel_And_Upper_Station",
-        "load_type": "tactical_pose",
-        "tactical_key": "11 - Internal Barrel v1.1",
-        "color": (225, 60, 60),  # Crimson Red
-        "metallic": 0.25,
-        "roughness": 0.4,
-        "is_cutaway_shell": False,
-        "disp": np.array([0.0, 0.0, -32.0]),
-    },
-    {
-        "id": 15,
-        "name": "15_Custom_Rod_C_Follower_01",
-        "file": "15_Custom_Rod_C_Follower_01.stl",
-        "subassembly": "03_Internal_Barrel_And_Upper_Station",
-        "load_type": "tactical_pose",
-        "tactical_key": "Custom_Rod_Detent_Follower_01",
+        "tactical_key": "Custom_Rod_Detent_Spring_01",
         "color": (255, 130, 45),  # Safety Orange
         "metallic": 0.2,
         "roughness": 0.35,
@@ -247,17 +209,43 @@ PARTS_SPECS = [
         "disp": np.array([-44.0, 0.0, 24.0]),
     },
     {
-        "id": 16,
-        "name": "16_Custom_Rod_C_Follower_02",
-        "file": "16_Custom_Rod_C_Follower_02.stl",
+        "id": 13,
+        "name": "13_Custom_Rod_Detent_Spring_02",
+        "file": "13_Custom_Rod_Detent_Spring_02.stl",
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "load_type": "tactical_pose",
-        "tactical_key": "Custom_Rod_Detent_Follower_02",
+        "tactical_key": "Custom_Rod_Detent_Spring_02",
         "color": (255, 130, 45),  # Safety Orange
         "metallic": 0.2,
         "roughness": 0.35,
         "is_cutaway_shell": False,
         "disp": np.array([44.0, 0.0, 24.0]),
+    },
+    {
+        "id": 14,
+        "name": "14_Custom_Rod_Detent_Spring_03",
+        "file": "14_Custom_Rod_Detent_Spring_03.stl",
+        "subassembly": "03_Internal_Barrel_And_Upper_Station",
+        "load_type": "tactical_pose",
+        "tactical_key": "Custom_Rod_Detent_Spring_03",
+        "color": (255, 130, 45),  # Safety Orange
+        "metallic": 0.2,
+        "roughness": 0.35,
+        "is_cutaway_shell": False,
+        "disp": np.array([-44.0, 0.0, -24.0]),
+    },
+    {
+        "id": 15,
+        "name": "15_Custom_Rod_Detent_Spring_04",
+        "file": "15_Custom_Rod_Detent_Spring_04.stl",
+        "subassembly": "03_Internal_Barrel_And_Upper_Station",
+        "load_type": "tactical_pose",
+        "tactical_key": "Custom_Rod_Detent_Spring_04",
+        "color": (255, 130, 45),  # Safety Orange
+        "metallic": 0.2,
+        "roughness": 0.35,
+        "is_cutaway_shell": False,
+        "disp": np.array([44.0, 0.0, -24.0]),
     },
     {
         "id": 18,
@@ -488,7 +476,7 @@ PARTS_SPECS = [
 
 
 def load_all_posed_parts() -> list[dict]:
-    """Load all 36 parts from exact global assembled coordinates."""
+    """Load every part from exact global assembled coordinates."""
     loaded_parts = []
     for spec in PARTS_SPECS:
         stl_path = os.path.join(ASSEMBLED_STLS_DIR, spec["file"])
@@ -607,7 +595,7 @@ def sync_assembled_stl_files(loaded_parts: list[dict]):
         mesh = item["mesh"]
         out_stl = os.path.join(ASSEMBLED_STLS_DIR, spec["file"])
         mesh.export(out_stl)
-    print(f"[STL SYNC] Successfully updated 36 STLs in {ASSEMBLED_STLS_DIR}")
+    print(f"[STL SYNC] Successfully updated {len(loaded_parts)} STLs in {ASSEMBLED_STLS_DIR}")
 
 
 def build_all_glbs():
@@ -615,7 +603,7 @@ def build_all_glbs():
     print("BUILDING 3D_PRINT_CUSTOM_HYBRID_GRENADE ASSEMBLED, EXPLODED & CUTAWAY GLBS")
     print("=" * 80)
 
-    print("\n1. Loading and positioning all 36 components...")
+    print(f"\n1. Loading and positioning all {len(PARTS_SPECS)} components...")
     loaded_parts = load_all_posed_parts()
     print(f"   Loaded {len(loaded_parts)} parts successfully.")
 

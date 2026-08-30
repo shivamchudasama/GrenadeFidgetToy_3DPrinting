@@ -1,4 +1,4 @@
-"""Score every detent in Hybrid_Grenade_v1.1, so a change to one cannot quietly
+"""Score every detent in the current package, so a change to one cannot quietly
 break another.
 
 Each of the toy's five motions is a follower riding a notched track.  The thing
@@ -119,14 +119,30 @@ def motion_fold():
 
 
 def _rod_members():
+    """Everything that moves with the rod and carries rack.
+
+    The two transverse cross-keys belong here, and leaving them out is not a
+    rounding error.  The three rod pieces part along z = 0, and between
+    y 48.75 and 58.09 that parting line is an open gap -- ``06`` is what fills
+    it, and it carries the same rack (crest 6.888, root 5.780).  A follower at
+    azimuth 0 or 180 rides that key, so without it the sweep reads such a
+    follower as barely engaged.  It never showed while every follower sat at
+    90 / 210 / 330.
+    """
     return [load("23_Custom_Rod_Middle.stl"),
             load("22_Custom_Rod_Right.stl"),
-            load("24_Custom_Rod_Left.stl")]
+            load("24_Custom_Rod_Left.stl"),
+            load("25_Custom_Rod_Lock_Upper_06.stl"),
+            load("26_Custom_Rod_Lock_Lower_07.stl")]
 
 
 def _rod_followers():
     """Whatever is currently fitted in the barrel's three follower slots."""
-    for names in (("15_Custom_Rod_C_Follower_01.stl",
+    for names in (("12_Custom_Rod_Detent_Spring_01.stl",
+                   "13_Custom_Rod_Detent_Spring_02.stl",
+                   "14_Custom_Rod_Detent_Spring_03.stl",
+                   "15_Custom_Rod_Detent_Spring_04.stl"),
+                  ("15_Custom_Rod_C_Follower_01.stl",
                    "16_Custom_Rod_C_Follower_02.stl"),
                   ("15_Custom_Rod_Detent_Follower_01.stl",
                    "16_Custom_Rod_Detent_Follower_02.stl",
@@ -165,11 +181,14 @@ def axial_force_curve(followers=None, steps=33):
     if followers is None:
         followers = _rod_followers()[0]
     # The rate has to match the design that is fitted, including where it is
-    # anchored.  build_rod_detent knows that for the part it builds; fall back
-    # to the generic serpentine solver only for the older leaf followers.
+    # anchored: the current arm is held by its rail, the old leaf reacted through
+    # its own back face, and solving one with the other's anchor is off by tens
+    # of percent.  build_rod_detent knows which is which for the part it builds;
+    # the generic serpentine solver is only right for the older leaf followers.
     import build_rod_detent as BRD
 
-    if len(followers) == len(BRD.OUTPUTS):
+    _, fitted = _rod_followers()
+    if tuple(fitted) == BRD.OUTPUTS:
         res = BRD.arm_rate()
     else:
         res = FR.follower_rate(FR.follower_profile(followers[0]))
