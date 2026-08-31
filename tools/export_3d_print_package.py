@@ -242,7 +242,7 @@ PARTS_MANIFEST = [
         "supports": "No",
     },
 
-    # 04 - Rod Assembly & Locks (Solid Yoke, 06 & 07 Cross-keys, 08 Bottom Retainer, NO Upper Wedge)
+    # 04 - Rod Assembly & Locks (Solid Yoke, Full-Height Hex-Keyed Side Clamps, 06 & 07 Cross-keys, 08 Bottom Retainer)
     {
         "id": 22,
         "source_file": "Custom_Rod_Right.stl",
@@ -250,7 +250,7 @@ PARTS_MANIFEST = [
         "subassembly": "04_Rod_Assembly_And_Locks",
         "plate": "Plate_3_Rod_Assembly_And_Locks",
         "color": "Black / Gunmetal",
-        "desc": "Lower right rod member (trimmed at Y=62 mm)",
+        "desc": "Full-height right rod member with integral upper hexagonal key & right spring pod wall",
         "supports": "No",
     },
     {
@@ -260,7 +260,7 @@ PARTS_MANIFEST = [
         "subassembly": "04_Rod_Assembly_And_Locks",
         "plate": "Plate_3_Rod_Assembly_And_Locks",
         "color": "Black / Gunmetal",
-        "desc": "Full-depth middle rod with integral solid hinge yoke and transverse key tunnels",
+        "desc": "Full-depth middle rod with integral solid hinge yoke, enclosed spring pocket, and transverse key tunnels",
         "supports": "Minimal (under yoke)",
     },
     {
@@ -270,7 +270,7 @@ PARTS_MANIFEST = [
         "subassembly": "04_Rod_Assembly_And_Locks",
         "plate": "Plate_3_Rod_Assembly_And_Locks",
         "color": "Black / Gunmetal",
-        "desc": "Lower left rod member (trimmed at Y=62 mm)",
+        "desc": "Full-height left rod member with integral upper hexagonal key & left spring pod wall",
         "supports": "No",
     },
     {
@@ -445,9 +445,9 @@ BED_POSES = {
     "19_28_Upper_Shell_Gear.stl": ([[0, 0, 1], [1, 0, 0], [0, 1, 0]], 62),
     "20_29_Upper_Shell_Lock_Ring.stl": ([[1, 0, 0], [0, 0, 1], [0, -1, 0]], 60),
     "21_30_Upper_Shell_Rotating_Spring.stl": ([[0, 0, -1], [-1, 0, 0], [0, 1, 0]], 30),
-    "22_Custom_Rod_Right.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "22_Custom_Rod_Right.stl": ([[0, 0, 1], [0, 1, 0], [-1, 0, 0]], 0),
     "23_Custom_Rod_Middle.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
-    "24_Custom_Rod_Left.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "24_Custom_Rod_Left.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
     "25_Custom_Rod_Lock_Upper_06.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
     "26_Custom_Rod_Lock_Lower_07.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
     "27_Spinner_Lever_08_Rod_Lock.stl": ([[0, 0, 1], [1, 0, 0], [0, 1, 0]], 0),
@@ -521,7 +521,7 @@ def export_complete_package():
     for sd in _DERIVED_SUBDIRS:
         path = guard(os.path.join(OUTPUT_DIR, sd))
         if os.path.exists(path):
-            shutil.rmtree(path)
+            shutil.rmtree(path, ignore_errors=True)
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     for sd in _DERIVED_SUBDIRS + [ASSEMBLED_SUBDIR]:
@@ -764,20 +764,20 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 4. Install `21_30_Upper_Shell_Rotating_Spring.stl` and `20_29_Upper_Shell_Lock_Ring.stl`.
 5. Seat `18_27_Upper_Shell_Top.stl` over the upper station to close the main body. **It is not retained** — the three pins that used to hold it down are gone, so it will lift straight off until a replacement is designed.
 
-### Stage 4: Three-Part Full-Depth Rod Assembly
-1. Place `22_Custom_Rod_Right.stl` and `24_Custom_Rod_Left.stl` on either side of `23_Custom_Rod_Middle.stl`.
-2. Insert `25_Custom_Rod_Lock_Upper_06.stl` through the upper cross-tunnel.
-3. Insert `26_Custom_Rod_Lock_Lower_07.stl` through the lower cross-tunnel.
-4. Slide the locked 3-part rod down through the central square bore of the body.
-5. Press `27_Spinner_Lever_08_Rod_Lock.stl` onto the bottom tapered wedge to retain the rod axially.
+### Stage 4: Unified Full-Height Rod Assembly & Enclosed Hinge Spring
+1. Insert narrowed `28_09_Rod_Spring_Hinge.stl` into the central spring channel of `23_Custom_Rod_Middle.stl`.
+2. Place full-height `22_Custom_Rod_Right.stl` and `24_Custom_Rod_Left.stl` on the right and left sides of `23_Custom_Rod_Middle.stl`, fully enclosing the hinge spring inside the symmetric pod halves and forming the upper hexagonal keying prism.
+3. Insert `25_Custom_Rod_Lock_Upper_06.stl` through the upper cross-tunnel.
+4. Insert `26_Custom_Rod_Lock_Lower_07.stl` through the lower cross-tunnel.
+5. Slide the assembled 3-piece rod down through the central bore of the body and through `21_30_Upper_Shell_Rotating_Spring.stl` (the hexagonal upper section positively locks to the rotating spring's bore).
+6. Press `27_Spinner_Lever_08_Rod_Lock.stl` onto the bottom tapered wedge to retain the rod axially.
 
 ### Stage 5: Folding Head, Rim Gear & Center Spinner
-1. Insert `28_09_Rod_Spring_Hinge.stl` into the yoke pocket between the upper rod cheeks.
-2. Place `33_Spinner_Lever_04_Spring.stl` inside the handle pod pocket.
-3. Mount `32_Spinner_Lever_05_Gear.stl` and `31_Custom_Ring_Spinner.stl` onto the journal tube of `29_Custom_Handle_Left.stl`.
-4. Close with `30_Custom_Handle_Right.stl`.
-5. Secure the handle cheeks with `34_Custom_16_Handle_Lock_Neck.stl` and `35_Custom_16_Handle_Lock_Pod.stl`.
-6. Mount the assembled folding head onto the rod's upper hinge yoke and insert `36_15_Handle_Rotating_Lock_D_Pin.stl` to complete the toy!
+1. Place `33_Spinner_Lever_04_Spring.stl` inside the handle pod pocket.
+2. Mount `32_Spinner_Lever_05_Gear.stl` and `31_Custom_Ring_Spinner.stl` onto the journal tube of `29_Custom_Handle_Left.stl`.
+3. Close with `30_Custom_Handle_Right.stl`.
+4. Secure the handle cheeks with `34_Custom_16_Handle_Lock_Neck.stl` and `35_Custom_16_Handle_Lock_Pod.stl`.
+5. Mount the assembled folding head onto the rod's upper hinge yoke and insert `36_15_Handle_Rotating_Lock_D_Pin.stl` to complete the toy!
 """
     # Counts come from the manifest rather than from prose, because prose drifts:
     # the v1.2 README shipped claiming 36 parts when the kit held 35.

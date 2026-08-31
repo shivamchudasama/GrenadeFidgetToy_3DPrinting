@@ -101,10 +101,13 @@ To provide full customization, 8 mid shell variants were created and dimensional
 ## 5. Solid-Yoke 3-Piece Rod Architecture
 
 ### 5.1 Mechanical Evolution
-An earlier experimental iteration explored a split-yoke rod with an upper wedge lock. That design introduced a potential weak point at the upper joint. The final production design adopts the **Solid-Yoke 3-Piece Rod Architecture**:
+The production design incorporates the **Unified Full-Height Hex-Keyed Rod & Enclosed Hinge Spring Pod Architecture**:
 
-1. **Integral Solid Yoke (`Custom_Rod_Middle`)**: The upper hinge yoke is seamlessly integrated into the central middle rod above $y = 62.00\text{ mm}$, providing maximum structural strength for the folding head and hinge pin (`15 - Handle Rotating Lock`).
-2. **Full-Depth Side Clamps (`Custom_Rod_Right` & `Custom_Rod_Left`)**: The side members clamp against the middle rod along the entire depth of the body.
+1. **Integral Solid Yoke (`23_Custom_Rod_Middle`)**: The upper hinge yoke is seamlessly integrated into the central middle rod ($y = 18.08 \dots 99.62\text{ mm}$), providing maximum structural strength for the folding head and hinge pin (`15 - Handle Rotating Lock`). It contains an enclosed central cavity for the hinge spring with **zero upper through-holes**.
+2. **Monolithic Full-Height Side Clamps (`22_Custom_Rod_Right` & `24_Custom_Rod_Left`)**:
+   - Each side member spans the entire length ($y = 18.08 \dots 80.00\text{ mm}$) in a single solid, continuous part.
+   - The lower section ($y \in [18.08, 62.00]\text{ mm}$) carries the axial detent rack channels and transverse key capture pockets.
+   - The upper section ($y \in [62.00, 80.00]\text{ mm}$) forms the hexagonal keying prism that matches the bore of `21_30_Upper_Shell_Rotating_Spring.stl` with $0.20\text{ mm}$ radial clearance for positive rotational lock, and provides solid outer enclosure walls for the hinge spring pod.
 3. **Dual Transverse Cross-Keys (`06` & `07`)**:
    - `Custom_Rod_Lock_Upper_06`: Located at $y = 48.654 .. 58.186\text{ mm}$.
    - `Custom_Rod_Lock_Lower_07`: Located at $y = 23.654 .. 33.186\text{ mm}$.

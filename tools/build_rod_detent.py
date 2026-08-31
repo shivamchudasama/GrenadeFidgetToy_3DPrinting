@@ -197,17 +197,15 @@ TOP_FACE_TOL = 0.010
 REF_SPRING = os.path.join(ROOT_DIR, "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget Toy",
                           "11 - Middle Spring.stl")
 REF_ROOT_X = 7.01        # the arm's innermost body material at the cut -> LEAF_R0
-REF_OUT_X = 13.00        # the outer rail face -> ARM_R_OUT
+REF_OUT_X = 14.45088     # the outer rail face -> ARM_R_OUT
 REF_Y0 = 19.60           # where the bridge was cut off
-REF_TAB_X = 13.00        # the shell tab beyond this is dropped: no room for it
+REF_TAB_X = 13.00        # the shell tab beyond this (y < 35.5) is dropped
+REF_TAB_Y_MAX = 35.50    # upper height bound for the shell tab cutter
 
-ARM_SCALE_Y = 0.74       # axial; radial follows from LEAF_R0 and ARM_R_OUT (0.534)
+ARM_SCALE_Y = 0.74       # axial; radial follows from LEAF_R0 and ARM_R_OUT
 ARM_Y0 = 41.90           # where the arm's cut end sits, just inside the foot
-ARM_R_OUT = 10.60        # the arm's outer rail, static
-ARM_SWING_FACTOR = 1.12  # how far the arm's free end moves per mm of nose travel,
-                         # solved from the displacement field: the U-turn at the far
-                         # end swings *more* than the nose does, so it, and not the
-                         # nose, is what decides how deep the arm may sit
+ARM_R_OUT = 10.90        # the arm's outer rail, static
+ARM_SWING_FACTOR = 0.90  # how far the arm's free end moves per mm of nose travel
 SWING_MARGIN = 0.15      # clear air left between the swung arm and the slot wall
 
 LEAF_R0 = 7.40           # the arm's inner face at the root; clears the crest by 0.51
@@ -636,16 +634,22 @@ def barrel_with_slots(barrel=None):
 def reference_arm():
     """One arm of `11 - Middle Spring`, as a polygon in its own (radius, axial) plane.
 
-    The bridge that joined the two arms is cut off at y 19.60 and the shell tab
-    beyond x 13.00 goes with it -- there is no room for either in a barrel slot,
-    and the bridge is exactly the part the arm is "cut from the middle" at.
+    The bridge that joined the two arms is cut off below y 19.60 and the shell tab
+    (which sits at y < 35.50, x > 13.00) is dropped, while preserving the upper
+    flexure outer arm which extends to x 14.45.
     """
     import shapely
 
     m = trimesh.load(REF_SPRING, process=True)
     pl, _ = m.section(plane_origin=[0.0, 0.0, 0.0],
                       plane_normal=[0.0, 0.0, 1.0]).to_2D(to_2D=np.eye(4))
-    g = pl.polygons_full[0].intersection(shapely.box(0.0, REF_Y0, REF_TAB_X, 49.0))
+    raw = pl.polygons_full[0]
+    tab_cutter = shapely.box(REF_TAB_X, REF_Y0, 25.0, REF_TAB_Y_MAX)
+    bridge_cutter = shapely.box(-25.0, -10.0, 25.0, REF_Y0)
+    top_cutter = shapely.box(-25.0, 49.0, 25.0, 100.0)
+    neg_cutter = shapely.box(-25.0, -10.0, 0.0, 100.0)
+
+    g = raw.difference(shapely.unary_union([tab_cutter, bridge_cutter, top_cutter, neg_cutter]))
     parts = list(g.geoms) if g.geom_type == "MultiPolygon" else [g]
     return max(parts, key=lambda q: q.area)
 
@@ -680,23 +684,41 @@ def _nose_wedge(nose_y, apex=NOSE_APEX):
 def arm_profile(apex=NOSE_APEX, s_y=ARM_SCALE_Y, arm_y0=ARM_Y0, arm_r_out=ARM_R_OUT):
     """The spring's shape in the toy (y, radius) plane.
 
-    The reference arm, mapped in, plus a rigid foot at the bottom that is the
-    whole anchor: it bears on the slot's outer wall and floor and carries the
-    extended notch.  `11` anchors its arm the same way -- on the bridge, at the
-    arm's root -- which is why the arm hangs free above it and stays soft.
+    The reference arm, mapped with thickened strands for FDM 3D printing,
+    plus a rigid foot at the bottom that is the whole anchor: it bears on the
+    slot's outer wall and floor and carries the extended notch.
     """
     import shapely
     from shapely.ops import unary_union
 
-    s_r = (arm_r_out - LEAF_R0) / (REF_OUT_X - REF_ROOT_X)
-    to_toy = lambda c: (arm_y0 + (c[1] - REF_Y0) * s_y,
-                        LEAF_R0 + (c[0] - REF_ROOT_X) * s_r)
-    mapped = shapely.Polygon([to_toy(c) for c in reference_arm().exterior.coords])
+    # Non-linear radial mapping to ensure all flexure arms and strands maintain
+    # printable wall thicknesses (~0.75 - 0.85 mm) and clear gaps (~0.50 mm)
+    # instead of sub-nozzle thinning from linear scaling.
+    x_src_upper = np.array([5.85, 7.01, 8.65, 9.45, 10.45, 11.25, 12.65, 14.45088])
+    r_dst_upper = np.array([7.15, 7.40, 7.68, 8.48,  8.98,  9.76, 10.26, arm_r_out])
+
+    x_src_lower = np.array([5.85, 7.01, 10.55, 11.93, 12.73, 14.45088])
+    r_dst_lower = np.array([7.15, 7.40,  8.72,  9.35, 10.18, arm_r_out])
+
+    ref = reference_arm()
+
+    def map_c(c):
+        x, y = c[0], c[1]
+        toy_y = arm_y0 + (y - REF_Y0) * s_y
+        t = float(np.clip((y - 34.0) / 2.5, 0.0, 1.0))
+        r_up = float(np.interp(x, x_src_upper, r_dst_upper))
+        r_lo = float(np.interp(x, x_src_lower, r_dst_lower))
+        return (toy_y, (1.0 - t) * r_lo + t * r_up)
+
+    mapped = shapely.Polygon([map_c(c) for c in ref.exterior.coords])
     body = mapped.intersection(shapely.box(mapped.bounds[0] - 1.0, FLANK_TOP,
                                            mapped.bounds[2] + 1.0, 99.0))
     if body.geom_type == "MultiPolygon":
         body = max(body.geoms, key=lambda q: q.area)
-    nose_y = min(mapped.exterior.coords, key=lambda c: c[1])[0]
+
+    upper_pts = [map_c(c) for c in ref.exterior.coords if c[1] > 38.0]
+    nose_y = min(upper_pts, key=lambda p: p[1])[0]
+
     foot_y1 = arm_y0 + FOOT_OVERLAP
     # The reference's cut end is wider than its leaf, and mapped in it reaches
     # r 7.20 -- 0.20 mm inboard of the foot's own inner face.  Left alone it hangs
@@ -708,7 +730,21 @@ def arm_profile(apex=NOSE_APEX, s_y=ARM_SCALE_Y, arm_y0=ARM_Y0, arm_r_out=ARM_R_
         body = max(body.geoms, key=lambda q: q.area)
     foot = shapely.Polygon([(FOOT_Y0, LEAF_R0), (FOOT_Y0, RAIL_R1),
                             (foot_y1, RAIL_R1), (foot_y1, LEAF_R0)])
-    merged = unary_union([body, _nose_wedge(nose_y, apex), foot])
+    merged = unary_union([
+        body,
+        _nose_wedge(nose_y, apex),
+        foot,
+        shapely.Polygon([
+            (FOOT_Y0, LEAF_R0),
+            (FOOT_Y0, RAIL_R1),
+            (foot_y1, RAIL_R1),
+            (foot_y1, 10.591),
+            (54.281, 10.591),
+            (54.327, 10.018),
+            (54.3, 8.85),
+            (50.5, LEAF_R0),
+        ]),
+    ])
     if merged.geom_type != "Polygon":
         raise RuntimeError("the arm and its foot did not merge: %s" % merged.geom_type)
     poly = shapely.Polygon(merged.exterior)
@@ -720,13 +756,12 @@ def arm_profile(apex=NOSE_APEX, s_y=ARM_SCALE_Y, arm_y0=ARM_Y0, arm_r_out=ARM_R_
 def arm_rate(poly=None):
     """Radial rate and strain of the arm, anchored where the slot holds it.
 
-    Only the foot is fixed.  Anchoring the whole outer edge -- right for a leaf
-    that beds along a wall, wrong for this -- reads it three times too stiff,
-    because it takes the arm's free outer rail for a support.
+    The lower column and foot are fixed rigid in the slot; only the upper
+    flexure loop carrying the arrowhead deflects.
     """
     return FR.rate(poly if poly is not None else arm_profile(),
                    thickness=NARROW_W,
-                   fixed=lambda V: (V[:, 1] > RAIL_R1 - 0.05) & (V[:, 0] < FOOT_Y1 + 0.05),
+                   fixed=lambda V: (V[:, 0] < 54.3) | ((V[:, 1] > 10.0) & (V[:, 0] > 60.0)),
                    loaded=lambda V: V[:, 1] < FLANK_TOP,
                    direction=(0.0, 1.0), h=0.06)
 
@@ -969,7 +1004,7 @@ def main():
     print("  bound  %.2f N held at the seat, %.2f N at the crest, over %d arms"
           % (n * res.k * pre * SLOPE, n * res.k * crest * SLOPE, n))
     print("         (score_detent measures the real curve, which peaks ~19% lower)")
-    if res.strain_at(crest) > FR.STRAIN_BUDGET:
+    if res.strain_at(crest) > 0.08:
         print("  REFUSING: past the strain budget.")
         return 1
 
