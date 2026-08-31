@@ -199,8 +199,8 @@ REF_SPRING = os.path.join(ROOT_DIR, "Spinner Fuse Grenade 5-in-1 Snap-Fit Fidget
 REF_ROOT_X = 7.01        # the arm's innermost body material at the cut -> LEAF_R0
 REF_OUT_X = 14.45088     # the outer rail face -> ARM_R_OUT
 REF_Y0 = 19.60           # where the bridge was cut off
-REF_TAB_X = 13.00        # the shell tab beyond this (y < 35.5) is dropped
-REF_TAB_Y_MAX = 35.50    # upper height bound for the shell tab cutter
+REF_TAB_X = 13.00        # the shell tab beyond this (y < 33.0) is dropped
+REF_TAB_Y_MAX = 33.00    # upper height bound for the shell tab cutter (stops before outer curve)
 
 ARM_SCALE_Y = 0.74       # axial; radial follows from LEAF_R0 and ARM_R_OUT
 ARM_Y0 = 41.90           # where the arm's cut end sits, just inside the foot
@@ -692,13 +692,13 @@ def arm_profile(apex=NOSE_APEX, s_y=ARM_SCALE_Y, arm_y0=ARM_Y0, arm_r_out=ARM_R_
     from shapely.ops import unary_union
 
     # Non-linear radial mapping to ensure all flexure arms and strands maintain
-    # printable wall thicknesses (~0.75 - 0.85 mm) and clear gaps (~0.50 mm)
-    # instead of sub-nozzle thinning from linear scaling.
+    # robust printable wall thicknesses (~1.00 - 1.10 mm outer wall, ~0.75 - 0.85 mm mid strand)
+    # and clear gaps (~0.55 mm) for solid FDM 3D printing with 2-3 perimeters.
     x_src_upper = np.array([5.85, 7.01, 8.65, 9.45, 10.45, 11.25, 12.65, 14.45088])
-    r_dst_upper = np.array([7.15, 7.40, 7.68, 8.48,  8.98,  9.76, 10.26, arm_r_out])
+    r_dst_upper = np.array([7.15, 7.40, 7.68, 8.35,  8.55,  9.30,  9.85, arm_r_out])
 
     x_src_lower = np.array([5.85, 7.01, 10.55, 11.93, 12.73, 14.45088])
-    r_dst_lower = np.array([7.15, 7.40,  8.72,  9.35, 10.18, arm_r_out])
+    r_dst_lower = np.array([7.15, 7.40,  8.55,  9.30,  9.85, arm_r_out])
 
     ref = reference_arm()
 
@@ -726,24 +726,35 @@ def arm_profile(apex=NOSE_APEX, s_y=ARM_SCALE_Y, arm_y0=ARM_Y0, arm_r_out=ARM_R_
     # overhanging the bore on the side the rod runs down.  Clip it, so the inner
     # face is one flush plane the whole height of the foot.
     body = body.difference(shapely.box(0.0, 0.0, foot_y1, LEAF_R0))
+    # Shave off any residual lower locator tab below y=51.0 on the outer face (r > 9.851)
+    body = body.difference(shapely.box(0.0, 9.851, 51.0, 20.0))
     if body.geom_type == "MultiPolygon":
         body = max(body.geoms, key=lambda q: q.area)
-    foot = shapely.Polygon([(FOOT_Y0, LEAF_R0), (FOOT_Y0, RAIL_R1),
-                            (foot_y1, RAIL_R1), (foot_y1, LEAF_R0)])
+
+    # Smooth quintic S-curve transition on inner face from y=47.0 to 56.5 (dr/dy = 0 at both ends)
+    y_s_curve = np.linspace(47.0, 56.5, 41)
+    u = (y_s_curve - 47.0) / (56.5 - 47.0)
+    s_quintic = 6.0 * u**5 - 15.0 * u**4 + 10.0 * u**3
+    r_inner_curve = 7.400 + (8.551 - 7.400) * s_quintic
+
+    pts_fill = [
+        (FOOT_Y0, LEAF_R0),
+        (FOOT_Y0, RAIL_R1),
+        (foot_y1, RAIL_R1),
+        (foot_y1, 9.851),
+        (54.20, 9.851),
+        (54.20, 8.551),
+    ]
+    for y_p, r_p in reversed(list(zip(y_s_curve, r_inner_curve))):
+        pts_fill.append((y_p, r_p))
+    pts_fill.append((FOOT_Y0, LEAF_R0))
+
+    poly_fill = shapely.Polygon(pts_fill)
+
     merged = unary_union([
         body,
         _nose_wedge(nose_y, apex),
-        foot,
-        shapely.Polygon([
-            (FOOT_Y0, LEAF_R0),
-            (FOOT_Y0, RAIL_R1),
-            (foot_y1, RAIL_R1),
-            (foot_y1, 10.591),
-            (54.281, 10.591),
-            (54.327, 10.018),
-            (54.3, 8.85),
-            (50.5, LEAF_R0),
-        ]),
+        poly_fill,
     ])
     if merged.geom_type != "Polygon":
         raise RuntimeError("the arm and its foot did not merge: %s" % merged.geom_type)
