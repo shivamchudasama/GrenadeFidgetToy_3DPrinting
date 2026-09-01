@@ -698,7 +698,7 @@ def generate_interactive_viewer(parts, glb_bytes, output_html_path):
 
 
 def main():
-    print("[1/5] Loading 6 rod assembly components from assembled space...")
+    print("[1/2] Loading 6 rod assembly components from assembled space...")
     parts = load_rod_parts()
     for p in parts:
         m = p["mesh"]
@@ -706,50 +706,39 @@ def main():
 
     # Destination directories
     os.makedirs(ROD_DIR, exist_ok=True)
-    os.makedirs(V12_DIR, exist_ok=True)
 
-    # 1. Solid / Fused Watertight STL
-    print("\n[2/5] Creating solid watertight assembly STL...")
-    fused_mesh = create_solid_stl(parts)
-    print(f"  -> Solid STL: is_watertight={fused_mesh.is_watertight}, vol={fused_mesh.volume:.2f} mm3, vertices={len(fused_mesh.vertices)}, faces={len(fused_mesh.faces)}")
-    
-    out_stl_sub = os.path.join(ROD_DIR, "Custom_Rod_Assembly.stl")
-    out_stl_pkg = os.path.join(V12_DIR, "Custom_Rod_Assembly.stl")
-    fused_mesh.export(out_stl_sub)
-    fused_mesh.export(out_stl_pkg)
-    print(f"  -> Exported: {out_stl_sub}")
-    print(f"  -> Exported: {out_stl_pkg}")
-
-    # 2. Multi-Body 3MF with Color Metadata
-    print("\n[3/5] Exporting Multi-Body 3MF project plate...")
-    out_3mf_sub = os.path.join(ROD_DIR, "Custom_Rod_Assembly.3mf")
-    out_3mf_pkg = os.path.join(V12_DIR, "Custom_Rod_Assembly.3mf")
-    export_3mf_project(parts, out_3mf_sub)
-    export_3mf_project(parts, out_3mf_pkg)
-    print(f"  -> Exported: {out_3mf_sub}")
-    print(f"  -> Exported: {out_3mf_pkg}")
-
-    # 3. PBR GLB Models (Assembled & Exploded)
-    print("\n[4/5] Exporting GLB 3D models (Assembled + Exploded)...")
+    # 1. PBR GLB Model (Assembled in 04_Rod_Assembly_And_Locks)
+    print("\n[2/2] Exporting GLB 3D model (Assembled)...")
     out_glb_asy_sub = os.path.join(ROD_DIR, "Custom_Rod_Assembly.glb")
-    out_glb_exp_sub = os.path.join(ROD_DIR, "Custom_Rod_Assembly_Exploded.glb")
-    out_glb_asy_pkg = os.path.join(V12_DIR, "Custom_Rod_Assembly.glb")
 
-    glb_asy_bytes = export_glb_models(parts, out_glb_asy_sub, out_glb_exp_sub)
-    with open(out_glb_asy_pkg, "wb") as f:
-        f.write(glb_asy_bytes)
+    scene_asy = trimesh.Scene()
+    for p in parts:
+        m = p["mesh"].copy()
+        r, g, b = p["color_rgb"]
+        color_norm = [r / 255.0, g / 255.0, b / 255.0, 1.0]
+        rgba_byte = list(p["color_rgb"]) + [255]
+        m.visual = trimesh.visual.ColorVisuals(
+            mesh=m,
+            face_colors=np.tile(rgba_byte, (len(m.faces), 1)),
+        )
+        mat = trimesh.visual.material.PBRMaterial(
+            baseColorFactor=color_norm,
+            metallicFactor=0.35,
+            roughnessFactor=0.45,
+            name=f"mat_{p['id']}",
+        )
+        m.visual.material = mat
+        scene_asy.add_geometry(m, node_name=p["name"], geom_name=p["name"])
+
+    glb_bytes = scene_asy.export(file_type="glb")
+    with open(out_glb_asy_sub, "wb") as f:
+        f.write(glb_bytes)
     print(f"  -> Exported: {out_glb_asy_sub}")
-    print(f"  -> Exported: {out_glb_exp_sub}")
-    print(f"  -> Exported: {out_glb_asy_pkg}")
 
-    # 4. Interactive 3D HTML Viewer
-    print("\n[5/5] Generating standalone interactive 3D WebGL viewer...")
-    out_html = os.path.join(ROD_DIR, "Custom_Rod_Assembly_Viewer.html")
-    generate_interactive_viewer(parts, glb_asy_bytes, out_html)
-    print(f"  -> Exported: {out_html}")
-
-    print("\n[SUCCESS] Complete 6-part Custom Rod Assembly successfully built and exported!")
+    print("\n[SUCCESS] Custom Rod Assembly subassembly model successfully exported!")
 
 
 if __name__ == "__main__":
     main()
+
+

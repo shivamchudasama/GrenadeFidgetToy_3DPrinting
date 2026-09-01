@@ -137,8 +137,12 @@ def _rod_members():
 
 
 def _rod_followers():
-    """Whatever is currently fitted in the barrel's three follower slots."""
+    """Whatever is currently fitted in the barrel's four follower slots."""
     for names in (("12_Custom_Rod_Detent_Spring_01.stl",
+                   "13_Custom_Rod_Detent_Spring_02_Dual_Headed.stl",
+                   "14_Custom_Rod_Detent_Spring_03.stl",
+                   "15_Custom_Rod_Detent_Spring_04_Dual_Headed.stl"),
+                  ("12_Custom_Rod_Detent_Spring_01.stl",
                    "13_Custom_Rod_Detent_Spring_02.stl",
                    "14_Custom_Rod_Detent_Spring_03.stl",
                    "15_Custom_Rod_Detent_Spring_04.stl"),

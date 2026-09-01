@@ -104,7 +104,9 @@ def build_v2_single_profile(r_nose: float = BRD.NOSE_APEX,
                             s_y: float = BRD.ARM_SCALE_Y,
                             arm_y0: float = BRD.ARM_Y0,
                             arm_r_out: float = BRD.ARM_R_OUT) -> shapely.Polygon:
-    """Construct single-headed spring 2D profile using exact v2 middle spring geometry."""
+    """Construct single-headed spring 2D profile using exact v2 middle spring geometry with smooth organic curves on both waist edges."""
+    from scipy.interpolate import CubicSpline
+
     ref_arm = extract_v2_reference_arm()
 
     # Precise radial anchors preserving v2 geometry with print-safe 0.75-0.80mm walls & 0.55mm gaps
@@ -119,33 +121,61 @@ def build_v2_single_profile(r_nose: float = BRD.NOSE_APEX,
         return (toy_y, toy_r)
 
     mapped = shapely.Polygon([map_c(c) for c in ref_arm.exterior.coords])
+    coords = list(mapped.exterior.coords)
 
-    # Rigid foot anchor at y in [36.00, 42.60], r in [7.40, 12.20]
-    foot_y1 = arm_y0 + BRD.FOOT_OVERLAP
-    foot_poly = shapely.Polygon([
-        (BRD.FOOT_Y0, BRD.LEAF_R0),
-        (BRD.FOOT_Y0, BRD.RAIL_R1),
-        (foot_y1, BRD.RAIL_R1),
-        (foot_y1, 9.851),
-        (47.00, 9.851),
-        (47.00, BRD.LEAF_R0),
-        (BRD.FOOT_Y0, BRD.LEAF_R0)
-    ])
+    # 1. Outer waist curve: smooth transition from (y=42.60, r=8.618, dr/dy=0) to (y=54.541, r=10.900, dr/dy=0)
+    foot_y1 = arm_y0 + BRD.FOOT_OVERLAP  # 42.60 mm
+    y_top_outer = 54.541
+    y_ctrl_out = np.array([42.60, 45.50, 48.00, 51.00, 53.50, y_top_outer])
+    r_ctrl_out = np.array([8.618, 8.850, 9.750, 10.650, 10.885, arm_r_out])
+    cs_out = CubicSpline(y_ctrl_out, r_ctrl_out, bc_type=((1, 0.0), (1, 0.0)))
+    y_eval_out = np.linspace(42.60, y_top_outer, 60)
+    r_eval_out = cs_out(y_eval_out)
 
-    merged = unary_union([mapped, foot_poly])
+    # 2. Inner waist curve: smooth transition from (y=42.60, r=7.400, dr/dy=0) to (y=55.709, r=8.900, dr/dy=0)
+    y_top_inner = 55.709
+    y_ctrl_in = np.array([42.60, 46.00, 49.50, 53.00, y_top_inner])
+    r_ctrl_in = np.array([7.400, 7.500, 7.850, 8.550, 8.900])
+    cs_in = CubicSpline(y_ctrl_in, r_ctrl_in, bc_type=((1, 0.0), (1, 0.0)))
+    y_eval_in = np.linspace(42.60, y_top_inner, 60)
+    r_eval_in = cs_in(y_eval_in)
+
+    pts = []
+    # Rigid foot base
+    pts.append((BRD.FOOT_Y0, BRD.LEAF_R0))  # (36.00, 7.400)
+    pts.append((BRD.FOOT_Y0, BRD.RAIL_R1))  # (36.00, 12.200)
+    pts.append((42.60, BRD.RAIL_R1))        # (42.60, 12.200)
+    pts.append((42.60, 8.618))              # (42.60, 8.618)
+
+    # Outer curve going UP
+    for y, r in zip(y_eval_out[1:], r_eval_out[1:]):
+        pts.append((y, r))
+
+    # Upper pristine head / flexure loop from mapped
+    for idx in range(232, 46, -1):
+        pts.append(coords[idx])
+
+    # Inner curve going DOWN from 55.709 to 42.60
+    for y, r in reversed(list(zip(y_eval_in[:-1], r_eval_in[:-1]))):
+        pts.append((y, r))
+
+    # Close at foot
+    pts.append((42.60, BRD.LEAF_R0))
+    pts.append((BRD.FOOT_Y0, BRD.LEAF_R0))
+
+    poly_base = shapely.Polygon(pts)
+
+    # Graft rack-matched detent nose with 49.37° flanks (98.74° included) and smooth 0.75mm radius tip
+    nose_y_lower = 57.3959
+    wedge_lower = BRD._nose_wedge(nose_y_lower, apex=r_nose)
+    merged = unary_union([poly_base, wedge_lower])
     if merged.geom_type == 'MultiPolygon':
         merged = max(merged.geoms, key=lambda q: q.area)
-
-    # Clip inner bore face below foot_y1 to r >= 7.40
-    merged = merged.difference(shapely.box(0.0, 0.0, foot_y1, BRD.LEAF_R0))
-    if merged.geom_type == 'MultiPolygon':
-        merged = max(merged.geoms, key=lambda q: q.area)
-
     return shapely.Polygon(merged.exterior)
 
 
 def build_v2_dual_head_profile() -> shapely.Polygon:
-    """Construct dual-headed spring 2D profile replicating the exact v2 upper flexure loop."""
+    """Construct dual-headed spring 2D profile replicating the exact v2 upper flexure loop with rack-matched detent noses."""
     poly_single = build_v2_single_profile()
     ref_arm = extract_v2_reference_arm()
 
@@ -165,16 +195,20 @@ def build_v2_dual_head_profile() -> shapely.Polygon:
 
     mapped_upper = shapely.Polygon([map_upper(c) for c in upper_loop_ref.exterior.coords])
 
-    # Solid outer spine connecting lower body to upper loop through the cap
+    # Clean solid outer spine connecting lower body to upper loop through the cap
     spine_bridge = shapely.Polygon([
-        (56.00, 9.851),
-        (56.00, BRD.ARM_R_OUT),
+        (60.00, 10.250),
+        (60.00, BRD.ARM_R_OUT),
         (62.916 + pitch_shift, BRD.ARM_R_OUT),
-        (62.916 + pitch_shift, 9.851),
-        (56.00, 9.851)
+        (62.916 + pitch_shift, 10.250),
+        (60.00, 10.250)
     ])
 
-    merged = unary_union([poly_single, mapped_upper, spine_bridge])
+    # Upper rack-matched detent nose wedge
+    nose_y_upper = 57.3959 + pitch_shift
+    wedge_upper = BRD._nose_wedge(nose_y_upper, apex=BRD.NOSE_APEX)
+
+    merged = unary_union([poly_single, mapped_upper, spine_bridge, wedge_upper])
     if merged.geom_type == 'MultiPolygon':
         merged = max(merged.geoms, key=lambda q: q.area)
 

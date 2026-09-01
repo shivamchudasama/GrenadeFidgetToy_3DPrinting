@@ -321,8 +321,6 @@ def main():
 
     out_paths = [
         os.path.join(V12_DIR, "Custom_Internal_Barrel_And_Rod_Assembly.glb"),
-        os.path.join(SUBASSY_03_DIR, "Custom_Internal_Barrel_And_Rod_Assembly.glb"),
-        os.path.join(SUBASSY_04_DIR, "Custom_Rod_And_Internal_Barrel_Assembly.glb"),
     ]
 
     print("\n--- Exporting Full Assembled GLBs ---")
