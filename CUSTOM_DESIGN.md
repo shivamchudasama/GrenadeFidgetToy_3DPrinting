@@ -169,9 +169,9 @@ The production package includes [`Interactive_Shell_Variants_Viewer.html`](file:
 
 ---
 
-## 7. Complete Bill of Materials (BOM) — 34 parts
+## 7. Complete Bill of Materials (BOM) — 36 parts
 
-Numbers 16 and 17 are vacant: the four springs took 12–15, and renumbering the tail would rename nineteen files for nothing.
+Numbers 16 and 17 are the two retention pins (azimuths 30° and 150°) that axially lock `18_27_Upper_Shell_Top.stl` to `10_Custom_Internal_Barrel_4Slot.stl`. The 270° pin channel is filled to clear detent slot 04, while 30° and 150° provide positive axial retention (18.17 mm³ interference at 1 mm lift).
 
 | Part # | Subassembly | Filename | Recommended Material / Color | Qty | Supports |
 |:---|:---|:---|:---|:---:|:---:|
@@ -190,6 +190,8 @@ Numbers 16 and 17 are vacant: the four springs took 12–15, and renumbering the
 | **13** | Upper Station | `13_Custom_Rod_Detent_Spring_02.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **14** | Upper Station | `14_Custom_Rod_Detent_Spring_03.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **15** | Upper Station | `15_Custom_Rod_Detent_Spring_04.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **16** | Upper Station | `16_Custom_Internal_Barrel_Pin_01.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
+| **17** | Upper Station | `17_Custom_Internal_Barrel_Pin_02.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
 | **18** | Upper Station | `18_27_Upper_Shell_Top.stl` | PLA (Olive Drab Green) | 1 | No |
 | **19** | Upper Station | `19_28_Upper_Shell_Gear.stl` | PLA (Silver / Gunmetal) | 1 | No |
 | **20** | Upper Station | `20_29_Upper_Shell_Lock_Ring.stl` | PLA (Olive Drab Accent) | 1 | No |
@@ -214,7 +216,7 @@ Numbers 16 and 17 are vacant: the four springs took 12–15, and renumbering the
 
 ## 8. Verification & 3D Print Guidelines
 
-- **Watertightness**: 100% of the 34 parts are single-body, manifold, and watertight (`python tools/fidget.py check` passes 110/110).
+- **Watertightness**: 100% of the 36 parts are single-body, manifold, and watertight (`python tools/fidget.py check` passes 110/110).
 - **Detent regression check**: `python tools/score_detent.py` reports peak, trough and **force** for all five motions. Run it after any change to the rod, the springs or the barrel — nothing else re-measures the axial detent, and swept volume on its own will not reveal a dead band.
 - **Rebuild order matters**: `export_3d_print_package.py` clears and rewrites `Plates_3MF/`, and `build_shell_variants_glbs.py` writes one plate plus the three `Mid_Shell_Options/` folders into it. Run them in that order and only that order:
   ```bash

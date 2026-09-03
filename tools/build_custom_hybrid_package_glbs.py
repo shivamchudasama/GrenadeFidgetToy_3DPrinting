@@ -248,6 +248,28 @@ PARTS_SPECS = [
         "disp": np.array([44.0, 0.0, -24.0]),
     },
     {
+        "id": 16,
+        "name": "16_Custom_Internal_Barrel_Pin_01",
+        "file": "16_Custom_Internal_Barrel_Pin_01.stl",
+        "subassembly": "03_Internal_Barrel_And_Upper_Station",
+        "color": (65, 75, 85),  # Gunmetal / Black
+        "metallic": 0.3,
+        "roughness": 0.45,
+        "is_cutaway_shell": False,
+        "disp": np.array([20.0, 56.0, 12.0]),
+    },
+    {
+        "id": 17,
+        "name": "17_Custom_Internal_Barrel_Pin_02",
+        "file": "17_Custom_Internal_Barrel_Pin_02.stl",
+        "subassembly": "03_Internal_Barrel_And_Upper_Station",
+        "color": (65, 75, 85),  # Gunmetal / Black
+        "metallic": 0.3,
+        "roughness": 0.45,
+        "is_cutaway_shell": False,
+        "disp": np.array([-20.0, 56.0, 12.0]),
+    },
+    {
         "id": 18,
         "name": "18_27_Upper_Shell_Top",
         "file": "18_27_Upper_Shell_Top.stl",

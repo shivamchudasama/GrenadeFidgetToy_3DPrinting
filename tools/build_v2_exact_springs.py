@@ -285,7 +285,7 @@ def export_package():
     _to_bed_pose(s_02, base_rot, 0).export(os.path.join(OUTPUT_DIR, "Flat_Bed_Oriented", "13_Custom_Rod_Detent_Spring_02_Dual_Headed.stl"))
     _to_bed_pose(s_03, base_rot, -90).export(os.path.join(OUTPUT_DIR, "Flat_Bed_Oriented", "14_Custom_Rod_Detent_Spring_03.stl"))
     _to_bed_pose(s_04, base_rot, -180).export(os.path.join(OUTPUT_DIR, "Flat_Bed_Oriented", "15_Custom_Rod_Detent_Spring_04_Dual_Headed.stl"))
-    _to_bed_pose(slotted_cap, [[0, 0, 1], [-1, 0, 0], [0, -1, 0]], 30).export(
+    _to_bed_pose(slotted_cap, [[1, 0, 0], [0, 0, 1], [0, -1, 0]], 0).export(
         os.path.join(OUTPUT_DIR, "Flat_Bed_Oriented", "11_Custom_Internal_Barrel_Cap_Option_B.stl")
     )
     print(f"[OK] Exact V2 Spring Package exported to: {OUTPUT_DIR}")

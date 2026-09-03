@@ -84,6 +84,24 @@ BARREL_UPPER_STATION_PARTS = [
         "roughness": 0.35,
     },
     {
+        "id": 16,
+        "filename": "16_Custom_Internal_Barrel_Pin_01.stl",
+        "name": "16_Custom_Internal_Barrel_Pin_01",
+        "title": "Barrel Retention Pin 01 (az 30°)",
+        "color_rgb": (65, 75, 85),        # Gunmetal / Black Pin
+        "metallic": 0.4,
+        "roughness": 0.4,
+    },
+    {
+        "id": 17,
+        "filename": "17_Custom_Internal_Barrel_Pin_02.stl",
+        "name": "17_Custom_Internal_Barrel_Pin_02",
+        "title": "Barrel Retention Pin 02 (az 150°)",
+        "color_rgb": (65, 75, 85),        # Gunmetal / Black Pin
+        "metallic": 0.4,
+        "roughness": 0.4,
+    },
+    {
         "id": 18,
         "filename": "18_27_Upper_Shell_Top.stl",
         "name": "18_27_Upper_Shell_Top",

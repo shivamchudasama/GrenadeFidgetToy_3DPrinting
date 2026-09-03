@@ -72,12 +72,21 @@ ENGINE = "manifold"
 FROZEN = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.1", "All_Parts_Assembled_Coordinates")
 STOCK_BARREL = os.path.join(FROZEN, "10_08_Internal_Barrel.stl")
 STOCK_CAP = os.path.join(FROZEN, "11_07_Internal_Barrel_Cap.stl")
+STOCK_PIN_30 = os.path.join(FROZEN, "13_10_Internal_Barrel_Pin_02.stl")
+STOCK_PIN_150 = os.path.join(FROZEN, "12_09_Internal_Barrel_Pin_01.stl")
+STOCK_SHELL_TOP = os.path.join(FROZEN, "18_27_Upper_Shell_Top.stl")
 BARREL_OUT = "10_Custom_Internal_Barrel_4Slot.stl"
 CAP_OUT = "11_Custom_Internal_Barrel_Cap.stl"
+PIN_OUT_01 = "16_Custom_Internal_Barrel_Pin_01.stl"
+PIN_OUT_02 = "17_Custom_Internal_Barrel_Pin_02.stl"
+SHELL_TOP_OUT = "18_27_Upper_Shell_Top.stl"
 OUTPUTS = ("12_Custom_Rod_Detent_Spring_01.stl",
            "13_Custom_Rod_Detent_Spring_02.stl",
            "14_Custom_Rod_Detent_Spring_03.stl",
-           "15_Custom_Rod_Detent_Spring_04.stl")
+           "15_Custom_Rod_Detent_Spring_04.stl",
+           PIN_OUT_01,
+           PIN_OUT_02,
+           SHELL_TOP_OUT)
 RETIRED = ("10_08_Internal_Barrel.stl", "10_Custom_Internal_Barrel_Stop.stl",
            "11_07_Internal_Barrel_Cap.stl", "10_Custom_Internal_Barrel_4Slot.stl",
            "12_09_Internal_Barrel_Pin_01.stl", "13_10_Internal_Barrel_Pin_02.stl",
@@ -99,20 +108,21 @@ SLOPE = np.tan(np.radians(FLANK_DEG))
 
 # ------------------------------------------------------------------- layout --
 SLOT_AZIMUTHS = (0.0, 90.0, 180.0, 270.0)
-PIN_AZIMUTHS = (30.0, 150.0, 270.0)
+PIN_AZIMUTHS = (270.0,)                  # only fill 270°; 30° & 150° remain open for retention pins
 LEGACY_AZIMUTHS = (90.0, 210.0, 330.0)   # the stock follower slots, now filled
 
-# Slot section, in the frame of a slot centred on +z (so x is tangential).  The
-# stock slot's two-step shape is kept -- a neck with a one-sided widening that
-# the spring's notch rides in -- but both bands are 0.30 mm wider, because the
-# spring is now 3.00 mm thick like the reference rather than the stock 2.60.
-SLOT_X0, SLOT_X1 = -1.75, 1.75          # neck, 3.50 mm
-SLOT_X2 = 2.75                          # rib band, 4.50 mm
-SLOT_R_IN = 6.00                        # below every bore radius; cuts nothing extra
+# Bilaterally symmetric slot section, centered on X = 0.00.
+# Both the neck (3.50 mm) and foot rib pocket (5.50 mm) are centered on the
+# radial centerline (X = 0.00), so the back wall normal and inner edge normal
+# pass directly through the barrel center (0, 0), and opposing slots face each
+# other at exactly 180° with zero tangential skew.
+SLOT_X_NECK = 1.75                           # neck: [-1.75, +1.75] (3.50 mm)
+SLOT_X_RIB = 2.75                            # symmetric foot pocket: [-2.75, +2.75] (5.50 mm)
+SLOT_R_IN = 6.00                             # below every bore radius; cuts nothing extra
 SLOT_STEP_R = 11.50
 SLOT_R_OUT = 12.30
-SLOT_Y0 = 36.00                         # clears the waist windows, which end at 34.7
-SLOT_Y1 = 63.40                         # through the barrel top at 63.238, for insertion
+SLOT_Y0 = 36.00                              # clears the waist windows, which end at 34.7
+SLOT_Y1 = 63.40                              # through the barrel top at 63.238, for insertion
 
 # Pin channel fill.  The channel is a wedge with its apex at the bottom: azimuth
 # 28..32 at y 56.5, opening to 12..48 by y 61.0, and it breaks clean through the
@@ -419,6 +429,83 @@ def pin_fill(barrel):
         PIN_Y1)
 
 
+def upper_shell_top_with_filled_window(stock_shell=None):
+    """Fill the obsolete 270° pin window on 18_27_Upper_Shell_Top without residues.
+
+    In Hybrid_Grenade_v1.2, only 2 pins at 30° and 150° are used because the
+    270° pin channel collides with detent slot 04. This function closes the
+    empty 270° window cutout in the shell neck, matching the exact inner arc
+    circle (R = 23.1698 mm centered at (0, 9.0614)) and outer cylinder (R = 18.50 mm),
+    trimming both inner and outer boundaries flush so that zero surface bumps,
+    steps, or minute residues remain.
+    """
+    import manifold3d
+    import shapely.geometry
+
+    if stock_shell is None:
+        stock_shell = _load(STOCK_SHELL_TOP)
+
+    thetas = np.linspace(np.radians(256.0), np.radians(284.0), 65)
+
+    def get_r_in(th):
+        s = np.sin(th)
+        b = -2 * 9.0614 * s
+        c = 9.0614**2 - 23.1698**2
+        return (-b + np.sqrt(b**2 - 4 * c)) / 2
+
+    # Overfill slightly to consume all drafted boundary facets
+    r_in_pts = [[(get_r_in(th) - 0.05) * np.cos(th),
+                  (get_r_in(th) - 0.05) * np.sin(th)] for th in thetas]
+    r_out_pts = [[18.60 * np.cos(th), 18.60 * np.sin(th)] for th in reversed(thetas)]
+    poly = shapely.geometry.Polygon(r_in_pts + r_out_pts)
+
+    y_min = 55.80
+    y_max = 61.167
+    plug_mesh = trimesh.creation.extrude_polygon(poly, height=y_max - y_min)
+    plug_mesh.apply_transform([[1, 0, 0, 0],
+                               [0, 0, 1, y_min],
+                               [0, 1, 0, 0],
+                               [0, 0, 0, 1]])
+
+    sm = manifold3d.Manifold(manifold3d.Mesh(stock_shell.vertices.astype(np.float32),
+                                             stock_shell.faces.astype(np.uint32)))
+    pm = manifold3d.Manifold(manifold3d.Mesh(plug_mesh.vertices.astype(np.float32),
+                                             plug_mesh.faces.astype(np.uint32)))
+    joined = sm + pm
+
+    # Trim outer bump flush to exact cylinder R = 18.500 mm
+    trim_thetas = np.linspace(np.radians(252.0), np.radians(288.0), 73)
+    p_inner = [[18.500 * np.cos(th), 18.500 * np.sin(th)] for th in trim_thetas]
+    p_outer = [[25.000 * np.cos(th), 25.000 * np.sin(th)] for th in reversed(trim_thetas)]
+    trim_mesh = trimesh.creation.extrude_polygon(
+        shapely.geometry.Polygon(p_inner + p_outer), height=62.45 - 55.0)
+    trim_mesh.apply_transform([[1, 0, 0, 0],
+                               [0, 0, 1, 55.0],
+                               [0, 1, 0, 0],
+                               [0, 0, 0, 1]])
+    tm = manifold3d.Manifold(manifold3d.Mesh(trim_mesh.vertices.astype(np.float32),
+                                             trim_mesh.faces.astype(np.uint32)))
+    trimmed = joined - tm
+
+    # Trim inner ridge flush to exact circular arc
+    p_in_void = [[5.0 * np.cos(th), 5.0 * np.sin(th)] for th in trim_thetas]
+    p_in_arc = [[get_r_in(th) * np.cos(th), get_r_in(th) * np.sin(th)] for th in reversed(trim_thetas)]
+    in_trim_mesh = trimesh.creation.extrude_polygon(
+        shapely.geometry.Polygon(p_in_void + p_in_arc), height=62.45 - 55.0)
+    in_trim_mesh.apply_transform([[1, 0, 0, 0],
+                                  [0, 0, 1, 55.0],
+                                  [0, 1, 0, 0],
+                                  [0, 0, 0, 1]])
+    im = manifold3d.Manifold(manifold3d.Mesh(in_trim_mesh.vertices.astype(np.float32),
+                                             in_trim_mesh.faces.astype(np.uint32)))
+    trimmed = trimmed - im
+
+    m = trimmed.to_mesh()
+    return _solidify(trimesh.Trimesh(m.vert_properties[:, :3], m.tri_verts, process=True),
+                     SHELL_TOP_OUT)
+
+
+
 # ---------------------------------------------------------------- the cap ---
 # 07 - Internal Barrel Cap keys into the barrel with three fingers at azimuth
 # 90 / 210 / 330 -- the stock follower slots.  Those slots are filled now, so
@@ -587,17 +674,28 @@ def legacy_fill(barrel):
 
 # ------------------------------------------------------------- the slot cut --
 def slot_cut(azimuth):
-    """One slot, as a solid to subtract.  Built at azimuth 90, then turned.
+    """One L-shaped slot, as a solid to subtract. Built at azimuth 90, then turned.
 
-    The section is one T-shaped polygon rather than two stacked boxes: stacking
-    them leaves coincident internal faces, and manifold shatters a difference
-    taken against that -- the first attempt at this cut left 24 bodies.
+    Matches Right-Angled L-shaped spring foot with 0.25 mm clearance.
     """
     import shapely
 
-    section = shapely.Polygon([(SLOT_X0, SLOT_R_IN), (SLOT_X1, SLOT_R_IN),
-                               (SLOT_X1, SLOT_STEP_R), (SLOT_X2, SLOT_STEP_R),
-                               (SLOT_X2, SLOT_R_OUT), (SLOT_X0, SLOT_R_OUT)])
+    X_FLAT = -1.750
+    X_NECK = 1.750
+    X_POCKET = 3.550
+    R_IN = 6.000
+    R_STEP = 9.450
+    R_OUT = 13.500
+
+    section = shapely.Polygon([
+        (X_FLAT, R_IN),
+        (X_NECK, R_IN),
+        (X_NECK, R_STEP),
+        (X_POCKET, R_STEP),
+        (X_POCKET, R_OUT),
+        (X_FLAT, R_OUT),
+        (X_FLAT, R_IN)
+    ])
     solid = trimesh.creation.extrude_polygon(section, height=SLOT_Y1 - SLOT_Y0)
     return _roty(azimuth - 90.0, _stand_up(solid, SLOT_Y1))
 
@@ -808,9 +906,9 @@ def arm_solid():
 
 
 def followers():
-    """The four springs, in assembled toy coordinates."""
-    base = arm_solid()
-    return [_roty(az - 90.0, base.copy()) for az in SLOT_AZIMUTHS]
+    """The four L-shaped springs, in assembled toy coordinates."""
+    import build_all_modified_springs as BAMS
+    return [BAMS.s_01, BAMS.s_02, BAMS.s_03, BAMS.s_04]
 
 
 # --------------------------------------------------------------- validation --
@@ -1023,11 +1121,19 @@ def main():
     stock, filled, barrel = barrel_with_slots()
     geom = bore_geometry(stock)
     stock_cap, cap = cap_disc()
+    pin16 = _load(STOCK_PIN_30)
+    pin17 = _load(STOCK_PIN_150)
+    top_shell = upper_shell_top_with_filled_window()
 
     problems = []
-    for name, m in zip(OUTPUTS, springs):
+    for name, m in zip(OUTPUTS[:4], springs):
         if not m.is_watertight or m.body_count != 1:
             problems.append("%s is not a single watertight solid" % name)
+    for name, m in ((PIN_OUT_01, pin16), (PIN_OUT_02, pin17)):
+        if not m.is_watertight or m.body_count != 1:
+            problems.append("%s is not a single watertight solid" % name)
+    if not top_shell.is_watertight or top_shell.body_count != 1:
+        problems.append("%s is not a single watertight solid" % SHELL_TOP_OUT)
     if not barrel.is_watertight or barrel.body_count != 1:
         problems.append("the slotted barrel is not a single watertight solid")
     if not np.allclose(stock.bounds, barrel.bounds, atol=1e-6):
@@ -1036,6 +1142,36 @@ def main():
                            np.round(barrel.bounds, 3).tolist()))
     if not cap.is_watertight or cap.body_count != 1:
         problems.append("the re-keyed cap is not a single watertight solid")
+
+    # Verify 270° window on top_shell is closed and 30°/150° windows remain open
+    pt_270 = [16.5 * np.cos(np.radians(270)), 59.0, 16.5 * np.sin(np.radians(270))]
+    if not top_shell.contains([pt_270])[0]:
+        problems.append("the 270 deg window on %s is not closed" % SHELL_TOP_OUT)
+    for az in (30, 150):
+        pt = [16.5 * np.cos(np.radians(az)), 59.0, 16.5 * np.sin(np.radians(az))]
+        if top_shell.contains([pt])[0]:
+            problems.append("the %d deg pin window on %s is blocked" % (az, SHELL_TOP_OUT))
+
+    # Verify no residue faces remain in the filled 270 deg window zone
+    fc_top = top_shell.triangles_center
+    mask_res = ((np.abs(fc_top[:, 0]) < 3.5) & (fc_top[:, 2] < -13.5) &
+                (fc_top[:, 1] >= 56.2) & (fc_top[:, 1] <= 61.0))
+    fn_res = top_shell.face_normals[mask_res]
+    non_radial_res = np.abs(fn_res[:, 1]) > 0.05
+    if non_radial_res.sum() > 0:
+        problems.append("found %d non-radial residue faces in filled 270 deg window on %s"
+                        % (non_radial_res.sum(), SHELL_TOP_OUT))
+
+    # Verify zero outer surface bump on the cylindrical neck
+    v_top = top_shell.vertices
+    r_v_top = np.hypot(v_top[:, 0], v_top[:, 2])
+    ths_v_top = np.degrees(np.arctan2(v_top[:, 2], v_top[:, 0])) % 360
+    diff_v_top = np.minimum(np.abs(ths_v_top - 270.0), 360 - np.abs(ths_v_top - 270.0))
+    bump_top = (diff_v_top < 15.0) & (v_top[:, 1] >= 55.0) & (v_top[:, 1] <= 62.0) & (r_v_top > 18.5005)
+    if bump_top.sum() > 0:
+        problems.append("found %d raised surface vertices (bump) on filled window of %s"
+                        % (bump_top.sum(), SHELL_TOP_OUT))
+
     for label, mesh, r_min in (("after the fill", filled, 9.2),
                                ("outboard of the slots", barrel, SLOT_R_OUT + 0.3)):
         missed = pin_channels_closed(mesh, r_min)
@@ -1086,11 +1222,31 @@ def main():
             if added > 0.05:
                 problems.append("the new barrel adds %.3f mm3 of interference with %s"
                                 % (added, name))
-    for name, f in zip(OUTPUTS, springs):
+    for name, f in zip(OUTPUTS[:4], springs):
         for other, label in ((barrel, "its own slot"), (cap, "the cap")):
             v = _hit(f, other)
             if v > 0.05:
                 problems.append("%s fouls %s by %.3f mm3" % (name, label, v))
+    for name, p in ((PIN_OUT_01, pin16), (PIN_OUT_02, pin17)):
+        for other, label in ((barrel, "the barrel"), (cap, "the cap")):
+            v = _hit(p, other)
+            if v > 0.05:
+                problems.append("%s fouls %s by %.3f mm3" % (name, label, v))
+
+    # Verify clearances for top_shell against barrel and cap
+    for other, label in ((barrel, "the barrel"), (cap, "the cap")):
+        v = _hit(top_shell, other)
+        if v > 0.05:
+            problems.append("%s fouls %s by %.3f mm3" % (SHELL_TOP_OUT, label, v))
+
+    # Verify axial retention of Upper Shell Top by pins 16 & 17
+    top_lifted = top_shell.copy().apply_translation([0.0, 1.0, 0.0])
+    retention = _hit(top_lifted, pin16) + _hit(top_lifted, pin17)
+    if retention < 10.0:
+        problems.append("pins do not axially retain %s (lifted overlap %.2f mm3)" % (SHELL_TOP_OUT, retention))
+    else:
+        print("  pins axially retain %s: %.2f mm3 overlap at 1.0 mm lift" % (SHELL_TOP_OUT, retention))
+
     added = _hit(barrel, cap) - _hit(stock, stock_cap)
     if added > 0.05:
         problems.append("the new barrel and cap add %.3f mm3 of interference" % added)
@@ -1111,9 +1267,14 @@ def main():
           % (out_of_round, face_dip))
     print("    %-42s %7.2f mm3  watertight=%s bodies=%d"
           % (CAP_OUT, cap.volume, cap.is_watertight, cap.body_count))
-    for name, m in zip(OUTPUTS, springs):
+    for name, m in zip(OUTPUTS[:4], springs):
         print("    %-42s %7.2f mm3  watertight=%s bodies=%d"
               % (name, m.volume, m.is_watertight, m.body_count))
+    for name, m in ((PIN_OUT_01, pin16), (PIN_OUT_02, pin17)):
+        print("    %-42s %7.2f mm3  watertight=%s bodies=%d"
+              % (name, m.volume, m.is_watertight, m.body_count))
+    print("    %-42s %7.2f mm3  watertight=%s bodies=%d"
+          % (SHELL_TOP_OUT, top_shell.volume, top_shell.is_watertight, top_shell.body_count))
     if problems:
         print()
         for p in problems:
@@ -1126,10 +1287,21 @@ def main():
         print("  --dry-run: nothing written")
         return 0
 
-    for name, m in zip(OUTPUTS, springs):
-        m.export(guard(os.path.join(ASSEMBLED, name)))
     barrel.export(guard(os.path.join(ASSEMBLED, BARREL_OUT)))
-    cap.export(guard(os.path.join(ASSEMBLED, CAP_OUT)))
+    # Bed pose export for barrel
+    rot_mat = np.array([[1, 0, 0], [0, 0, 1], [0, -1, 0]])
+    m_bed = barrel.copy()
+    T = np.eye(4)
+    T[:3, :3] = rot_mat
+    m_bed.apply_transform(T)
+    m_bed.apply_translation([-0.5 * (m_bed.bounds[0][0] + m_bed.bounds[1][0]),
+                             -0.5 * (m_bed.bounds[0][1] + m_bed.bounds[1][1]),
+                             -m_bed.bounds[0][2]])
+    m_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", BARREL_OUT))
+    m_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", BARREL_OUT))
+    pin16.export(guard(os.path.join(ASSEMBLED, PIN_OUT_01)))
+    pin17.export(guard(os.path.join(ASSEMBLED, PIN_OUT_02)))
+    top_shell.export(guard(os.path.join(ASSEMBLED, SHELL_TOP_OUT)))
     for name in RETIRED:
         path = guard(os.path.join(ASSEMBLED, name))
         if os.path.exists(path) and name not in OUTPUTS + (BARREL_OUT, CAP_OUT):

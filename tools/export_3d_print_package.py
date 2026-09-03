@@ -202,6 +202,26 @@ PARTS_MANIFEST = [
         "supports": "No",
     },
     {
+        "id": 16,
+        "source_file": "16_Custom_Internal_Barrel_Pin_01.stl",
+        "export_filename": "16_Custom_Internal_Barrel_Pin_01.stl",
+        "subassembly": "03_Internal_Barrel_And_Upper_Station",
+        "plate": "Plate_2_Internal_Barrel_And_Springs",
+        "color": "Black / Gunmetal",
+        "desc": "Internal barrel retention pin 01 (az 30°), locks Upper Shell Top axially",
+        "supports": "No",
+    },
+    {
+        "id": 17,
+        "source_file": "17_Custom_Internal_Barrel_Pin_02.stl",
+        "export_filename": "17_Custom_Internal_Barrel_Pin_02.stl",
+        "subassembly": "03_Internal_Barrel_And_Upper_Station",
+        "plate": "Plate_2_Internal_Barrel_And_Springs",
+        "color": "Black / Gunmetal",
+        "desc": "Internal barrel retention pin 02 (az 150°), locks Upper Shell Top axially",
+        "supports": "No",
+    },
+    {
         "id": 18,
         "source_file": "27 - Upper Shell Top.stl",
         "export_filename": "18_27_Upper_Shell_Top.stl",
@@ -432,7 +452,7 @@ BED_POSES = {
     "08_33_Mid_Shell_P01_Outer.stl": ([[0, 0, -1], [1, 0, 0], [0, -1, 0]], 2),
     "09_Custom_Mid_Shell_Spring_33.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
     "10_Custom_Internal_Barrel_4Slot.stl": ([[1, 0, 0], [0, 0, 1], [0, -1, 0]], 0),
-    "11_Custom_Internal_Barrel_Cap.stl": ([[0, 0, 1], [-1, 0, 0], [0, -1, 0]], 30),
+    "11_Custom_Internal_Barrel_Cap.stl": ([[1, 0, 0], [0, 0, 1], [0, -1, 0]], 0),
     # the four springs are one solid at four azimuths, so they share a base and
     # differ only by the turn that cancels their seating
     # planar parts: lay the profile on the bed with the 3.75 mm width up the Z
@@ -441,6 +461,8 @@ BED_POSES = {
     "13_Custom_Rod_Detent_Spring_02.stl": ([[0, 1, 0], [0, 0, 1], [1, 0, 0]], 0),
     "14_Custom_Rod_Detent_Spring_03.stl": ([[0, 1, 0], [0, 0, 1], [1, 0, 0]], -90),
     "15_Custom_Rod_Detent_Spring_04.stl": ([[0, 1, 0], [0, 0, 1], [1, 0, 0]], -180),
+    "16_Custom_Internal_Barrel_Pin_01.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], -120),
+    "17_Custom_Internal_Barrel_Pin_02.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
     "18_27_Upper_Shell_Top.stl": ([[-1, 0, 0], [0, 0, -1], [0, -1, 0]], 60),
     "19_28_Upper_Shell_Gear.stl": ([[0, 0, 1], [1, 0, 0], [0, 1, 0]], 62),
     "20_29_Upper_Shell_Lock_Ring.stl": ([[1, 0, 0], [0, 0, 1], [0, -1, 0]], 60),
@@ -712,6 +734,8 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 | **13** | Upper Station | `13_Custom_Rod_Detent_Spring_02.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **14** | Upper Station | `14_Custom_Rod_Detent_Spring_03.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **15** | Upper Station | `15_Custom_Rod_Detent_Spring_04.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **16** | Upper Station | `16_Custom_Internal_Barrel_Pin_01.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
+| **17** | Upper Station | `17_Custom_Internal_Barrel_Pin_02.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
 | **18** | Upper Station | `18_27_Upper_Shell_Top.stl` | PLA (Olive Drab Green) | 1 | No |
 | **19** | Upper Station | `19_28_Upper_Shell_Gear.stl` | PLA (Silver / Gunmetal) | 1 | No |
 | **20** | Upper Station | `20_29_Upper_Shell_Lock_Ring.stl` | PLA (Olive Drab Green) | 1 | No |
@@ -762,7 +786,7 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 2. Seal the top of the barrel with `11_Custom_Internal_Barrel_Cap.stl`. It is a plain disc with no keys, so it drops on either way round; its underside traps all four springs.
 3. Slide `19_28_Upper_Shell_Gear.stl` over the upper barrel station.
 4. Install `21_30_Upper_Shell_Rotating_Spring.stl` and `20_29_Upper_Shell_Lock_Ring.stl`.
-5. Seat `18_27_Upper_Shell_Top.stl` over the upper station to close the main body. **It is not retained** — the three pins that used to hold it down are gone, so it will lift straight off until a replacement is designed.
+5. Seat `18_27_Upper_Shell_Top.stl` over the upper station to close the main body. Insert the two retention pins (`16_Custom_Internal_Barrel_Pin_01.stl` and `17_Custom_Internal_Barrel_Pin_02.stl`) through the shell's side windows into the barrel channels at 30° and 150° to lock `18_27_Upper_Shell_Top.stl` axially. Slide `19_28_Upper_Shell_Gear.stl` and `20_29_Upper_Shell_Lock_Ring.stl` over the shell neck to trap and enclose the pins.
 
 ### Stage 4: Unified Full-Height Rod Assembly & Enclosed Hinge Spring
 1. Insert narrowed `28_09_Rod_Spring_Hinge.stl` into the central spring channel of `23_Custom_Rod_Middle.stl`.

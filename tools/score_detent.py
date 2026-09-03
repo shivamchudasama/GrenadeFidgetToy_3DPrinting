@@ -192,7 +192,7 @@ def axial_force_curve(followers=None, steps=33):
     import build_rod_detent as BRD
 
     _, fitted = _rod_followers()
-    if tuple(fitted) == BRD.OUTPUTS:
+    if tuple(fitted) == BRD.OUTPUTS[:4] or any("Dual_Headed" in n for n in fitted):
         res = BRD.arm_rate()
     else:
         res = FR.follower_rate(FR.follower_profile(followers[0]))

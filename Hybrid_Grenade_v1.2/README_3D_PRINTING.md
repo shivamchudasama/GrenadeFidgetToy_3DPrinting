@@ -54,11 +54,11 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 ```text
 3D_Print_Custom_Hybrid_Grenade/
 ├── 3D_Print_Custom_Hybrid_Grenade_Assembled.glb # Complete full 3D assembly (PBR materials & metadata)
-├── 3D_Print_Custom_Hybrid_Grenade_Exploded.glb  # Fully parted exploded view showing all 34 internal parts
+├── 3D_Print_Custom_Hybrid_Grenade_Exploded.glb  # Fully parted exploded view showing all 36 internal parts
 ├── 3D_Print_Custom_Hybrid_Grenade_Cutaway.glb   # Coronal/sagittal cutaway revealing internal rack & springs
 ├── 01_Base_And_Bottom_Shell/               # 6 STLs: Bottom lock cylinder, spacer, flexure spring & 3 outer shell tiers
 ├── 02_Waist_Mechanism/                     # 3 STLs: 33-lobe ratchet ring, outer shell body & 3-arm detent spring
-├── 03_Internal_Barrel_And_Upper_Station/   # 10 STLs: barrel (4 slots), cap, 4 rod detent springs, gear, top & lock ring
+├── 03_Internal_Barrel_And_Upper_Station/   # 12 STLs: barrel (4 slots), cap, 4 rod detent springs, gear, top & lock ring
 ├── 04_Rod_Assembly_And_Locks/              # 6 STLs: Full-depth 3-part rod (solid yoke), 2 cross-keys & bottom axial retainer
 ├── 05_Folding_Head_And_Spinner/            # 9 STLs: Folding lever cheeks, center spinner ring, rim gear & clicker, hinge lock pins
 ├── All_Parts_Flat_Bed_Oriented/            # Every STL pre-oriented flat on Z=0 for instant drag-and-drop slicing
@@ -69,7 +69,7 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 
 ---
 
-## 📋 Complete Bill of Materials (BOM) — 34 Parts Total
+## 📋 Complete Bill of Materials (BOM) — 36 Parts Total
 
 | Part # | Subassembly | Filename | Material / Recommended Color | Qty | Supports |
 |:---|:---|:---|:---|:---:|:---:|
@@ -88,6 +88,8 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 | **13** | Upper Station | `13_Custom_Rod_Detent_Spring_02.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **14** | Upper Station | `14_Custom_Rod_Detent_Spring_03.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **15** | Upper Station | `15_Custom_Rod_Detent_Spring_04.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **16** | Upper Station | `16_Custom_Internal_Barrel_Pin_01.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
+| **17** | Upper Station | `17_Custom_Internal_Barrel_Pin_02.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
 | **18** | Upper Station | `18_27_Upper_Shell_Top.stl` | PLA (Olive Drab Green) | 1 | No |
 | **19** | Upper Station | `19_28_Upper_Shell_Gear.stl` | PLA (Silver / Gunmetal) | 1 | No |
 | **20** | Upper Station | `20_29_Upper_Shell_Lock_Ring.stl` | PLA (Olive Drab Green) | 1 | No |
@@ -138,7 +140,7 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 2. Seal the top of the barrel with `11_Custom_Internal_Barrel_Cap.stl`. It is a plain disc with no keys, so it drops on either way round; its underside traps all four springs.
 3. Slide `19_28_Upper_Shell_Gear.stl` over the upper barrel station.
 4. Install `21_30_Upper_Shell_Rotating_Spring.stl` and `20_29_Upper_Shell_Lock_Ring.stl`.
-5. Seat `18_27_Upper_Shell_Top.stl` over the upper station to close the main body. **It is not retained** — the three pins that used to hold it down are gone, so it will lift straight off until a replacement is designed.
+5. Seat `18_27_Upper_Shell_Top.stl` over the upper station to close the main body. Insert the two retention pins (`16_Custom_Internal_Barrel_Pin_01.stl` and `17_Custom_Internal_Barrel_Pin_02.stl`) through the shell's side windows into the barrel channels at 30° and 150° to lock `18_27_Upper_Shell_Top.stl` axially. Slide `19_28_Upper_Shell_Gear.stl` and `20_29_Upper_Shell_Lock_Ring.stl` over the shell neck to trap and enclose the pins.
 
 ### Stage 4: Unified Full-Height Rod Assembly & Enclosed Hinge Spring
 1. Insert narrowed `28_09_Rod_Spring_Hinge.stl` into the central spring channel of `23_Custom_Rod_Middle.stl`.
