@@ -20,14 +20,14 @@ print("=" * 80)
 # - Spring neck wall is at X = +1.500 mm -> Slot neck wall at X = +1.750 mm
 # - Spring pocket wall is at X = +3.300 mm -> Slot pocket wall at X = +3.550 mm
 # - Spring shoulder step is at R = 9.600 mm -> Slot shoulder step at R = 9.450 mm
-# - Spring outer radius is at R = 13.350 mm -> Slot back wall at R = 13.500 mm
+# - Spring outer radius is at R = 12.200 mm -> Slot back wall at R = 12.350 mm
 # - Central bore opening at R = 6.000 mm
 X_FLAT = -1.750
 X_NECK = 1.750
 X_POCKET = 3.550
 R_IN = 6.000
 R_STEP = 9.450
-R_OUT = 13.500
+R_OUT = 12.350
 
 section = shapely.Polygon([
     (X_FLAT, R_IN),

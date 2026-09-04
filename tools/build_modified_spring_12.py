@@ -25,13 +25,13 @@ print("BUILDING RIGHT-ANGLED L-SHAPED 12_Custom_Rod_Detent_Spring_01.stl")
 print("Target: Raised Foot ONLY (Height = 1.800 mm, Width = 3.750 mm); U-Spring Unraised (3.000 mm)")
 print("=" * 80)
 
-# Target dimensions matching Image 2 in Blender view
+# Target dimensions matching Option 1 (Total Foot Width = 4.800 mm)
 TOTAL_W = 4.800          # mm total extrusion width (body = 3.00 mm, step = 1.80 mm)
 NARROW_W = 3.000         # mm arm body width
 STEP_HEIGHT = 1.800      # mm vertical step height in Blender view
-STEP_WIDTH = 3.750       # mm horizontal step width in Blender view (radial span)
-RAIL_R1_NEW = 13.350     # mm outer radial limit
-R_RIB = RAIL_R1_NEW - STEP_WIDTH  # 13.350 - 3.750 = 9.600 mm
+STEP_WIDTH = 2.600       # mm horizontal step width in Blender view (radial span)
+RAIL_R1_NEW = 12.200     # mm outer radial limit (foot width = 12.200 - 7.400 = 4.800 mm)
+R_RIB = RAIL_R1_NEW - STEP_WIDTH  # 12.200 - 2.600 = 9.600 mm
 FOOT_Y0 = BRD.FOOT_Y0    # 36.00 mm
 FOOT_Y1 = 42.60          # 42.60 mm (foot ends here, flexure arm begins)
 
