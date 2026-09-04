@@ -79,6 +79,8 @@ BARREL_OUT = "10_Custom_Internal_Barrel_4Slot.stl"
 CAP_OUT = "11_Custom_Internal_Barrel_Cap.stl"
 PIN_OUT_01 = "16_Custom_Internal_Barrel_Pin_01.stl"
 PIN_OUT_02 = "17_Custom_Internal_Barrel_Pin_02.stl"
+PIN_OUT_03 = "16_Custom_Internal_Barrel_Pin_03.stl"
+PIN_OUT_04 = "17_Custom_Internal_Barrel_Pin_04.stl"
 SHELL_TOP_OUT = "18_27_Upper_Shell_Top.stl"
 OUTPUTS = ("12_Custom_Rod_Detent_Spring_01.stl",
            "13_Custom_Rod_Detent_Spring_02.stl",
@@ -86,6 +88,8 @@ OUTPUTS = ("12_Custom_Rod_Detent_Spring_01.stl",
            "15_Custom_Rod_Detent_Spring_04.stl",
            PIN_OUT_01,
            PIN_OUT_02,
+           PIN_OUT_03,
+           PIN_OUT_04,
            SHELL_TOP_OUT)
 RETIRED = ("10_08_Internal_Barrel.stl", "10_Custom_Internal_Barrel_Stop.stl",
            "11_07_Internal_Barrel_Cap.stl", "10_Custom_Internal_Barrel_4Slot.stl",
@@ -109,7 +113,7 @@ SLOPE = np.tan(np.radians(FLANK_DEG))
 # ------------------------------------------------------------------- layout --
 SLOT_AZIMUTHS = (0.0, 90.0, 180.0, 270.0)
 PIN_AZIMUTHS = (30.0, 150.0, 270.0)       # fill all 3 legacy pin channels (30°, 150°, 270°)
-NEW_PIN_AZIMUTHS = (45.0, 135.0)          # active retention pins
+NEW_PIN_AZIMUTHS = (45.0, 135.0, 225.0, 315.0)          # active retention pins matching barrel & shell
 BARREL_PIN_CAVITIES = (45.0, 135.0, 225.0, 315.0)  # 4-way balanced pin cavities in barrel
 LEGACY_AZIMUTHS = (90.0, 210.0, 330.0)   # the stock follower slots, now filled
 
@@ -356,10 +360,21 @@ def _load(name):
     return _solidify(m, os.path.basename(str(name)))
 
 
-def _roty(deg, mesh):
+def _roty(deg, mesh=None):
+    """Proper rotation about the toy's vertical axis.
+
+    If mesh is provided, transforms and returns mesh.
+    If mesh is None, returns the 3x3 rotation matrix.
+    """
+    t = np.radians(float(deg))
+    c, sn = np.cos(t), np.sin(t)
+    R = np.array([[c, 0.0, sn], [0.0, 1.0, 0.0], [-sn, 0.0, c]])
+    if mesh is None:
+        return R
     if deg:
-        mesh.apply_transform(trimesh.transformations.rotation_matrix(
-            np.radians(deg), [0.0, 1.0, 0.0], [0.0, 0.0, 0.0]))
+        T = np.eye(4)
+        T[:3, :3] = R
+        mesh.apply_transform(T)
     return mesh
 
 
@@ -471,6 +486,23 @@ def pin_channel_cut(azimuth, barrel=None):
         _CACHED_PIN_CUTTER = _solidify(cutter, "pin_channel_cutter")
 
     return _roty(-azimuth, _CACHED_PIN_CUTTER.copy())
+
+
+_CACHED_RETENTION_PIN = None
+
+
+def retention_pin_model():
+    """Return the exact pristine stock barrel retention pin at reference azimuth 0° (along +X)."""
+    global _CACHED_RETENTION_PIN
+    if _CACHED_RETENTION_PIN is None:
+        stock_p = _load(STOCK_PIN_150)
+        _CACHED_RETENTION_PIN = _roty(150.0, stock_p.copy())
+    return _CACHED_RETENTION_PIN.copy()
+
+
+def retention_pin_for_azimuth(azimuth):
+    """Return the retention pin in assembled space at the given azimuth."""
+    return _roty(-azimuth, retention_pin_model())
 
 
 def upper_shell_top_with_repositioned_windows(stock_shell=None):
@@ -1195,15 +1227,21 @@ def main():
     stock, filled, barrel = barrel_with_slots()
     geom = bore_geometry(stock)
     stock_cap, cap = cap_disc()
-    pin16 = _roty(30.0 - 45.0, _load(STOCK_PIN_30))
-    pin17 = _roty(30.0 - 135.0, _load(STOCK_PIN_30))
+    pin16 = retention_pin_for_azimuth(45.0)
+    pin17 = retention_pin_for_azimuth(135.0)
+    pin18 = retention_pin_for_azimuth(225.0)
+    pin19 = retention_pin_for_azimuth(315.0)
+    all_pins = ((PIN_OUT_01, pin16, 45.0),
+                (PIN_OUT_02, pin17, 135.0),
+                (PIN_OUT_03, pin18, 225.0),
+                (PIN_OUT_04, pin19, 315.0))
     top_shell = upper_shell_top_with_repositioned_windows()
 
     problems = []
     for name, m in zip(OUTPUTS[:4], springs):
         if not m.is_watertight or m.body_count != 1:
             problems.append("%s is not a single watertight solid" % name)
-    for name, m in ((PIN_OUT_01, pin16), (PIN_OUT_02, pin17)):
+    for name, m, _ in all_pins:
         if not m.is_watertight or m.body_count != 1:
             problems.append("%s is not a single watertight solid" % name)
     if not top_shell.is_watertight or top_shell.body_count != 1:
@@ -1291,7 +1329,7 @@ def main():
             v = _hit(f, other)
             if v > 0.05:
                 problems.append("%s fouls %s by %.3f mm3" % (name, label, v))
-    for name, p in ((PIN_OUT_01, pin16), (PIN_OUT_02, pin17)):
+    for name, p, _ in all_pins:
         for other, label in ((barrel, "the barrel"), (cap, "the cap")):
             v = _hit(p, other)
             if v > 0.05:
@@ -1303,13 +1341,13 @@ def main():
         if v > 0.05:
             problems.append("%s fouls %s by %.3f mm3" % (SHELL_TOP_OUT, label, v))
 
-    # Verify axial retention of Upper Shell Top by pins 16 & 17
+    # Verify axial retention of Upper Shell Top by all 4 pins
     top_lifted = top_shell.copy().apply_translation([0.0, 1.0, 0.0])
-    retention = _hit(top_lifted, pin16) + _hit(top_lifted, pin17)
+    retention = sum(_hit(top_lifted, p) for _, p, _ in all_pins)
     if retention < 10.0:
         problems.append("pins do not axially retain %s (lifted overlap %.2f mm3)" % (SHELL_TOP_OUT, retention))
     else:
-        print("  pins axially retain %s: %.2f mm3 overlap at 1.0 mm lift" % (SHELL_TOP_OUT, retention))
+        print("  all 4 pins axially retain %s: %.2f mm3 overlap at 1.0 mm lift" % (SHELL_TOP_OUT, retention))
 
     added = _hit(barrel, cap) - _hit(stock, stock_cap)
     if added > 0.05:
@@ -1334,7 +1372,7 @@ def main():
     for name, m in zip(OUTPUTS[:4], springs):
         print("    %-42s %7.2f mm3  watertight=%s bodies=%d"
               % (name, m.volume, m.is_watertight, m.body_count))
-    for name, m in ((PIN_OUT_01, pin16), (PIN_OUT_02, pin17)):
+    for name, m, _ in all_pins:
         print("    %-42s %7.2f mm3  watertight=%s bodies=%d"
               % (name, m.volume, m.is_watertight, m.body_count))
     print("    %-42s %7.2f mm3  watertight=%s bodies=%d"
@@ -1371,10 +1409,37 @@ def main():
                                -cap_bed.bounds[0][2]])
     cap_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", CAP_OUT))
     cap_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", CAP_OUT))
-    pin16.export(guard(os.path.join(ASSEMBLED, PIN_OUT_01)))
-    pin17.export(guard(os.path.join(ASSEMBLED, PIN_OUT_02)))
+
+    # Export all 4 retention pins (in assembled space and in flat-bed print pose)
+    PIN_BED_Y_DEGS = {
+        PIN_OUT_01: 255.0,
+        PIN_OUT_02: 345.0,
+        PIN_OUT_03: 75.0,
+        PIN_OUT_04: 165.0,
+    }
+    for name, p, az in all_pins:
+        p.export(guard(os.path.join(ASSEMBLED, name)))
+        T_pin = np.eye(4)
+        T_pin[:3, :3] = np.eye(3) @ _roty(PIN_BED_Y_DEGS[name])
+        p_bed = p.copy()
+        p_bed.apply_transform(T_pin)
+        p_bed.apply_translation([-0.5 * (p_bed.bounds[0][0] + p_bed.bounds[1][0]),
+                                 -0.5 * (p_bed.bounds[0][1] + p_bed.bounds[1][1]),
+                                 -p_bed.bounds[0][2]])
+        p_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", name))
+        p_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", name))
+
     top_shell.export(guard(os.path.join(ASSEMBLED, SHELL_TOP_OUT)))
-    top_shell.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", SHELL_TOP_OUT))
+    shell_bed = top_shell.copy()
+    T_s = np.eye(4)
+    T_s[:3, :3] = np.array([[-1.0, 0.0, 0.0], [0.0, 0.0, -1.0], [0.0, -1.0, 0.0]]) @ _roty(60.0)
+    shell_bed.apply_transform(T_s)
+    shell_bed.apply_translation([-0.5 * (shell_bed.bounds[0][0] + shell_bed.bounds[1][0]),
+                                 -0.5 * (shell_bed.bounds[0][1] + shell_bed.bounds[1][1]),
+                                 -shell_bed.bounds[0][2]])
+    shell_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", SHELL_TOP_OUT))
+    shell_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", SHELL_TOP_OUT))
+
     for name in RETIRED:
         path = guard(os.path.join(ASSEMBLED, name))
         if os.path.exists(path) and name not in OUTPUTS + (BARREL_OUT, CAP_OUT):

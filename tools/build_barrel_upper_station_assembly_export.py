@@ -1,16 +1,20 @@
-"""Build and export the complete 10-part assembled GLB from 03_Internal_Barrel_And_Upper_Station.
+"""Build and export the complete 14-part assembled GLB from 03_Internal_Barrel_And_Upper_Station.
 
-This script loads the 10 parts forming the complete Internal Barrel & Upper Station Sub-Assembly:
+This script loads the 14 parts forming the complete Internal Barrel & Upper Station Sub-Assembly:
   1. 10_Custom_Internal_Barrel_4Slot (4-slot barrel chassis with filled pin channels)
   2. 11_Custom_Internal_Barrel_Cap (Disc top cap trapping all 4 springs)
   3. 12_Custom_Rod_Detent_Spring_01 (Axial rod detent spring 1 - az 0 deg)
   4. 13_Custom_Rod_Detent_Spring_02 (Axial rod detent spring 2 - az 90 deg)
   5. 14_Custom_Rod_Detent_Spring_03 (Axial rod detent spring 3 - az 180 deg)
   6. 15_Custom_Rod_Detent_Spring_04 (Axial rod detent spring 4 - az 270 deg)
-  7. 18_27_Upper_Shell_Top (Original Tactical upper top housing shell)
-  8. 19_28_Upper_Shell_Gear (Upper station clicker gear)
-  9. 20_29_Upper_Shell_Lock_Ring (Bottom thrust lock ring for gear)
-  10. 21_30_Upper_Shell_Rotating_Spring (Upper station detent spring)
+  7. 16_Custom_Internal_Barrel_Pin_01 (Barrel retention pin 01 - az 45 deg)
+  8. 17_Custom_Internal_Barrel_Pin_02 (Barrel retention pin 02 - az 135 deg)
+  9. 16_Custom_Internal_Barrel_Pin_03 (Barrel retention pin 03 - az 225 deg)
+  10. 17_Custom_Internal_Barrel_Pin_04 (Barrel retention pin 04 - az 315 deg)
+  11. 18_27_Upper_Shell_Top (Original Tactical upper top housing shell)
+  12. 19_28_Upper_Shell_Gear (Upper station clicker gear)
+  13. 20_29_Upper_Shell_Lock_Ring (Bottom thrust lock ring for gear)
+  14. 21_30_Upper_Shell_Rotating_Spring (Upper station detent spring)
 
 Outputs:
   - Hybrid_Grenade_v1.2/03_Internal_Barrel_And_Upper_Station/Custom_Internal_Barrel_And_Upper_Station_Assembly.glb
@@ -102,6 +106,24 @@ BARREL_UPPER_STATION_PARTS = [
         "roughness": 0.4,
     },
     {
+        "id": 16,
+        "filename": "16_Custom_Internal_Barrel_Pin_03.stl",
+        "name": "16_Custom_Internal_Barrel_Pin_03",
+        "title": "Barrel Retention Pin 03 (az 225°)",
+        "color_rgb": (65, 75, 85),        # Gunmetal / Black Pin
+        "metallic": 0.4,
+        "roughness": 0.4,
+    },
+    {
+        "id": 17,
+        "filename": "17_Custom_Internal_Barrel_Pin_04.stl",
+        "name": "17_Custom_Internal_Barrel_Pin_04",
+        "title": "Barrel Retention Pin 04 (az 315°)",
+        "color_rgb": (65, 75, 85),        # Gunmetal / Black Pin
+        "metallic": 0.4,
+        "roughness": 0.4,
+    },
+    {
         "id": 18,
         "filename": "18_27_Upper_Shell_Top.stl",
         "name": "18_27_Upper_Shell_Top",
@@ -170,7 +192,7 @@ def export_assembled_glb(parts, assembled_glb_path):
             baseColorFactor=color_norm,
             metallicFactor=float(p["metallic"]),
             roughnessFactor=float(p["roughness"]),
-            name=f"mat_{p['id']}",
+            name=f"mat_{p['name']}",
         )
         m.visual.material = mat
         scene_asy.add_geometry(m, node_name=p["name"], geom_name=p["name"])
@@ -186,8 +208,8 @@ def main():
     print("BUILDING INTERNAL BARREL & UPPER STATION ASSEMBLED GLB")
     print("=" * 80)
 
-    print("\nLoading 10 parts from assembled coordinate space...")
     parts = load_barrel_upper_station_parts()
+    print(f"\nLoading {len(parts)} parts from assembled coordinate space...")
     for p in parts:
         m = p["mesh"]
         print(f"  - [{p['id']}] {p['title']}: {p['filename']} (vol={m.volume:.2f} mm3)")

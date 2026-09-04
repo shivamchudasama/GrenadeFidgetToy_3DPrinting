@@ -192,6 +192,8 @@ Numbers 16 and 17 are the two retention pins (azimuths 30° and 150°) that axia
 | **15** | Upper Station | `15_Custom_Rod_Detent_Spring_04.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **16** | Upper Station | `16_Custom_Internal_Barrel_Pin_01.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
 | **17** | Upper Station | `17_Custom_Internal_Barrel_Pin_02.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
+| **16** | Upper Station | `16_Custom_Internal_Barrel_Pin_03.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
+| **17** | Upper Station | `17_Custom_Internal_Barrel_Pin_04.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
 | **18** | Upper Station | `18_27_Upper_Shell_Top.stl` | PLA (Olive Drab Green) | 1 | No |
 | **19** | Upper Station | `19_28_Upper_Shell_Gear.stl` | PLA (Silver / Gunmetal) | 1 | No |
 | **20** | Upper Station | `20_29_Upper_Shell_Lock_Ring.stl` | PLA (Olive Drab Accent) | 1 | No |
