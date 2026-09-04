@@ -139,13 +139,12 @@ def profile_to_solid(poly, label):
     return _solidify(out, label)
 
 s_single_base = profile_to_solid(poly_single, 'Single_Solid')
-s_dual_base = profile_to_solid(poly_dual, 'Dual_Solid')
 
-# 3. Assembled orientations
+# 3. Assembled orientations (all 4 equal single-headed springs)
 s_01 = _roty(-90.0, s_single_base.copy())       # az 0 deg (-X)
-s_02 = s_dual_base.copy()                      # az 90 deg (+Z)
+s_02 = s_single_base.copy()                    # az 90 deg (+Z)
 s_03 = _roty(90.0, s_single_base.copy())        # az 180 deg (+X)
-s_04 = _roty(180.0, s_dual_base.copy())        # az 270 deg (-Z)
+s_04 = _roty(180.0, s_single_base.copy())       # az 270 deg (-Z)
 
 # 4. Bed poses
 base_rot = [[0, 1, 0], [0, 0, 1], [1, 0, 0]]
@@ -161,9 +160,9 @@ for b in [b_01, b_02, b_03, b_04]:
 
 spring_defs = [
     ("12_Custom_Rod_Detent_Spring_01.stl", s_01, b_01, "Single"),
-    ("13_Custom_Rod_Detent_Spring_02.stl", s_02, b_02, "Dual"),
+    ("13_Custom_Rod_Detent_Spring_02.stl", s_02, b_02, "Single"),
     ("14_Custom_Rod_Detent_Spring_03.stl", s_03, b_03, "Single"),
-    ("15_Custom_Rod_Detent_Spring_04.stl", s_04, b_04, "Dual"),
+    ("15_Custom_Rod_Detent_Spring_04.stl", s_04, b_04, "Single"),
 ]
 
 sub_dir = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station")
@@ -187,4 +186,24 @@ for filename, s_asy, s_bed, stype in spring_defs:
     s_asy.export(os.path.join(asy_dir, filename))
     print(f"   -> Exported to subassembly, flat-bed, and assembled")
 
-print("\n[OK] All 4 springs built and exported successfully with foot-only raised edge!")
+# 5. Build and export solid cap 11 (unslotted, for 4 equal single-headed springs)
+print("\n--- BUILDING SOLID RETENTION CAP (11_Custom_Internal_Barrel_Cap.stl) ---")
+_, cap_asy = BRD.cap_disc()
+T_cap = np.eye(4)
+T_cap[:3, :3] = np.array([[1, 0, 0], [0, 0, 1], [0, -1, 0]])
+cap_bed = cap_asy.copy()
+cap_bed.apply_transform(T_cap)
+center_xy = (cap_bed.bounds[0][:2] + cap_bed.bounds[1][:2]) / 2.0
+cap_bed.apply_translation([-center_xy[0], -center_xy[1], -cap_bed.bounds[0][2]])
+
+assert cap_asy.is_watertight and cap_asy.body_count == 1, "Cap is not watertight!"
+print(f"Cap Watertight: {cap_asy.is_watertight}, Volume: {cap_asy.volume:.2f} mm3")
+print(f"Cap Bed Z range: [{cap_bed.bounds[0][2]:.3f}, {cap_bed.bounds[1][2]:.3f}] mm")
+
+cap_fn = "11_Custom_Internal_Barrel_Cap.stl"
+cap_bed.export(os.path.join(sub_dir, cap_fn))
+cap_bed.export(os.path.join(flat_dir, cap_fn))
+cap_asy.export(os.path.join(asy_dir, cap_fn))
+print(f"   -> Exported {cap_fn} to subassembly, flat-bed, and assembled")
+
+print("\n[OK] All 4 springs and solid cap built and exported successfully!")

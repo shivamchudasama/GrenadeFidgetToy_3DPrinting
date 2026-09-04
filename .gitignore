@@ -8,6 +8,11 @@ __pycache__/
 Derivatives/**/*.stl
 Derivatives/**/*.glb
 Derivatives/**/*.3mf
+**/Derivatives/**/*.stl
+**/Derivatives/**/*.glb
+**/Derivatives/**/*.3mf
+
+scratch/
 
 # ...but NOT the pose record. Tactical_variants_poses.json is an *input* to
 # those build scripts (assembly.py reads it), not an output -- it is the

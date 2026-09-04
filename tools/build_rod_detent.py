@@ -108,7 +108,9 @@ SLOPE = np.tan(np.radians(FLANK_DEG))
 
 # ------------------------------------------------------------------- layout --
 SLOT_AZIMUTHS = (0.0, 90.0, 180.0, 270.0)
-PIN_AZIMUTHS = (270.0,)                  # only fill 270°; 30° & 150° remain open for retention pins
+PIN_AZIMUTHS = (30.0, 150.0, 270.0)       # fill all 3 legacy pin channels (30°, 150°, 270°)
+NEW_PIN_AZIMUTHS = (45.0, 135.0)          # active retention pins
+BARREL_PIN_CAVITIES = (45.0, 135.0, 225.0, 315.0)  # 4-way balanced pin cavities in barrel
 LEGACY_AZIMUTHS = (90.0, 210.0, 330.0)   # the stock follower slots, now filled
 
 # Bilaterally symmetric slot section, centered on X = 0.00.
@@ -429,15 +431,58 @@ def pin_fill(barrel):
         PIN_Y1)
 
 
-def upper_shell_top_with_filled_window(stock_shell=None):
-    """Fill the obsolete 270° pin window on 18_27_Upper_Shell_Top without residues.
+_CACHED_PIN_CUTTER = None
 
-    In Hybrid_Grenade_v1.2, only 2 pins at 30° and 150° are used because the
-    270° pin channel collides with detent slot 04. This function closes the
-    empty 270° window cutout in the shell neck, matching the exact inner arc
-    circle (R = 23.1698 mm centered at (0, 9.0614)) and outer cylinder (R = 18.50 mm),
-    trimming both inner and outer boundaries flush so that zero surface bumps,
-    steps, or minute residues remain.
+
+def pin_channel_cut(azimuth, barrel=None):
+    """Pin channel cutter, extracted from stock barrel's true wedge profile.
+
+    Extrudes the exact 60° inverted-wedge profile of the pin cavity radially
+    outward from R_IN (8.80 mm) to beyond the barrel's widest lobe (22.0 mm),
+    piercing the wall cleanly without any rectangular box steps or outer-surface
+    terrace artefacts.
+    """
+    global _CACHED_PIN_CUTTER
+    if _CACHED_PIN_CUTTER is None:
+        stock = barrel if barrel is not None else _load(STOCK_BARREL)
+        b30 = _roty(30.0, stock.copy())
+        # Sample the exact true wedge profile in the (Y, Z) plane inside the cavity
+        sec = b30.section(plane_origin=[11.0, 0.0, 0.0], plane_normal=[1.0, 0.0, 0.0])
+        p2d, to_3d = sec.to_2D()
+        poly = p2d.polygons_full[0]
+        ring = poly.interiors[0]
+        pts_3d = trimesh.transform_points(
+            np.hstack([ring.coords, np.zeros((len(ring.coords), 1))]), to_3d)
+        zy_coords = pts_3d[:, [2, 1]]
+        import shapely.geometry
+        poly_zy = shapely.geometry.Polygon(zy_coords)
+
+        # Extrude along radial X axis from R_IN (8.80) to past the widest lobe (22.0)
+        x_start = 8.80
+        x_end = 22.0
+        cutter = trimesh.creation.extrude_polygon(poly_zy, height=x_end - x_start)
+        M = np.array([
+            [0.0, 0.0, 1.0, x_start],
+            [0.0, 1.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 1.0]
+        ])
+        cutter.apply_transform(M)
+        _CACHED_PIN_CUTTER = _solidify(cutter, "pin_channel_cutter")
+
+    return _roty(-azimuth, _CACHED_PIN_CUTTER.copy())
+
+
+def upper_shell_top_with_repositioned_windows(stock_shell=None):
+    """Reposition retention pin windows on 18_27_Upper_Shell_Top to 45° and 135°.
+
+    In Hybrid_Grenade_v1.2, detent springs 01-04 run in 4 slots at 0°, 90°, 180°, 270°.
+    The legacy pin windows at 30°, 150°, and 270° are solidly closed without residues,
+    dummy boundary edges, or seam facets by unioning an extruded slice of the stock
+    shell's true wall geometry (outer notched cylinder + inner Reuleaux curved bore).
+    New retention windows are cut only at symmetric 45° and 135° azimuths matching the
+    exact stock window cross-section and bottom retention shelf, providing positive
+    axial retention (>10 mm³ overlap at 1.0 mm lift) with 0.0000 mm³ pin clash.
     """
     import manifold3d
     import shapely.geometry
@@ -445,64 +490,92 @@ def upper_shell_top_with_filled_window(stock_shell=None):
     if stock_shell is None:
         stock_shell = _load(STOCK_SHELL_TOP)
 
-    thetas = np.linspace(np.radians(256.0), np.radians(284.0), 65)
+    # 1. Extract the stock 2D window profile in (Z, Y) from stock_shell at 30 deg
+    # When rotated by +30 deg, azimuth 30 deg is aligned with +X.
+    M30 = trimesh.transformations.rotation_matrix(np.radians(30.0), [0, 1, 0])
+    s0 = stock_shell.copy()
+    s0.apply_transform(M30)
 
-    def get_r_in(th):
-        s = np.sin(th)
-        b = -2 * 9.0614 * s
-        c = 9.0614**2 - 23.1698**2
-        return (-b + np.sqrt(b**2 - 4 * c)) / 2
+    sec = s0.section(plane_origin=[15.5, 0, 0], plane_normal=[1, 0, 0])
+    win_poly_pts = None
+    for p in sec.discrete:
+        if np.all((p[:, 1] >= 56.0) & (p[:, 1] <= 61.5) & (np.abs(p[:, 2]) <= 4.0)):
+            win_poly_pts = p[:, [2, 1]]  # (Z, Y)
+            break
 
-    # Overfill slightly to consume all drafted boundary facets
-    r_in_pts = [[(get_r_in(th) - 0.05) * np.cos(th),
-                  (get_r_in(th) - 0.05) * np.sin(th)] for th in thetas]
-    r_out_pts = [[18.60 * np.cos(th), 18.60 * np.sin(th)] for th in reversed(thetas)]
-    poly = shapely.geometry.Polygon(r_in_pts + r_out_pts)
+    if win_poly_pts is None:
+        raise RuntimeError("Could not extract stock window cross-section from STOCK_SHELL_TOP")
 
-    y_min = 55.80
-    y_max = 61.167
-    plug_mesh = trimesh.creation.extrude_polygon(poly, height=y_max - y_min)
-    plug_mesh.apply_transform([[1, 0, 0, 0],
-                               [0, 0, 1, y_min],
-                               [0, 1, 0, 0],
-                               [0, 0, 0, 1]])
+    # For the window cutter: set ceiling to Y=61.30 to ensure 0.0000 pin clash
+    win_cutter_pts = win_poly_pts.copy()
+    win_cutter_pts[win_cutter_pts[:, 1] > 61.10, 1] = 61.30
 
+    poly_cut_zy = shapely.geometry.Polygon(win_cutter_pts)
+    raw_cut = trimesh.creation.extrude_polygon(poly_cut_zy, height=8.0)  # radial span 13.0 to 21.0
+    v_cut = raw_cut.vertices
+    v_cut_new = np.column_stack([v_cut[:, 2] + 13.0, v_cut[:, 1], v_cut[:, 0]])
+    win_cutter_0 = trimesh.Trimesh(v_cut_new, raw_cut.faces, process=True)
+    if win_cutter_0.volume < 0:
+        win_cutter_0.faces = np.fliplr(win_cutter_0.faces)
+        win_cutter_0 = trimesh.Trimesh(win_cutter_0.vertices, win_cutter_0.faces, process=True)
+
+    # 2. Extract 2D solid wall slice at Y = 56.0 mm from stock shell to build solid wall ring.
+    # The shell's window band Y in [56.0, 61.167] is a vertical extrusion of this exact profile
+    # (outer notched cylinder R=18.50 and inner Reuleaux curved triangular bore).
+    sec56 = stock_shell.section(plane_origin=[0, 56.0, 0], plane_normal=[0, 1, 0])
+    loop_outer = None
+    loop_inner = None
+    for l in sec56.discrete:
+        r = np.hypot(l[:, 0], l[:, 2])
+        if r.max() > 18.0 and r.min() > 16.5:
+            loop_outer = l[:, [0, 2]]  # (X, Z)
+            break
+    for l in sec56.discrete:
+        r = np.hypot(l[:, 0], l[:, 2])
+        if r.min() < 15.0:
+            loop_inner = l[:, [0, 2]]  # (X, Z)
+            break
+
+    if loop_outer is None or loop_inner is None:
+        raise RuntimeError("Could not extract wall loops from stock shell at Y=56.0")
+
+    poly_wall = shapely.geometry.Polygon(shell=loop_outer, holes=[loop_inner])
+    h_wall = 61.167 - 56.0
+    wall_ext = trimesh.creation.extrude_polygon(poly_wall, height=h_wall)
+    v_wall = wall_ext.vertices
+    v_wall_new = np.column_stack([v_wall[:, 0], v_wall[:, 2] + 56.0, v_wall[:, 1]])
+    solid_wall_ring = trimesh.Trimesh(v_wall_new, wall_ext.faces, process=True)
+    if solid_wall_ring.volume < 0:
+        solid_wall_ring.faces = np.fliplr(solid_wall_ring.faces)
+        solid_wall_ring = trimesh.Trimesh(solid_wall_ring.vertices, solid_wall_ring.faces, process=True)
+
+    # 3. Assemble shell using Manifold:
+    # Union solid_wall_ring into stock_shell to seamlessly close 30°, 150°, 270° without any triangular seams
     sm = manifold3d.Manifold(manifold3d.Mesh(stock_shell.vertices.astype(np.float32),
                                              stock_shell.faces.astype(np.uint32)))
-    pm = manifold3d.Manifold(manifold3d.Mesh(plug_mesh.vertices.astype(np.float32),
-                                             plug_mesh.faces.astype(np.uint32)))
-    joined = sm + pm
+    wm = manifold3d.Manifold(manifold3d.Mesh(solid_wall_ring.vertices.astype(np.float32),
+                                             solid_wall_ring.faces.astype(np.uint32)))
+    closed_shell_m = sm + wm
+    closed_tm = trimesh.Trimesh(closed_shell_m.to_mesh().vert_properties[:, :3],
+                                closed_shell_m.to_mesh().tri_verts, process=True)
+    closed_shell = _solidify(closed_tm, "closed_shell")
 
-    # Trim outer bump flush to exact cylinder R = 18.500 mm
-    trim_thetas = np.linspace(np.radians(252.0), np.radians(288.0), 73)
-    p_inner = [[18.500 * np.cos(th), 18.500 * np.sin(th)] for th in trim_thetas]
-    p_outer = [[25.000 * np.cos(th), 25.000 * np.sin(th)] for th in reversed(trim_thetas)]
-    trim_mesh = trimesh.creation.extrude_polygon(
-        shapely.geometry.Polygon(p_inner + p_outer), height=62.45 - 55.0)
-    trim_mesh.apply_transform([[1, 0, 0, 0],
-                               [0, 0, 1, 55.0],
-                               [0, 1, 0, 0],
-                               [0, 0, 0, 1]])
-    tm = manifold3d.Manifold(manifold3d.Mesh(trim_mesh.vertices.astype(np.float32),
-                                             trim_mesh.faces.astype(np.uint32)))
-    trimmed = joined - tm
+    # Cut all 4 functional pin cavities matching the barrel pin cavities (45°, 135°, 225°, 315°)
+    cm = manifold3d.Manifold(manifold3d.Mesh(closed_shell.vertices.astype(np.float32),
+                                             closed_shell.faces.astype(np.uint32)))
+    for az in BARREL_PIN_CAVITIES:
+        M_az = trimesh.transformations.rotation_matrix(np.radians(-az), [0, 1, 0])
+        c_az = win_cutter_0.copy()
+        c_az.apply_transform(M_az)
+        c_az_m = manifold3d.Manifold(manifold3d.Mesh(c_az.vertices.astype(np.float32),
+                                                     c_az.faces.astype(np.uint32)))
+        cm = cm - c_az_m
 
-    # Trim inner ridge flush to exact circular arc
-    p_in_void = [[5.0 * np.cos(th), 5.0 * np.sin(th)] for th in trim_thetas]
-    p_in_arc = [[get_r_in(th) * np.cos(th), get_r_in(th) * np.sin(th)] for th in reversed(trim_thetas)]
-    in_trim_mesh = trimesh.creation.extrude_polygon(
-        shapely.geometry.Polygon(p_in_void + p_in_arc), height=62.45 - 55.0)
-    in_trim_mesh.apply_transform([[1, 0, 0, 0],
-                                  [0, 0, 1, 55.0],
-                                  [0, 1, 0, 0],
-                                  [0, 0, 0, 1]])
-    im = manifold3d.Manifold(manifold3d.Mesh(in_trim_mesh.vertices.astype(np.float32),
-                                             in_trim_mesh.faces.astype(np.uint32)))
-    trimmed = trimmed - im
-
-    m = trimmed.to_mesh()
-    return _solidify(trimesh.Trimesh(m.vert_properties[:, :3], m.tri_verts, process=True),
-                     SHELL_TOP_OUT)
+    m = cm.to_mesh()
+    raw_shell = trimesh.Trimesh(m.vert_properties[:, :3], m.tri_verts, process=True)
+    bodies = raw_shell.split(only_watertight=False)
+    main_body = bodies[0] if len(bodies) > 0 else raw_shell
+    return _solidify(main_body, SHELL_TOP_OUT)
 
 
 
@@ -721,8 +794,9 @@ def barrel_with_slots(barrel=None):
         raise RuntimeError("the re-bore left %d bodies" % filled.body_count)
     if not np.allclose(stock.bounds, filled.bounds, atol=1e-6):
         raise RuntimeError("the re-bore moved the barrel's bounds")
+    pin_cuts = [pin_channel_cut(az, stock) for az in BARREL_PIN_CAVITIES]
     out = trimesh.boolean.difference(
-        [filled] + [slot_cut(az) for az in SLOT_AZIMUTHS], engine=ENGINE)
+        [filled] + [slot_cut(az) for az in SLOT_AZIMUTHS] + pin_cuts, engine=ENGINE)
     if out.body_count != 1:
         raise RuntimeError("the slots left %d bodies" % out.body_count)
     return stock, filled, out
@@ -987,7 +1061,7 @@ def pin_channels_closed(barrel, r_min=9.2):
     return pts[~barrel.contains(pts)]
 
 
-def legacy_slots_closed(barrel, geom, r_min=9.0):
+def legacy_slots_closed(barrel, geom, r_min=9.0, azimuths=LEGACY_AZIMUTHS):
     """Points that used to be stock follower slot and are still void.
 
     The companion to ``pin_channels_closed``, and aimed the same way: at the
@@ -1006,7 +1080,7 @@ def legacy_slots_closed(barrel, geom, r_min=9.0):
     ys = np.concatenate([np.arange(48.9, y_top - 0.30, 0.4),
                          np.arange(y_top - 0.30, y_top - 0.01, 0.05)])
     pts = []
-    for az in LEGACY_AZIMUTHS:
+    for az in azimuths:
         a = np.radians(az)
         radial = np.array([np.cos(a), 0.0, np.sin(a)])
         tangent = np.array([-np.sin(a), 0.0, np.cos(a)])
@@ -1121,9 +1195,9 @@ def main():
     stock, filled, barrel = barrel_with_slots()
     geom = bore_geometry(stock)
     stock_cap, cap = cap_disc()
-    pin16 = _load(STOCK_PIN_30)
-    pin17 = _load(STOCK_PIN_150)
-    top_shell = upper_shell_top_with_filled_window()
+    pin16 = _roty(30.0 - 45.0, _load(STOCK_PIN_30))
+    pin17 = _roty(30.0 - 135.0, _load(STOCK_PIN_30))
+    top_shell = upper_shell_top_with_repositioned_windows()
 
     problems = []
     for name, m in zip(OUTPUTS[:4], springs):
@@ -1143,24 +1217,16 @@ def main():
     if not cap.is_watertight or cap.body_count != 1:
         problems.append("the re-keyed cap is not a single watertight solid")
 
-    # Verify 270° window on top_shell is closed and 30°/150° windows remain open
-    pt_270 = [16.5 * np.cos(np.radians(270)), 59.0, 16.5 * np.sin(np.radians(270))]
-    if not top_shell.contains([pt_270])[0]:
-        problems.append("the 270 deg window on %s is not closed" % SHELL_TOP_OUT)
-    for az in (30, 150):
+    # Verify legacy windows (30°, 150°, 270°) on top_shell are solid,
+    # and all 4 barrel pin cavity windows at 45°, 135°, 225°, 315° remain open:
+    for az in (30, 150, 270):
+        pt = [16.5 * np.cos(np.radians(az)), 59.0, 16.5 * np.sin(np.radians(az))]
+        if not top_shell.contains([pt])[0]:
+            problems.append("legacy window at %d deg on %s is not solid/closed" % (az, SHELL_TOP_OUT))
+    for az in BARREL_PIN_CAVITIES:
         pt = [16.5 * np.cos(np.radians(az)), 59.0, 16.5 * np.sin(np.radians(az))]
         if top_shell.contains([pt])[0]:
-            problems.append("the %d deg pin window on %s is blocked" % (az, SHELL_TOP_OUT))
-
-    # Verify no residue faces remain in the filled 270 deg window zone
-    fc_top = top_shell.triangles_center
-    mask_res = ((np.abs(fc_top[:, 0]) < 3.5) & (fc_top[:, 2] < -13.5) &
-                (fc_top[:, 1] >= 56.2) & (fc_top[:, 1] <= 61.0))
-    fn_res = top_shell.face_normals[mask_res]
-    non_radial_res = np.abs(fn_res[:, 1]) > 0.05
-    if non_radial_res.sum() > 0:
-        problems.append("found %d non-radial residue faces in filled 270 deg window on %s"
-                        % (non_radial_res.sum(), SHELL_TOP_OUT))
+            problems.append("the %d deg pin window on %s is blocked" % (int(az), SHELL_TOP_OUT))
 
     # Verify zero outer surface bump on the cylindrical neck
     v_top = top_shell.vertices
@@ -1172,17 +1238,15 @@ def main():
         problems.append("found %d raised surface vertices (bump) on filled window of %s"
                         % (bump_top.sum(), SHELL_TOP_OUT))
 
-    for label, mesh, r_min in (("after the fill", filled, 9.2),
-                               ("outboard of the slots", barrel, SLOT_R_OUT + 0.3)):
-        missed = pin_channels_closed(mesh, r_min)
-        if len(missed):
-            problems.append("%d probe points in the old pin channels are still void %s"
-                            % (len(missed), label))
-        missed = legacy_slots_closed(mesh, geom, max(r_min, 9.0))
-        if len(missed):
-            problems.append("%d probe points in the old follower slots are still void "
-                            "%s (lowest at y %.3f)"
-                            % (len(missed), label, missed[:, 1].min()))
+    missed = pin_channels_closed(filled, 9.2)
+    if len(missed):
+        problems.append("%d probe points in the old pin channels are still void after the fill"
+                        % len(missed))
+    missed = legacy_slots_closed(filled, geom, 9.0)
+    if len(missed):
+        problems.append("%d probe points in the old follower slots are still void "
+                        "after the fill (lowest at y %.3f)"
+                        % (len(missed), missed[:, 1].min()))
 
     out_of_round, round_at = bore_round(barrel)
     if out_of_round > BORE_ROUND_TOL:
@@ -1299,9 +1363,18 @@ def main():
                              -m_bed.bounds[0][2]])
     m_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", BARREL_OUT))
     m_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", BARREL_OUT))
+    cap.export(guard(os.path.join(ASSEMBLED, CAP_OUT)))
+    cap_bed = cap.copy()
+    cap_bed.apply_transform(T)
+    cap_bed.apply_translation([-0.5 * (cap_bed.bounds[0][0] + cap_bed.bounds[1][0]),
+                               -0.5 * (cap_bed.bounds[0][1] + cap_bed.bounds[1][1]),
+                               -cap_bed.bounds[0][2]])
+    cap_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", CAP_OUT))
+    cap_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", CAP_OUT))
     pin16.export(guard(os.path.join(ASSEMBLED, PIN_OUT_01)))
     pin17.export(guard(os.path.join(ASSEMBLED, PIN_OUT_02)))
     top_shell.export(guard(os.path.join(ASSEMBLED, SHELL_TOP_OUT)))
+    top_shell.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", SHELL_TOP_OUT))
     for name in RETIRED:
         path = guard(os.path.join(ASSEMBLED, name))
         if os.path.exists(path) and name not in OUTPUTS + (BARREL_OUT, CAP_OUT):

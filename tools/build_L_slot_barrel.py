@@ -55,9 +55,10 @@ filled = trimesh.boolean.difference([plugged, BRD.bore_solid(stock)], engine=BRD
 if filled.body_count != 1:
     raise RuntimeError(f"Re-boring left {filled.body_count} bodies!")
 
-# Cut the 4 L-shaped slots
+# Cut the 4 L-shaped slots and the 4 balanced pin channels at 45°, 135°, 225°, and 315°
+pin_cuts = [BRD.pin_channel_cut(az, stock) for az in BRD.BARREL_PIN_CAVITIES]
 barrel_L = trimesh.boolean.difference(
-    [filled] + [slot_cut_L(az) for az in BRD.SLOT_AZIMUTHS], engine=BRD.ENGINE)
+    [filled] + [slot_cut_L(az) for az in BRD.SLOT_AZIMUTHS] + pin_cuts, engine=BRD.ENGINE)
 
 if not barrel_L.is_watertight or barrel_L.body_count != 1:
     raise RuntimeError(f"L-slot cut failed: watertight={barrel_L.is_watertight}, bodies={barrel_L.body_count}")

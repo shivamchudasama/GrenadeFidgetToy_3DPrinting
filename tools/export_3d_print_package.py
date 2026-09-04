@@ -158,7 +158,7 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Black / Gunmetal",
-        "desc": "Slotted barrel top cap with 3.60 mm pass-through channels at 90° and 270°",
+        "desc": "Solid barrel retention cap disc trapping all 4 single-headed springs axially",
         "supports": "No",
     },
     {
@@ -168,7 +168,7 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Safety Orange / PETG",
-        "desc": "Single-headed axial rod detent spring 01 (az 0°), rides rod rack -- build_dual_headed_springs.py",
+        "desc": "Single-headed axial rod detent spring 01 (az 0°), rides rod rack -- build_all_modified_springs.py",
         "supports": "No",
     },
     {
@@ -178,7 +178,7 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Safety Orange / PETG",
-        "desc": "Dual-headed axial rod detent spring 02 (az 90°), dual rack engagement -- build_dual_headed_springs.py",
+        "desc": "Single-headed axial rod detent spring 02 (az 90°), rides rod rack -- build_all_modified_springs.py",
         "supports": "No",
     },
     {
@@ -188,7 +188,7 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Safety Orange / PETG",
-        "desc": "Single-headed axial rod detent spring 03 (az 180°), rides rod rack -- build_dual_headed_springs.py",
+        "desc": "Single-headed axial rod detent spring 03 (az 180°), rides rod rack -- build_all_modified_springs.py",
         "supports": "No",
     },
     {
@@ -198,7 +198,7 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Safety Orange / PETG",
-        "desc": "Dual-headed axial rod detent spring 04 (az 270°), dual rack engagement -- build_dual_headed_springs.py",
+        "desc": "Single-headed axial rod detent spring 04 (az 270°), rides rod rack -- build_all_modified_springs.py",
         "supports": "No",
     },
     {
@@ -208,7 +208,7 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Black / Gunmetal",
-        "desc": "Internal barrel retention pin 01 (az 30°), locks Upper Shell Top axially",
+        "desc": "Internal barrel retention pin 01 (az 45°), locks Upper Shell Top axially",
         "supports": "No",
     },
     {
@@ -218,7 +218,7 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Black / Gunmetal",
-        "desc": "Internal barrel retention pin 02 (az 150°), locks Upper Shell Top axially",
+        "desc": "Internal barrel retention pin 02 (az 135°), locks Upper Shell Top axially",
         "supports": "No",
     },
     {
@@ -461,8 +461,8 @@ BED_POSES = {
     "13_Custom_Rod_Detent_Spring_02.stl": ([[0, 1, 0], [0, 0, 1], [1, 0, 0]], 0),
     "14_Custom_Rod_Detent_Spring_03.stl": ([[0, 1, 0], [0, 0, 1], [1, 0, 0]], -90),
     "15_Custom_Rod_Detent_Spring_04.stl": ([[0, 1, 0], [0, 0, 1], [1, 0, 0]], -180),
-    "16_Custom_Internal_Barrel_Pin_01.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], -120),
-    "17_Custom_Internal_Barrel_Pin_02.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
+    "16_Custom_Internal_Barrel_Pin_01.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], -105),
+    "17_Custom_Internal_Barrel_Pin_02.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], -15),
     "18_27_Upper_Shell_Top.stl": ([[-1, 0, 0], [0, 0, -1], [0, -1, 0]], 60),
     "19_28_Upper_Shell_Gear.stl": ([[0, 0, 1], [1, 0, 0], [0, 1, 0]], 62),
     "20_29_Upper_Shell_Lock_Ring.stl": ([[1, 0, 0], [0, 0, 1], [0, -1, 0]], 60),
