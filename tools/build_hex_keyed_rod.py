@@ -29,6 +29,7 @@ import os
 import sys
 import numpy as np
 import trimesh
+import manifold3d
 import shapely.geometry as sg
 
 TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -113,7 +114,7 @@ def build_unified_rod():
 
     # 5. Continuous clean side trim of 23_Custom_Rod_Middle:
     # Trims entire upper region (Y in [60.0, 105.0]) to exact continuous X in [-3.50, 3.50]
-    # Eliminates any step ledges, residues, or burrs while preserving all teeth and yoke geometry.
+    # Eliminates any step ledges, residues, or burrs while preserving yoke geometry.
     box_side_trim_r = trimesh.creation.box(
         extents=[10.0, 100.0, 50.0],
         transform=trimesh.transformations.translation_matrix([-8.5, 60.0, 0.0])
@@ -122,10 +123,48 @@ def build_unified_rod():
         extents=[10.0, 100.0, 50.0],
         transform=trimesh.transformations.translation_matrix([8.5, 60.0, 0.0])
     )
-    rod_mid_full = fidget.cut(rod_mid_pristine, box_side_trim_r)
-    rod_mid_full = fidget.cut(rod_mid_full, box_side_trim_l)
+    rod_mid_trimmed = fidget.cut(rod_mid_pristine, box_side_trim_r)
+    rod_mid_trimmed = fidget.cut(rod_mid_trimmed, box_side_trim_l)
 
-    # 6. Narrow 28_09_Rod_Spring_Hinge along X to 6.00 mm (X in [-3.00, +3.00] mm)
+    # 6. Smooth the UPPER portion of 23_Custom_Rod_Middle (Y in [62.00, 90.00] mm):
+    # Matches the exact continuous outer profile of the upper hex cheeks (rod_ur_cheek and rod_ul_cheek)
+    # across the seam at X = -3.50 and X = +3.50 for Y in [62.00, 80.00] mm, forming an unbroken,
+    # 100% continuous surface where left, right, and middle connect, while preserving the internal
+    # leaf spring slot (Z in [-3.72, +3.72] mm).
+    # Also smooths any upper teeth between Y = 80.00 and 90.00 mm.
+    # The lower gear rack teeth (Y <= 61.50 mm) are preserved 100% untouched for the barrel detent springs.
+    box_mid_x = trimesh.creation.box(
+        extents=[7.0, 100.0, 100.0],
+        transform=trimesh.transformations.translation_matrix([0.0, 50.0, 0.0])
+    )
+    hex_mid = fidget.intersect(hex_prism, box_mid_x)
+
+    # Cut out the leaf spring slot from hex_mid (slot is Z in [-3.72, 3.72], X in [-3.6, 3.6], Y in [61.0, 86.0])
+    box_slot = trimesh.creation.box(
+        extents=[8.0, 30.0, 7.44],
+        transform=trimesh.transformations.translation_matrix([0.0, 73.0, 0.0])
+    )
+    hex_mid_shelled = fidget.cut(hex_mid, box_slot)
+
+    # Smooth upper teeth and flatten the upper yoke pocket from Y = 80.00 to 94.05 on 23:
+    # Eliminates the sunken rectangular recess and side ridges highlighted by user,
+    # transitioning tangentially into the circular hinge ear at Z = ±7.25 across full width (X in [-3.50, +3.50]).
+    y_upper_min, y_upper_max = 80.00, 94.05
+    y_upper_span = y_upper_max - y_upper_min
+    y_upper_mid = (y_upper_min + y_upper_max) / 2.0
+    box_top_filler_80_94 = trimesh.creation.box(
+        extents=[7.00, y_upper_span, 7.25 - 5.70],
+        transform=trimesh.transformations.translation_matrix([0.0, y_upper_mid, (7.25 + 5.70) / 2.0])
+    )
+    box_bot_filler_80_94 = trimesh.creation.box(
+        extents=[7.00, y_upper_span, 7.25 - 5.70],
+        transform=trimesh.transformations.translation_matrix([0.0, y_upper_mid, -(7.25 + 5.70) / 2.0])
+    )
+    filler_80_94 = fidget.union(box_top_filler_80_94, box_bot_filler_80_94)
+
+    rod_mid_full = fidget.union(rod_mid_trimmed, fidget.union(hex_mid_shelled, filler_80_94))
+
+    # 7. Narrow 28_09_Rod_Spring_Hinge along X to 6.00 mm (X in [-3.00, +3.00] mm)
     box_sp = trimesh.creation.box(
         extents=[6.0, 100.0, 100.0],
         transform=trimesh.transformations.translation_matrix([0.0, 75.0, 0.0])
@@ -224,8 +263,29 @@ def flat_bed_orient(mesh: trimesh.Trimesh, name: str) -> trimesh.Trimesh:
     return m
 
 
+def stl_safe(mesh: trimesh.Trimesh) -> trimesh.Trimesh:
+    """Ensure watertight single-body mesh with manifold repair."""
+    mesh_32 = manifold3d.Mesh(
+        vert_properties=np.ascontiguousarray(mesh.vertices, dtype=np.float32),
+        tri_verts=np.ascontiguousarray(mesh.faces, dtype=np.uint32)
+    )
+    solid = manifold3d.Manifold(mesh_32)
+    rebuilt = solid.to_mesh()
+    safe = trimesh.Trimesh(
+        vertices=np.asarray(rebuilt.vert_properties)[:, :3],
+        faces=np.asarray(rebuilt.tri_verts),
+        process=False,
+    )
+    return safe
+
+
 def export_all():
     rod_r_full, rod_mid_full, rod_l_full, hinge_sp_narrow = build_unified_rod()
+
+    rod_r_full = stl_safe(rod_r_full)
+    rod_mid_full = stl_safe(rod_mid_full)
+    rod_l_full = stl_safe(rod_l_full)
+    hinge_sp_narrow = stl_safe(hinge_sp_narrow)
 
     print(f"\n[*] Exporting updated parts to {PACKAGE_NAME}...")
 
@@ -242,10 +302,10 @@ def export_all():
     fidget.save(hinge_sp_narrow, os.path.join(HEAD_DIR, "28_09_Rod_Spring_Hinge.stl"))
 
     # 3. Flat bed oriented
-    fidget.save(flat_bed_orient(rod_r_full, "22_Custom_Rod_Right"), os.path.join(FLAT_DIR, "22_Custom_Rod_Right.stl"))
-    fidget.save(flat_bed_orient(rod_mid_full, "23_Custom_Rod_Middle"), os.path.join(FLAT_DIR, "23_Custom_Rod_Middle.stl"))
-    fidget.save(flat_bed_orient(rod_l_full, "24_Custom_Rod_Left"), os.path.join(FLAT_DIR, "24_Custom_Rod_Left.stl"))
-    fidget.save(flat_bed_orient(hinge_sp_narrow, "28_09_Rod_Spring_Hinge"), os.path.join(FLAT_DIR, "28_09_Rod_Spring_Hinge.stl"))
+    fidget.save(stl_safe(flat_bed_orient(rod_r_full, "22_Custom_Rod_Right")), os.path.join(FLAT_DIR, "22_Custom_Rod_Right.stl"))
+    fidget.save(stl_safe(flat_bed_orient(rod_mid_full, "23_Custom_Rod_Middle")), os.path.join(FLAT_DIR, "23_Custom_Rod_Middle.stl"))
+    fidget.save(stl_safe(flat_bed_orient(rod_l_full, "24_Custom_Rod_Left")), os.path.join(FLAT_DIR, "24_Custom_Rod_Left.stl"))
+    fidget.save(stl_safe(flat_bed_orient(hinge_sp_narrow, "28_09_Rod_Spring_Hinge")), os.path.join(FLAT_DIR, "28_09_Rod_Spring_Hinge.stl"))
 
     # 4. Remove obsolete split/pin STLs if they exist
     obsolete_files = [
