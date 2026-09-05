@@ -67,18 +67,18 @@ For the Native 33-click system, symmetrical **30.00° / 150.00° / 270.00°** ar
 
 To provide full customization, 8 mid shell variants were created and dimensionally standardized. Every variant was measured to ensure complete mechanical compatibility with the waist mechanism and adjacent body shells:
 
-| Shell Variant | Architecture | Total Height ($Z$) | Base / Ledge Dia | Max Grip Outer Dia | Part Files |
+| Shell Variant | Architecture & Window Style | Total Height ($Z$) | Base / Ledge Dia | Max Grip Outer Dia | Part Files |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Baseline (Standard)** | 2-Piece (Outer + Inner) | **34.80 mm** | **40.00 mm** | 41.60 mm | `08_33_Mid_Shell_P01_Outer.stl`<br>`07_32_Mid_Shell_P02_Ratchet.stl` |
-| **01. AeroFlow** | 1-Piece Monolithic Solid | **34.80 mm** | **40.00 mm** | 41.68 mm | `08_Mid_Shell_Option_01_AeroFlow.stl` |
-| **02. Vector Chevron** | 1-Piece Monolithic Solid | **34.80 mm** | **40.00 mm** | 41.52 mm | `08_Mid_Shell_Option_02_Vector_Chevron.stl` |
-| **03. Orbit Pods** | 1-Piece Monolithic Solid | **34.80 mm** | **40.00 mm** | 41.55 mm | `08_Mid_Shell_Option_03_Orbit.stl` |
-| **04. Ergo Scoops** | 1-Piece Monolithic Solid | **34.80 mm** | **40.00 mm** | 41.84 mm | `08_Mid_Shell_Option_04_Ergo_Scoops.stl` |
-| **05. Contour Twist** | 2-Piece Dual-Color | **34.80 mm** (Outer)<br>**33.80 mm** (Inner) | **40.00 mm** | 43.00 mm (tri-lobed) | `08_Mid_Shell_Option_05_Contour_Twist_Outer.stl`<br>`07_Mid_Shell_Option_05_Contour_Twist_Inner.stl` |
-| **06. Hex Tactical** | 1-Piece Monolithic Solid | **34.80 mm** | **40.00 mm** | 42.12 mm | `08_Mid_Shell_Option_06_Hex_Tactical.stl` |
-| **07. Classic Solid Tactical** | 1-Piece Monolithic Solid | **34.80 mm** | **40.00 mm** | 41.95 mm | `08_Mid_Shell_Option_07_Classic_Solid_Tactical.stl` |
+| **Baseline (Standard)** | 2-Piece (16 Vertical Slot Windows) | **34.80 mm** (Outer)<br>**33.80 mm** (Inner) | **40.00 mm** | 41.60 mm | `08_33_Mid_Shell_P01_Outer.stl`<br>`07_32_Mid_Shell_P02_Ratchet.stl` |
+| **01. AeroFlow** | 2-Piece (16 Swept Ribbon Windows) | **34.80 mm** (Outer)<br>**33.80 mm** (Inner) | **40.00 mm** | 41.68 mm | `08_Mid_Shell_Option_01_AeroFlow_Outer.stl`<br>`07_32_Mid_Shell_P02_Ratchet.stl` |
+| **02. Vector Chevron** | 2-Piece (16 Chevron V-Angle Windows) | **34.80 mm** (Outer)<br>**33.80 mm** (Inner) | **40.00 mm** | 41.52 mm | `08_Mid_Shell_Option_02_Vector_Chevron_Outer.stl`<br>`07_32_Mid_Shell_P02_Ratchet.stl` |
+| **03. Orbit Pods** | 2-Piece (12 Weaving Ribbon Windows) | **34.80 mm** (Outer)<br>**33.80 mm** (Inner) | **40.00 mm** | 41.55 mm | `08_Mid_Shell_Option_03_Orbit_Outer.stl`<br>`07_32_Mid_Shell_P02_Ratchet.stl` |
+| **04. Ergo Scoops** | 2-Piece (12 Channel Capsule Windows) | **34.80 mm** (Outer)<br>**33.80 mm** (Inner) | **40.00 mm** | 41.84 mm | `08_Mid_Shell_Option_04_Ergo_Scoops_Outer.stl`<br>`07_32_Mid_Shell_P02_Ratchet.stl` |
+| **05. Contour Twist** | 2-Piece (6 Twisted Flute Windows) | **34.80 mm** (Outer)<br>**33.80 mm** (Inner) | **40.00 mm** | 43.00 mm (tri-lobed) | `08_Mid_Shell_Option_05_Contour_Twist_Outer.stl`<br>`07_32_Mid_Shell_P02_Ratchet.stl` |
+| **06. Hex Tactical** | 2-Piece (39 Honeycomb Hex Windows) | **34.80 mm** (Outer)<br>**33.80 mm** (Inner) | **40.00 mm** | 42.12 mm | `08_Mid_Shell_Option_06_Hex_Tactical_Outer.stl`<br>`07_32_Mid_Shell_P02_Ratchet.stl` |
+| **07. Classic Solid Tactical** | 2-Piece (16 Tilted Ribbon Windows) | **34.80 mm** (Outer)<br>**33.80 mm** (Inner) | **40.00 mm** | 41.95 mm | `08_Mid_Shell_Option_07_Classic_Solid_Tactical_Outer.stl`<br>`07_32_Mid_Shell_P02_Ratchet.stl` |
 
-*Note: All 8 variants mate with the exact same 33-click waist detent leaf spring (`09_Custom_Mid_Shell_Spring_33.stl`).*
+*Note: All 8 variants standardize on the 2-Piece Split Architecture with Aesthetic Through-Windows: print the universal internal ratchet core (`07_32_Mid_Shell_P02_Ratchet.stl`) in Safety Orange PETG for crisp, wear-resistant detent clicks against `09_Custom_Mid_Shell_Spring_33.stl`, and the cosmetic outer shell (`08`) in Tactical Olive PLA Matte. The outer shells feature custom-patterned through-windows that expose the contrasting inner core in a striking two-colour fidget toy design. Both pieces slide together with positive 3-pocket anti-rotation keyways and support-free flat-bed printability.*
 
 ---
 

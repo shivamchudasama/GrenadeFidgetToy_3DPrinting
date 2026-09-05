@@ -503,7 +503,8 @@ def get_canonical_transforms():
     c_xy2 = raw_p02.bounds[:, :2].mean(axis=0)
     M_print2 = trimesh.transformations.translation_matrix((-c_xy2[0], -c_xy2[1], -raw_p02.bounds[0, 2]))
     pose2 = np.asarray(tactical_poses["32 - Mid Shell P02"]["matrix"], dtype=float)
-    T_inner = pose2 @ np.linalg.inv(M_print2)
+    R_6deg = trimesh.transformations.rotation_matrix(np.radians(6.0), [0, 1, 0])
+    T_inner = R_6deg @ pose2 @ np.linalg.inv(M_print2)
 
     return T_outer, T_inner
 
@@ -550,9 +551,9 @@ VARIANTS = [
                 "name": "07_32_Mid_Shell_P02_Ratchet",
                 "file": "07_32_Mid_Shell_P02_Ratchet.stl",
                 "subassembly": "02_Waist_Mechanism",
-                "load_mode": "tactical_pose",
-                "tactical_key": "32 - Mid Shell P02",
-                "color": (140, 190, 115),
+                "load_mode": "flat_inner",
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "07_32_Mid_Shell_P02_Ratchet.stl"),
+                "color": (240, 90, 20),
                 "metallic": 0.15,
                 "roughness": 0.55,
                 "is_cutaway_shell": True,
@@ -564,8 +565,8 @@ VARIANTS = [
                 "name": "08_33_Mid_Shell_P01_Outer",
                 "file": "08_33_Mid_Shell_P01_Outer.stl",
                 "subassembly": "02_Waist_Mechanism",
-                "load_mode": "tactical_pose",
-                "tactical_key": "33 - Mid Shell P01",
+                "load_mode": "flat_outer",
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "08_33_Mid_Shell_P01_Outer.stl"),
                 "color": (122, 181, 102),
                 "metallic": 0.1,
                 "roughness": 0.6,
@@ -582,12 +583,26 @@ VARIANTS = [
         "is_baseline": False,
         "mid_shells": [
             {
+                "id": 7,
+                "name": "07_32_Mid_Shell_P02_Ratchet",
+                "file": "07_32_Mid_Shell_P02_Ratchet.stl",
+                "subassembly": "02_Waist_Mechanism",
+                "load_mode": "flat_inner",
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "07_32_Mid_Shell_P02_Ratchet.stl"),
+                "color": (240, 90, 20),
+                "metallic": 0.15,
+                "roughness": 0.55,
+                "is_cutaway_shell": True,
+                "cut_axis": "z",
+                "disp": np.array([36.0, 0.0, 0.0]),
+            },
+            {
                 "id": 8,
-                "name": "08_Mid_Shell_01_AeroFlow",
-                "file": "01_AeroFlow_Mid_Shell.stl",
+                "name": "08_Mid_Shell_Option_01_AeroFlow_Outer",
+                "file": "08_Mid_Shell_Option_01_AeroFlow_Outer.stl",
                 "subassembly": "02_Waist_Mechanism",
                 "load_mode": "flat_outer",
-                "stl_path": os.path.join(CODEX_DIR, "01_AeroFlow", "01_AeroFlow_Mid_Shell.stl"),
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "Mid_Shell_Options", "08_Mid_Shell_Option_01_AeroFlow_Outer.stl"),
                 "color": (122, 181, 102),
                 "metallic": 0.1,
                 "roughness": 0.6,
@@ -604,12 +619,26 @@ VARIANTS = [
         "is_baseline": False,
         "mid_shells": [
             {
+                "id": 7,
+                "name": "07_32_Mid_Shell_P02_Ratchet",
+                "file": "07_32_Mid_Shell_P02_Ratchet.stl",
+                "subassembly": "02_Waist_Mechanism",
+                "load_mode": "flat_inner",
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "07_32_Mid_Shell_P02_Ratchet.stl"),
+                "color": (240, 90, 20),
+                "metallic": 0.15,
+                "roughness": 0.55,
+                "is_cutaway_shell": True,
+                "cut_axis": "z",
+                "disp": np.array([36.0, 0.0, 0.0]),
+            },
+            {
                 "id": 8,
-                "name": "08_Mid_Shell_02_Vector_Chevron",
-                "file": "02_Vector_Chevron_Mid_Shell.stl",
+                "name": "08_Mid_Shell_Option_02_Vector_Chevron_Outer",
+                "file": "08_Mid_Shell_Option_02_Vector_Chevron_Outer.stl",
                 "subassembly": "02_Waist_Mechanism",
                 "load_mode": "flat_outer",
-                "stl_path": os.path.join(CODEX_DIR, "02_Vector_Chevron", "02_Vector_Chevron_Mid_Shell.stl"),
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "Mid_Shell_Options", "08_Mid_Shell_Option_02_Vector_Chevron_Outer.stl"),
                 "color": (122, 181, 102),
                 "metallic": 0.1,
                 "roughness": 0.6,
@@ -626,12 +655,26 @@ VARIANTS = [
         "is_baseline": False,
         "mid_shells": [
             {
+                "id": 7,
+                "name": "07_32_Mid_Shell_P02_Ratchet",
+                "file": "07_32_Mid_Shell_P02_Ratchet.stl",
+                "subassembly": "02_Waist_Mechanism",
+                "load_mode": "flat_inner",
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "07_32_Mid_Shell_P02_Ratchet.stl"),
+                "color": (240, 90, 20),
+                "metallic": 0.15,
+                "roughness": 0.55,
+                "is_cutaway_shell": True,
+                "cut_axis": "z",
+                "disp": np.array([36.0, 0.0, 0.0]),
+            },
+            {
                 "id": 8,
-                "name": "08_Mid_Shell_03_Orbit",
-                "file": "03_Orbit_Mid_Shell.stl",
+                "name": "08_Mid_Shell_Option_03_Orbit_Outer",
+                "file": "08_Mid_Shell_Option_03_Orbit_Outer.stl",
                 "subassembly": "02_Waist_Mechanism",
                 "load_mode": "flat_outer",
-                "stl_path": os.path.join(CODEX_DIR, "03_Orbit", "03_Orbit_Mid_Shell.stl"),
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "Mid_Shell_Options", "08_Mid_Shell_Option_03_Orbit_Outer.stl"),
                 "color": (122, 181, 102),
                 "metallic": 0.1,
                 "roughness": 0.6,
@@ -648,12 +691,26 @@ VARIANTS = [
         "is_baseline": False,
         "mid_shells": [
             {
+                "id": 7,
+                "name": "07_32_Mid_Shell_P02_Ratchet",
+                "file": "07_32_Mid_Shell_P02_Ratchet.stl",
+                "subassembly": "02_Waist_Mechanism",
+                "load_mode": "flat_inner",
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "07_32_Mid_Shell_P02_Ratchet.stl"),
+                "color": (240, 90, 20),
+                "metallic": 0.15,
+                "roughness": 0.55,
+                "is_cutaway_shell": True,
+                "cut_axis": "z",
+                "disp": np.array([36.0, 0.0, 0.0]),
+            },
+            {
                 "id": 8,
-                "name": "08_Mid_Shell_04_Ergo_Scoops",
-                "file": "04_Ergo_Scoops_Mid_Shell.stl",
+                "name": "08_Mid_Shell_Option_04_Ergo_Scoops_Outer",
+                "file": "08_Mid_Shell_Option_04_Ergo_Scoops_Outer.stl",
                 "subassembly": "02_Waist_Mechanism",
                 "load_mode": "flat_outer",
-                "stl_path": os.path.join(CODEX_DIR, "04_Ergo_Scoops", "04_Ergo_Scoops_Mid_Shell.stl"),
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "Mid_Shell_Options", "08_Mid_Shell_Option_04_Ergo_Scoops_Outer.stl"),
                 "color": (122, 181, 102),
                 "metallic": 0.1,
                 "roughness": 0.6,
@@ -671,12 +728,12 @@ VARIANTS = [
         "mid_shells": [
             {
                 "id": 7,
-                "name": "07_Mid_Shell_05_Contour_Twist_Inner",
-                "file": "05_Contour_Twist_Mid_Shell_Inner.stl",
+                "name": "07_32_Mid_Shell_P02_Ratchet",
+                "file": "07_32_Mid_Shell_P02_Ratchet.stl",
                 "subassembly": "02_Waist_Mechanism",
                 "load_mode": "flat_inner",
-                "stl_path": os.path.join(CODEX_DIR, "05_Contour_Twist", "05_Contour_Twist_Mid_Shell_Inner.stl"),
-                "color": (140, 190, 115),
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "07_32_Mid_Shell_P02_Ratchet.stl"),
+                "color": (240, 90, 20),
                 "metallic": 0.15,
                 "roughness": 0.55,
                 "is_cutaway_shell": True,
@@ -685,11 +742,11 @@ VARIANTS = [
             },
             {
                 "id": 8,
-                "name": "08_Mid_Shell_05_Contour_Twist_Outer",
-                "file": "05_Contour_Twist_Mid_Shell_Outer.stl",
+                "name": "08_Mid_Shell_Option_05_Contour_Twist_Outer",
+                "file": "08_Mid_Shell_Option_05_Contour_Twist_Outer.stl",
                 "subassembly": "02_Waist_Mechanism",
                 "load_mode": "flat_outer",
-                "stl_path": os.path.join(CODEX_DIR, "05_Contour_Twist", "05_Contour_Twist_Mid_Shell_Outer.stl"),
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "Mid_Shell_Options", "08_Mid_Shell_Option_05_Contour_Twist_Outer.stl"),
                 "color": (122, 181, 102),
                 "metallic": 0.1,
                 "roughness": 0.6,
@@ -706,12 +763,26 @@ VARIANTS = [
         "is_baseline": False,
         "mid_shells": [
             {
+                "id": 7,
+                "name": "07_32_Mid_Shell_P02_Ratchet",
+                "file": "07_32_Mid_Shell_P02_Ratchet.stl",
+                "subassembly": "02_Waist_Mechanism",
+                "load_mode": "flat_inner",
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "07_32_Mid_Shell_P02_Ratchet.stl"),
+                "color": (240, 90, 20),
+                "metallic": 0.15,
+                "roughness": 0.55,
+                "is_cutaway_shell": True,
+                "cut_axis": "z",
+                "disp": np.array([36.0, 0.0, 0.0]),
+            },
+            {
                 "id": 8,
-                "name": "08_Mid_Shell_06_Hex_Tactical",
-                "file": "08_Mid_Shell_Option_06_Hex_Tactical.stl",
+                "name": "08_Mid_Shell_Option_06_Hex_Tactical_Outer",
+                "file": "08_Mid_Shell_Option_06_Hex_Tactical_Outer.stl",
                 "subassembly": "02_Waist_Mechanism",
                 "load_mode": "flat_outer",
-                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "Mid_Shell_Options", "08_Mid_Shell_Option_06_Hex_Tactical.stl"),
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "Mid_Shell_Options", "08_Mid_Shell_Option_06_Hex_Tactical_Outer.stl"),
                 "color": (122, 181, 102),
                 "metallic": 0.1,
                 "roughness": 0.6,
@@ -728,12 +799,26 @@ VARIANTS = [
         "is_baseline": False,
         "mid_shells": [
             {
+                "id": 7,
+                "name": "07_32_Mid_Shell_P02_Ratchet",
+                "file": "07_32_Mid_Shell_P02_Ratchet.stl",
+                "subassembly": "02_Waist_Mechanism",
+                "load_mode": "flat_inner",
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "07_32_Mid_Shell_P02_Ratchet.stl"),
+                "color": (240, 90, 20),
+                "metallic": 0.15,
+                "roughness": 0.55,
+                "is_cutaway_shell": True,
+                "cut_axis": "z",
+                "disp": np.array([36.0, 0.0, 0.0]),
+            },
+            {
                 "id": 8,
-                "name": "08_Mid_Shell_07_Classic_Solid_Tactical",
-                "file": "08_Mid_Shell_Option_07_Classic_Solid_Tactical.stl",
+                "name": "08_Mid_Shell_Option_07_Classic_Solid_Tactical_Outer",
+                "file": "08_Mid_Shell_Option_07_Classic_Solid_Tactical_Outer.stl",
                 "subassembly": "02_Waist_Mechanism",
                 "load_mode": "flat_outer",
-                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "Mid_Shell_Options", "08_Mid_Shell_Option_07_Classic_Solid_Tactical.stl"),
+                "stl_path": os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "Mid_Shell_Options", "08_Mid_Shell_Option_07_Classic_Solid_Tactical_Outer.stl"),
                 "color": (122, 181, 102),
                 "metallic": 0.1,
                 "roughness": 0.6,
@@ -872,66 +957,9 @@ def cleanup_variant_glbs():
 
 
 def copy_shell_files_to_package():
-    """Copy and organize all mid shell STLs into 3D_Print_Custom_Hybrid_Grenade directories."""
-    waist_options_dir = os.path.join(PACKAGE_DIR, "02_Waist_Mechanism", "Mid_Shell_Options")
-    flat_options_dir = os.path.join(PACKAGE_DIR, "All_Parts_Flat_Bed_Oriented", "Mid_Shell_Options")
-    assem_options_dir = os.path.join(PACKAGE_DIR, "All_Parts_Assembled_Coordinates", "Mid_Shell_Options")
-
-    os.makedirs(waist_options_dir, exist_ok=True)
-    os.makedirs(flat_options_dir, exist_ok=True)
-    os.makedirs(assem_options_dir, exist_ok=True)
-
-    T_outer, T_inner = get_canonical_transforms()
-
-    # 1. Codex 5 Shells
-    shells_to_copy = [
-        (CODEX_DIR, "01_AeroFlow", "01_AeroFlow_Mid_Shell.stl", "08_Mid_Shell_Option_01_AeroFlow.stl", T_outer, False),
-        (CODEX_DIR, "02_Vector_Chevron", "02_Vector_Chevron_Mid_Shell.stl", "08_Mid_Shell_Option_02_Vector_Chevron.stl", T_outer, False),
-        (CODEX_DIR, "03_Orbit", "03_Orbit_Mid_Shell.stl", "08_Mid_Shell_Option_03_Orbit.stl", T_outer, False),
-        (CODEX_DIR, "04_Ergo_Scoops", "04_Ergo_Scoops_Mid_Shell.stl", "08_Mid_Shell_Option_04_Ergo_Scoops.stl", T_outer, False),
-        (CODEX_DIR, "05_Contour_Twist", "05_Contour_Twist_Mid_Shell_Outer.stl", "08_Mid_Shell_Option_05_Contour_Twist_Outer.stl", T_outer, False),
-        (CODEX_DIR, "05_Contour_Twist", "05_Contour_Twist_Mid_Shell_Inner.stl", "07_Mid_Shell_Option_05_Contour_Twist_Inner.stl", T_inner, False),
-        # 2. Tactical 7-in-1 Shells (need centering from raw build plate)
-        (FIDGET_TACTICAL_DIR, "", "Hex Mid Shell Solid Color.stl.stl", "08_Mid_Shell_Option_06_Hex_Tactical.stl", T_outer, True),
-        (FIDGET_TACTICAL_DIR, "", "Mid Shell Solid Color.stl.stl", "08_Mid_Shell_Option_07_Classic_Solid_Tactical.stl", T_outer, True),
-    ]
-
-    print("\n[COPYING & EXPORTING ALL MID SHELL STLS]")
-    for base_dir, sub, src_name, dest_name, T, need_center in shells_to_copy:
-        src_path = os.path.join(base_dir, sub, src_name) if sub else os.path.join(base_dir, src_name)
-        
-        m_raw = trimesh.load(src_path, force="mesh")
-        if need_center:
-            c_xy = m_raw.bounds[:, :2].mean(axis=0)
-            m_flat = m_raw.copy().apply_translation([-c_xy[0], -c_xy[1], -m_raw.bounds[0, 2]])
-        else:
-            m_flat = m_raw.copy()
-
-        # 1. 02_Waist_Mechanism / Mid_Shell_Options
-        dest_waist = os.path.join(waist_options_dir, dest_name)
-        m_flat.export(dest_waist)
-
-        # 2. All_Parts_Flat_Bed_Oriented / Mid_Shell_Options
-        dest_flat = os.path.join(flat_options_dir, dest_name)
-        m_flat.export(dest_flat)
-
-        # 3. All_Parts_Assembled_Coordinates / Mid_Shell_Options
-        m_assem = m_flat.copy().apply_transform(T)
-        dest_assem = os.path.join(assem_options_dir, dest_name)
-        m_assem.export(dest_assem)
-
-        print(f"  Processed {src_name} -> {dest_name} (Flat & Assembled Coordinates)")
-
-    # 2-Color Assembly: GLB for Waist Mechanism Options, 3MF for Plates_3MF
-    contour_glb = os.path.join(CODEX_DIR, "05_Contour_Twist", "05_Contour_Twist_Mid_Shell_2Color_Assembly.glb")
-    if os.path.exists(contour_glb):
-        shutil.copy2(contour_glb, os.path.join(waist_options_dir, "05_Contour_Twist_Mid_Shell_2Color_Assembly.glb"))
-
-    contour_3mf = os.path.join(CODEX_DIR, "05_Contour_Twist", "05_Contour_Twist_Mid_Shell_2Color_Assembly.3mf")
-    if os.path.exists(contour_3mf):
-        plates_dir = os.path.join(PACKAGE_DIR, "Plates_3MF")
-        os.makedirs(plates_dir, exist_ok=True)
-        shutil.copy2(contour_3mf, os.path.join(plates_dir, "05_Contour_Twist_Mid_Shell_2Color_Assembly.3mf"))
+    """Build and synchronize all 2-piece split mid shell STLs and plates into package directories."""
+    import build_split_mid_shells
+    build_split_mid_shells.main()
 
 
 def build_all_shell_variant_glbs():

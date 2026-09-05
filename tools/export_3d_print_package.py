@@ -115,7 +115,7 @@ PARTS_MANIFEST = [
         "export_filename": "07_32_Mid_Shell_P02_Ratchet.stl",
         "subassembly": "02_Waist_Mechanism",
         "plate": "Plate_1_Base_And_Shells",
-        "color": "Olive Drab Green",
+        "color": "Safety Orange / PETG",
         "desc": "Inner rotating 33-lobe waist ratchet ring",
         "supports": "No",
     },
@@ -738,8 +738,8 @@ The rod detent uses four transplanted arms of the Spinner Fuse Grenade's `11 - M
 | **04** | Base & Bottom | `04_01_Bottom_Lock_Shell.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
 | **05** | Base & Bottom | `05_02_Bottom_Spring.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **06** | Base & Bottom | `06_03_Bottom_Shell_Spacer.stl` | PLA (Gunmetal / Black) | 1 | No |
-| **07** | Waist Mech | `07_32_Mid_Shell_P02_Ratchet.stl` | PLA (Olive Drab Green) | 1 | No |
-| **08** | Waist Mech | `08_33_Mid_Shell_P01_Outer.stl` | PLA (Olive Drab Green) | 1 | No |
+| **07** | Waist Mech | `07_32_Mid_Shell_P02_Ratchet.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **08** | Waist Mech | `08_33_Mid_Shell_P01_Outer.stl` | PLA Matte (Tactical Olive) | 1 | No |
 | **09** | Waist Mech | `09_Custom_Mid_Shell_Spring_33.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **10** | Upper Station | `10_Custom_Internal_Barrel_4Slot.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
 | **11** | Upper Station | `11_Custom_Internal_Barrel_Cap.stl` | PLA (Gunmetal / Black) | 1 | No |

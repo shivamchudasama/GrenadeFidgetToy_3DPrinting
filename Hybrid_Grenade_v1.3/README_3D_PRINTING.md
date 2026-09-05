@@ -70,8 +70,8 @@ The rod detent uses four transplanted arms of the Spinner Fuse Grenade's `11 - M
 | **04** | Base & Bottom | `04_01_Bottom_Lock_Shell.stl` | PLA / PETG (Gunmetal / Black) | 1 | No |
 | **05** | Base & Bottom | `05_02_Bottom_Spring.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **06** | Base & Bottom | `06_03_Bottom_Shell_Spacer.stl` | PLA (Gunmetal / Black) | 1 | No |
-| **07** | Waist Mech | `07_32_Mid_Shell_P02_Ratchet.stl` | PLA (Olive Drab Green) | 1 | No |
-| **08** | Waist Mech | `08_33_Mid_Shell_P01_Outer.stl` | PLA (Olive Drab Green) | 1 | No |
+| **07** | Waist Mech | `07_32_Mid_Shell_P02_Ratchet.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **08** | Waist Mech | `08_33_Mid_Shell_P01_Outer.stl` | PLA / PLA Matte (Olive Drab Green) | 1 | No |
 | **09** | Waist Mech | `09_Custom_Mid_Shell_Spring_33.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **10** | Upper Station | `10_Custom_Internal_Barrel_4Slot.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
 | **11** | Upper Station | `11_Custom_Internal_Barrel_Cap.stl` | PLA (Gunmetal / Black) | 1 | No |
@@ -123,10 +123,10 @@ The rod detent uses four transplanted arms of the Spinner Fuse Grenade's `11 - M
 3. Slide this sub-assembly into `01_04_Bottom_Shell_01.stl`.
 4. Stack `02_05_Bottom_Shell_02.stl` over the shoulder, then seat `03_06_Bottom_Shell_03.stl` on top.
 
-### Stage 2: Waist Mechanism & 33-Lobe Clicker
-1. Insert `09_Custom_Mid_Shell_Spring_33.stl` through the 3 lower windows of `10_Custom_Internal_Barrel_4Slot.stl`.
-2. Slide `07_32_Mid_Shell_P02_Ratchet.stl` onto the barrel until its internal lobes engage the 3 spring arms.
-3. Place `08_33_Mid_Shell_P01_Outer.stl` over the ratchet ring.
+### Stage 2: Waist Mechanism & 33-Lobe Clicker (2-Piece Split Architecture & Two-Colour Design)
+1. Insert `09_Custom_Mid_Shell_Spring_33.stl` (printed in **PETG**) through the 3 lower windows of `10_Custom_Internal_Barrel_4Slot.stl`.
+2. Slide the universal master inner ratchet core (`07_32_Mid_Shell_P02_Ratchet.stl` printed in **PETG**, recommended **Safety Orange**) onto the barrel until its internal lobes engage the 3 spring arms.
+3. Slide your chosen cosmetic outer shell (`08_33_Mid_Shell_P01_Outer.stl` or any `08_Mid_Shell_Option_XX_..._Outer.stl` from `Mid_Shell_Options/` printed in **PLA Matte**, recommended **Tactical Olive**) over the ratchet ring. The 3 internal keyway pockets automatically lock onto the ratchet's 3 lugs. All outer shells feature custom-patterned through-windows that expose the contrasting inner ratchet, creating an eye-catching two-colour design.
 
 ### Stage 3: Rod Detent Springs & Upper Station
 1. Drop the 4 detent springs (`12`, `13`, `14`, `15`) into the barrel's four slots at 0 deg / 90 deg / 180 deg / 270 deg, **from the open top**. They are identical parts; the rib on the foot faces the same way in all four, and it catches the step in the slot so the spring cannot work its way inward. They are preloaded — the noses stand proud of where the rack will hold them, so the rod snaps past them on the way in.

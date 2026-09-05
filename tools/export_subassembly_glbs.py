@@ -38,7 +38,7 @@ SUBASSEMBLIES = {
     "02_Waist_Mechanism": {
         "out_glb": "Custom_Waist_Assembly.glb",
         "parts": [
-            ("07_32_Mid_Shell_P02_Ratchet.stl", (122, 181, 102, 255)),
+            ("07_32_Mid_Shell_P02_Ratchet.stl", (240, 90, 20, 255)),
             ("08_33_Mid_Shell_P01_Outer.stl", (122, 181, 102, 255)),
             ("09_Custom_Mid_Shell_Spring_33.stl", (255, 110, 30, 255)),
         ]
