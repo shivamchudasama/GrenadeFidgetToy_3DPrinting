@@ -3,11 +3,19 @@
 `DESIGN.md` describes the **upstream** mechanisms; this file describes **ours**.
 Same evidence tags: **[M]** measured, **[D]** derived, **[?]** informed guess.
 
-Production package located in: [`Hybrid_Grenade_v1.2/`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/Hybrid_Grenade_v1.2/) (BOM & Assembly Guide: [`README_3D_PRINTING.md`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/Hybrid_Grenade_v1.2/README_3D_PRINTING.md)).
-**Versioning.** `Hybrid_Grenade_v1.1/` is frozen: it is the record of what has already been printed, and the build scripts refuse to write into it (`tools/package_paths.py`, `guard()`). Work happens in the folder named by `PACKAGE_NAME`; to start a new one, bump that constant, copy the previous folder forward, and rebuild. v1.2 changes only the axial rod detent — §5.2 — and what that layout costs: the three barrel pins and one cap key.
+Production package located in: [`Hybrid_Grenade_v1.3/`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/Hybrid_Grenade_v1.3/) (BOM & Assembly Guide: [`README_3D_PRINTING.md`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/Hybrid_Grenade_v1.3/README_3D_PRINTING.md)).
+**Versioning.** `Hybrid_Grenade_v1.1/` and `Hybrid_Grenade_v1.2/` are frozen: they are the record of what has already been printed, and the build scripts refuse to write into them (`tools/package_paths.py`, `guard()`). Work happens in the folder named by `PACKAGE_NAME`; to start a new one, bump that constant, copy the previous folder forward, and rebuild. v1.3 adds:
+1. **Positive 4-Pin Upper Shell Retention**: four diagonal retention pins at 45° / 135° / 225° / 315° locking `18_27_Upper_Shell_Top` to the barrel, enclosed by gear and lock ring.
+2. **Spinner Fuse Concave Upper Seating**: 45° conical concave dish ($6.83\text{ mm}$ deep) on `18_27_Upper_Shell_Top`, lowering the hinge axis from $Y = 92.46\text{ mm}$ down to $Y = 81.00\text{ mm}$ ($\Delta Y = -11.46\text{ mm}$) so the folding lever cheeks nest deeply inside the shell ($1.75\text{ mm}$ to $4.98\text{ mm}$ below the outer rim), eliminating the exposed neck gap.
 
-Interactive 3D Web Studio: [`Interactive_Shell_Variants_Viewer.html`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/Hybrid_Grenade_v1.2/Interactive_Shell_Variants_Viewer.html).
-Rebuild toolchain: `python tools/export_3d_print_package.py` and `python tools/build_shell_variants_glbs.py`.
+Rebuild toolchain:
+```bash
+python tools/build_concave_upper_station.py   # builds concave station and lowers head assembly
+python tools/export_3d_print_package.py       # exports plates, STLs, and package GLBs
+python tools/build_shell_variants_glbs.py     # exports all 8 mid-shell variant GLBs
+python tools/export_subassembly_glbs.py       # exports the 5 subassembly GLBs
+python tools/score_detent.py                 # detent mechanics verification
+```
 
 ---
 
@@ -17,9 +25,10 @@ The custom toy unifies the best mechanical and tactile features of the **Fidget 
 
 1. **Tactical Base & Native 33-Click Waist Detent**: Preserves the Tactical common base body, utilizing its native 3-window internal barrel and 3-arm leaf spring to drive a crisp 33-click rotary detent without increasing overall height.
 2. **8 Interchangeable Mid Shell Variants**: 100% verified mechanical standardization across 8 mid shell designs (Baseline 2-piece, 01 AeroFlow, 02 Vector Chevron, 03 Orbit, 04 Ergo Scoops, 05 Contour Twist, 06 Hex Tactical, and 07 Classic Solid Tactical) sharing an exact **34.80 mm total height** and **40.00 mm mating interface diameter**.
-3. **Tactical Internal Spine & Upper Rotating Station**: The native `08 - Internal Barrel`, its three pin channels filled and four spring slots cut at 0° / 90° / 180° / 270°, carrying the 4 preloaded springs that ride the rod's rack and are the whole of the axial click. The upper station (`27`, `28`, `29`, `30`) is no longer retained axially — see §5.2.
-4. **Solid-Yoke 3-Piece Rod Architecture**: Full-depth rod assembly with a seamless integral yoke on `Custom_Rod_Middle` flanked by `Custom_Rod_Right` and `Custom_Rod_Left`, locked via dual transverse cross-keys (`Custom_Rod_Lock_Upper_06` and `Custom_Rod_Lock_Lower_07`) and retained axially by `Spinner Lever 08 - Rod Lock` (no upper wedge lock or split yoke).
-5. **Folding Head & Spinner**: Folding handle with 4 detent positions (0°, 30°, 60°, 90° on `15 - Handle Rotating Lock` and `09 - Rod Spring`), 360° free-spinning center ring (`Custom_Ring_Spinner` at ⌀22.10 mm), 20-click outer rim gear (`Spinner Lever 05 - Gear` against `04 - Spring` in a 274° pod), and refined turned 45°-chamfered cheeks with flush exterior surfaces.
+3. **Tactical Internal Spine & 4-Pin Upper Retention**: The native `08 - Internal Barrel` with four spring slots at 0° / 90° / 180° / 270° and four diagonal pin ports at 45° / 135° / 225° / 315°, locked axially by 4 pins (`16_01..04`) trapped under `19_28_Upper_Shell_Gear` and `20_29_Upper_Shell_Lock_Ring`.
+4. **Spinner Fuse Concave Upper Seating Arrangement**: 45° conical concave dish on `18_27_Upper_Shell_Top` with the folding head assembly lowered by $\Delta Y = -11.46\text{ mm}$ ($Y_{\text{hinge}} = 81.00\text{ mm}$), eliminating the exposed neck gap and nesting the handle cheeks below the outer rim.
+5. **Solid-Yoke 3-Piece Rod Architecture**: Full-depth rod assembly with a seamless integral yoke on `Custom_Rod_Middle` flanked by `Custom_Rod_Right` and `Custom_Rod_Left`, locked via dual transverse cross-keys (`Custom_Rod_Lock_Upper_06` and `Custom_Rod_Lock_Lower_07`) and retained axially by `Spinner Lever 08 - Rod Lock` (no upper wedge lock or split yoke).
+6. **Folding Head & Spinner**: Folding handle with 4 detent positions (0°, 30°, 60°, 90° on `15 - Handle Rotating Lock` and `09 - Rod Spring`), 360° free-spinning center ring (`Custom_Ring_Spinner` at ⌀22.10 mm), 20-click outer rim gear (`Spinner Lever 05 - Gear` against `04 - Spring` in a 274° pod), and refined turned 45°-chamfered cheeks with flush exterior surfaces.
 
 ---
 
@@ -101,18 +110,20 @@ To provide full customization, 8 mid shell variants were created and dimensional
 ## 5. Solid-Yoke 3-Piece Rod Architecture
 
 ### 5.1 Mechanical Evolution
-The production design incorporates the **Unified Full-Height Hex-Keyed Rod & Enclosed Hinge Spring Pod Architecture**:
+The production design incorporates the **Unified Full-Height Hex-Keyed Rod & Enclosed Hinge Spring Pod Architecture** optimized for the v1.3 concave upper seating:
 
-1. **Integral Solid Yoke (`23_Custom_Rod_Middle`)**: The upper hinge yoke is seamlessly integrated into the central middle rod ($y = 18.08 \dots 99.62\text{ mm}$), providing maximum structural strength for the folding head and hinge pin (`15 - Handle Rotating Lock`). It contains an enclosed central cavity for the hinge spring with **zero upper through-holes**.
-2. **Monolithic Full-Height Side Clamps (`22_Custom_Rod_Right` & `24_Custom_Rod_Left`)**:
-   - Each side member spans the entire length ($y = 18.08 \dots 80.00\text{ mm}$) in a single solid, continuous part.
+1. **Integral Solid Yoke (`23_Custom_Rod_Middle`)**: The upper hinge yoke is seamlessly integrated into the central middle rod ($y = 18.08 \dots 88.16\text{ mm}$), lowered by $\Delta Y = -11.46\text{ mm}$ ($Y_{\text{pin}} = 81.00\text{ mm}$). It provides exceptional structural strength for the folding head and hinge pin (`36_15_Handle_Rotating_Lock_D_Pin`). It contains an enclosed central cavity for the compacted hinge spring ($Y \in [59.50, 74.19]\text{ mm}$) with **zero upper through-holes**.
+2. **Monolithic Side Clamps (`22_Custom_Rod_Right` & `24_Custom_Rod_Left`)**:
+   - Each side member spans ($y = 18.08 \dots 67.20\text{ mm}$) in a single solid, continuous part, trimmed at the top to clear the $45^\circ$ conical dish of `18_27_Upper_Shell_Top`.
    - The lower section ($y \in [18.08, 62.00]\text{ mm}$) carries the axial detent rack channels and transverse key capture pockets.
-   - The upper section ($y \in [62.00, 80.00]\text{ mm}$) forms the hexagonal keying prism that matches the bore of `21_30_Upper_Shell_Rotating_Spring.stl` with $0.20\text{ mm}$ radial clearance for positive rotational lock, and provides solid outer enclosure walls for the hinge spring pod.
+   - The upper section ($y \in [62.00, 67.20]\text{ mm}$) forms the hexagonal keying prism that matches the bore of `21_30_Upper_Shell_Rotating_Spring.stl` with $0.20\text{ mm}$ radial clearance, maintaining $5.20\text{ mm}$ of positive rotational drive engagement.
 3. **Dual Transverse Cross-Keys (`06` & `07`)**:
    - `Custom_Rod_Lock_Upper_06`: Located at $y = 48.654 .. 58.186\text{ mm}$.
    - `Custom_Rod_Lock_Lower_07`: Located at $y = 23.654 .. 33.186\text{ mm}$.
    - Each key passes through the middle rod and captures $3.388\text{ mm}$ inside each side member with $0.100\text{ mm}$ axial and $0.075\text{ mm}$ radial clearance ($0.000\text{ mm}^3$ interference).
-4. **Bottom Axial Retainer (`27_Spinner_Lever_08_Rod_Lock`)**: Wedges onto the $-0.536\text{ mm/mm}$ bottom tapered tab to axially secure the entire 3-part rod assembly.
+   - Distance between key 06 top ($Y = 58.09\text{ mm}$) and spring floor ($Y = 59.50\text{ mm}$) provides a robust $1.41\text{ mm}$ solid bulkhead.
+4. **Compacted Hinge Spring (`28_09_Rod_Spring_Hinge_T_Head`)**: Compacted to $14.69\text{ mm}$ height, seating cleanly within $Y \in [59.50, 74.19]\text{ mm}$ to maintain full 4-position detent click action.
+5. **Bottom Axial Retainer (`27_Spinner_Lever_08_Rod_Lock`)**: Wedges onto the $-0.536\text{ mm/mm}$ bottom tapered tab to axially secure the entire 3-part rod assembly.
 
 ### 5.2 Axial Click Detent (Dual-Headed Option B System)
 
@@ -147,31 +158,23 @@ The production design incorporates the **Unified Full-Height Hex-Keyed Rod & Enc
 
 ### 6.1 Assembled Envelopes & Dimensions
 
-- **Total Part Count**: 34 parts (v1.1 had 36; four arm springs replace three leaf followers, and the three barrel pins are gone).
-- **Assembled Envelope**: **41.63 × 126.26 × 72.47 mm** ($X \times Y \times Z$ with handle folded down at 0°).
-- **Height**: 126.3 mm (compared to stock Tactical 116.7 mm and stock Spinner Fuse 84.6 mm).
+- **Total Part Count**: 38 parts (6 in 01 Base & Bottom, 3 in 02 Waist Mech, 14 in 03 Upper Station, 6 in 04 Rod Assembly, 9 in 05 Folding Head & Spinner).
+- **Assembled Envelope**: **41.63 × 114.80 × 72.47 mm** ($X \times Y \times Z$ with handle folded down at 0°).
+- **Height**: ~114.8 mm total (handle folded; previously 126.3 mm before lowering the hinge pin by 11.46 mm and deeply nesting into the concave dish).
 
 | Action | Mechanism | Measured Performance |
 |---|---|---|
-| **Fold Handle (0° → 90°)** | `15 D-Pin` + `09 Serpentine Leaf` | **9.44 .. 12.29 mm³ detent**, 4 positions (**0°, 30°, 60°, 90°**), 3 clicks |
+| **Fold Handle (0° → 90°)** | `36 D-Pin` + `28 T-Head Spring` | **7.34 .. 11.90 mm³ detent**, 4 positions (**0°, 30°, 60°, 90°**), 3 clicks |
 | **Spin Center Ring** | `Custom_Ring_Spinner` | **360° free spin** (0.193 mm clearance journal) |
-| **Roll Rim Gear** | `05 Gear` + `04 Spring` in pod | **0.00 .. 4.20 mm³ detent**, **20 clicks/turn** |
-| **Waist Twist** | Mid Shell + `09 Spring 33` | **1.33 .. 10.18 mm³ detent**, **33 clicks/turn** |
-| **Linear Rod Push/Pull** | 3-Piece Rod + 3 thinned, preloaded followers | **3.22 N peak / 0.40 N held**, **3.177 mm pitch**, 4.4-click stroke |
-
-### 6.2 Interactive 3D Web Studio
-
-The production package includes [`Interactive_Shell_Variants_Viewer.html`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/Hybrid_Grenade_v1.2/Interactive_Shell_Variants_Viewer.html), a standalone Three.js WebGL application featuring:
-- Realtime switching across all **8 Mid Shell Variants**.
-- Dynamic viewing modes: **🚀 Assembled**, **🔍 CAD Cutaway**, and **💥 Exploded**.
-- Full part hierarchy tree with dimensional metadata and volume metrics.
-- Camera presets (Isometric, Front, Side, Top, Waist Close-up) and wireframe toggles.
+| **Roll Rim Gear** | `05 Gear` + `04 Spring` in pod | **0.00 .. 4.23 mm³ detent**, **20 clicks/turn** |
+| **Waist Twist** | Mid Shell + `09 Spring 33` | **0.07 .. 9.62 mm³ detent**, **33 clicks/turn** ($134.9\times$ ratio) |
+| **Linear Rod Push/Pull** | 3-Piece Rod + 4 preloaded followers | **24.37 N peak / 4.85 N held**, **3.177 mm pitch**, 0% dead band |
 
 ---
 
-## 7. Complete Bill of Materials (BOM) — 36 parts
+## 7. Complete Bill of Materials (BOM) — 38 parts
 
-Numbers 16 and 17 are the two retention pins (azimuths 30° and 150°) that axially lock `18_27_Upper_Shell_Top.stl` to `10_Custom_Internal_Barrel_4Slot.stl`. The 270° pin channel is filled to clear detent slot 04, while 30° and 150° provide positive axial retention (18.17 mm³ interference at 1 mm lift).
+Numbers 16 and 17 are the four diagonal retention pins (azimuths 45°, 135°, 225°, 315°) that axially lock `18_27_Upper_Shell_Top.stl` to `10_Custom_Internal_Barrel_4Slot.stl`. They completely avoid the 4 orthogonal spring slots at 0°, 90°, 180°, and 270°, providing positive, drop-proof axial retention, trapped and enclosed under `19_28_Upper_Shell_Gear` and `20_29_Upper_Shell_Lock_Ring`.
 
 | Part # | Subassembly | Filename | Recommended Material / Color | Qty | Supports |
 |:---|:---|:---|:---|:---:|:---:|
@@ -204,7 +207,7 @@ Numbers 16 and 17 are the two retention pins (azimuths 30° and 150°) that axia
 | **25** | Rod Assembly | `25_Custom_Rod_Lock_Upper_06.stl` | PETG / PLA+ (Crimson Red) | 1 | No |
 | **26** | Rod Assembly | `26_Custom_Rod_Lock_Lower_07.stl` | PETG / PLA+ (Crimson Red) | 1 | No |
 | **27** | Rod Assembly | `27_Spinner_Lever_08_Rod_Lock.stl` | PLA+ / PETG (Gunmetal Disc) | 1 | No |
-| **28** | Head & Spinner | `28_09_Rod_Spring_Hinge.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **28** | Head & Spinner | `28_09_Rod_Spring_Hinge_T_Head.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **29** | Head & Spinner | `29_Custom_Handle_Left.stl` | PLA (Olive Drab Green) | 1 | No |
 | **30** | Head & Spinner | `30_Custom_Handle_Right.stl` | PLA (Olive Drab Green) | 1 | No |
 | **31** | Head & Spinner | `31_Custom_Ring_Spinner.stl` | Silk PLA (Gold / Brass) | 1 | No |

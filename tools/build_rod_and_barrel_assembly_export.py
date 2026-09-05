@@ -19,12 +19,11 @@ import sys
 import numpy as np
 import trimesh
 
-TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(TOOLS_DIR)
-V12_DIR = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2")
-ASY_DIR = os.path.join(V12_DIR, "All_Parts_Assembled_Coordinates")
-SUBASSY_03_DIR = os.path.join(V12_DIR, "03_Internal_Barrel_And_Upper_Station")
-SUBASSY_04_DIR = os.path.join(V12_DIR, "04_Rod_Assembly_And_Locks")
+from package_paths import PACKAGE_DIR, PACKAGE_NAME, ROOT_DIR, TOOLS_DIR, guard
+
+ASY_DIR = os.path.join(PACKAGE_DIR, "All_Parts_Assembled_Coordinates")
+SUBASSY_03_DIR = os.path.join(PACKAGE_DIR, "03_Internal_Barrel_And_Upper_Station")
+SUBASSY_04_DIR = os.path.join(PACKAGE_DIR, "04_Rod_Assembly_And_Locks")
 
 ASSEMBLY_PARTS = [
     # --- 03 Internal Barrel & Upper Station (10 parts) ---
@@ -87,6 +86,46 @@ ASSEMBLY_PARTS = [
         "metallic": 0.2,
         "roughness": 0.35,
         "disp": np.array([0.0, 0.0, -14.0]),
+    },
+    {
+        "id": 16,
+        "filename": "16_Custom_Internal_Barrel_Pin_01.stl",
+        "name": "16_Custom_Internal_Barrel_Pin_01",
+        "title": "Upper Station Retention Pin 01 (az 45°)",
+        "color_rgb": (65, 75, 85),
+        "metallic": 0.35,
+        "roughness": 0.45,
+        "disp": np.array([-12.0, 0.0, 12.0]),
+    },
+    {
+        "id": 17,
+        "filename": "17_Custom_Internal_Barrel_Pin_02.stl",
+        "name": "17_Custom_Internal_Barrel_Pin_02",
+        "title": "Upper Station Retention Pin 02 (az 135°)",
+        "color_rgb": (65, 75, 85),
+        "metallic": 0.35,
+        "roughness": 0.45,
+        "disp": np.array([12.0, 0.0, 12.0]),
+    },
+    {
+        "id": 16,
+        "filename": "16_Custom_Internal_Barrel_Pin_03.stl",
+        "name": "16_Custom_Internal_Barrel_Pin_03",
+        "title": "Upper Station Retention Pin 03 (az 225°)",
+        "color_rgb": (65, 75, 85),
+        "metallic": 0.35,
+        "roughness": 0.45,
+        "disp": np.array([12.0, 0.0, -12.0]),
+    },
+    {
+        "id": 17,
+        "filename": "17_Custom_Internal_Barrel_Pin_04.stl",
+        "name": "17_Custom_Internal_Barrel_Pin_04",
+        "title": "Upper Station Retention Pin 04 (az 315°)",
+        "color_rgb": (65, 75, 85),
+        "metallic": 0.35,
+        "roughness": 0.45,
+        "disp": np.array([-12.0, 0.0, -12.0]),
     },
     {
         "id": 18,
@@ -320,7 +359,7 @@ def main():
         print(f"  - [{p['id']:02d}] {p['title']:40s} (faces={len(m.faces):5d}, vol={m.volume:8.2f} mm3)")
 
     out_paths = [
-        os.path.join(V12_DIR, "Custom_Internal_Barrel_And_Rod_Assembly.glb"),
+        guard(os.path.join(PACKAGE_DIR, "Custom_Internal_Barrel_And_Rod_Assembly.glb")),
     ]
 
     print("\n--- Exporting Full Assembled GLBs ---")
@@ -329,7 +368,7 @@ def main():
         b = export_assembled_glb(parts, path)
         print(f"  [SUCCESS] {path} ({len(b):,} bytes)")
 
-    cutaway_path = os.path.join(V12_DIR, "Custom_Internal_Barrel_And_Rod_Assembly_Cutaway.glb")
+    cutaway_path = guard(os.path.join(PACKAGE_DIR, "Custom_Internal_Barrel_And_Rod_Assembly_Cutaway.glb"))
     print("\n--- Exporting Cutaway GLB ---")
     b_cut = export_cutaway_glb(parts, cutaway_path)
     print(f"  [SUCCESS] {cutaway_path} ({len(b_cut):,} bytes)")

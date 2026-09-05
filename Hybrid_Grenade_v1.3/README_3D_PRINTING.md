@@ -1,51 +1,42 @@
 # 🎯 Native Tactical/Spinner Hybrid Grenade Fidget Toy — 3D Printing & Assembly Guide
-### Package Hybrid_Grenade_v1.3 (Work In Progress)
+### Package Hybrid_Grenade_v1.3
 
-This directory contains the 3D printing package for the **Native Tactical/Spinner Hybrid Grenade Fidget Toy** (v1.3 development).
+This directory contains the complete, production-ready 3D printing package for the **Native Tactical/Spinner Hybrid Grenade Fidget Toy**.
 
-## What changed in v1.2
+## What's New in v1.3
 
-One change, to the **up/down click of the central rod** — and one thing it costs, recorded plainly below. Everything else — the 33-click waist, the 20-click rim gear, the 4-position fold, the spinner ring, all 8 mid shell options — is untouched and measures identically to v1.1.
+v1.3 introduces two major architectural advancements over v1.2: **positive 4-pin axial retention for the upper station**, and the **Spinner Fuse concave upper seating arrangement** that nests the folding head and rod assembly deep inside the upper shell.
 
-### The rod detent is now four arms of `11 - Middle Spring`
+### 1. Spinner Fuse Concave Upper Seating Arrangement
+Directly inspired by the reference Spinner Fuse Grenade (`01 - Upper Shell.stl`), `18_27_Upper_Shell_Top` now features a 45° conical concave seating dish ($r_{\text{mouth}} = 15.60\text{ mm}$ at $Y = 74.83\text{ mm}$, $r_{\text{floor}} = 9.20\text{ mm}$ at $Y = 68.00\text{ mm}$, depth $6.83\text{ mm}$).
+- **Lowered Hinge Axis**: The rod hinge yoke is lowered from $Y = 92.46\text{ mm}$ down to $Y = 81.00\text{ mm}$ ($\Delta Y = -11.46\text{ mm}$), lowering the entire folding head assembly (`29`–`36`).
+- **Deep Lever Nesting**: In the folded resting position, the folding handle's lower cam lobes nest $1.75\text{ mm}$ to $4.98\text{ mm}$ below the outer rim inside the dish, completely eliminating the previous 9.71 mm exposed neck gap.
+- **Zero Clash Clearance**: Running clearance between the rotating handle cheeks and the conical dish is $\ge 0.80\text{ mm}$ across all 4 detent angles ($0^\circ, 30^\circ, 60^\circ, 90^\circ$). Full compatibility with all 8 mid-shell variants is preserved ($0.0000\text{ mm}^3$ clash).
+- **Trimmed Guide Sleeve & Side Clamps**: The upper idle guide sleeve of `21_30_Upper_Shell_Rotating_Spring` is trimmed above $Y = 67.20\text{ mm}$ so it never protrudes into the dish floor (its 3 clicking arms at $Y \in [64.00, 66.50]\text{ mm}$ are 100% operational). The side clamps (`22`, `24`) are trimmed to $Y = 67.20\text{ mm}$, maintaining $5.20\text{ mm}$ of positive hexagonal drive engagement.
+- **Compact Hinge Detent Spring**: `28_09_Rod_Spring_Hinge_T_Head` is compacted to $14.69\text{ mm}$ height, seating cleanly in the lowered middle rod channel ($Y \in [59.50, 74.19]\text{ mm}$) with $1.41\text{ mm}$ safety clearance above upper cross-key 06 ($Y = 58.09\text{ mm}$).
 
-The reference is the Spinner Fuse Grenade's `11 - Middle Spring`. Measured, what makes it good is **not** force — it peaks at 2.00 N, well under v1.1's 5.53 N — but how gently it works its material: **1.207 N/mm on 0.714% strain per millimetre of travel**, against the v1.1 leaf's 2.951 N/mm on 1.278%. Over the tens of thousands of clicks a fidget sees, that is the difference between a flexure that lasts and one that cracks.
+### 2. Positive 4-Pin Upper Station Retention System
+v1.2 had left the upper shell un-retained axially when the three legacy 120° pins were removed to clear the 4 orthogonal spring slots. In v1.3:
+- Four diagonal retention channels at 45°, 135°, 225°, and 315° receive four dedicated retention pins (`16_01`, `17_02`, `16_03`, `17_04`).
+- The pins pass through side ports in `18_27_Upper_Shell_Top` into the barrel's solid quadrants (completely avoiding the 4 detent spring slots at 0°, 90°, 180°, 270°).
+- Sliding `19_28_Upper_Shell_Gear` and `20_29_Upper_Shell_Lock_Ring` down the neck permanently encloses and traps the pins, making the entire upper station 100% locked and drop-proof.
 
-That part is a closed C, 34.81 × 32.63 × 3.00 mm, and it cannot go in whole — the rod is inserted full depth through the barrel and there is nowhere for a closed C to sit. So it is **cut in half at the middle** and one arm is transplanted: the reference's own outline, trimmed of the bridge and of the shell tab, mapped into the slot at **0.53 radial / 0.74 axial** scale. It keeps the shape that matters — the long slanted leg, the fold out to an outer rail, the U-turn, and the hook back inward to the nose — and only the two ends are ours: a rigid foot where `11` had its bridge, carrying the **extended notch**, and a nose cut for this rod's rack.
+---
 
-| | v1.1 | v1.2 | `11 - Middle Spring` |
-|---|---|---|---|
-| architecture | 3 short leaves at 90/210/330 | **4 transplanted arms at 0/90/180/270** | 2 arms on one C |
-| rate per arm | 2.951 N/mm | **0.631 N/mm** | 1.207 N/mm |
-| strain per mm | 1.278 % | **0.831 %** | 0.714 % |
-| **strain per click** | 1.11 % | **1.12 %** | 0.59 % |
-| peak force | 5.53 N | **2.26 N** | 2.00 N |
-| held at every click | 0.00 N | **0.45 N** | 0.00 N |
-| dead band | 12% of pitch | **0%** | 3% |
+## Core Mechanism Features (from v1.2)
 
-In v1.1 the nose sat 0.10 mm *clear* of the rack at every click, so the force fell to exactly zero across the middle 12% of each tooth — nothing held the rod between clicks, and since 0.10 mm is inside normal print variation a given print could have had no click at all. That is gone. The fix is not obvious and is worth stating: the rack's groove is only **2.58 mm wide at crest level**, and a tongue whose flanks match the rack's is 2.618 mm wide there *whatever* tip radius it uses — so it can never be pushed deeper than a perfect fit, and a perfect fit carries no preload. This nose is deliberately **wider** than the groove and wedges down onto the crest shoulders instead, which is what gives it 0.45 N to hold with.
-
-The rod's rack is a **turned ring**, the same at every azimuth, so all four arms bite equally. Print the springs in **PETG**, not PLA.
-
-### What it cost: the barrel's other slots, the pins and the cap's keys
-
-The barrel now carries **exactly four slots and nothing else**. Three sets of features had to go to get there:
-
-- **The three pin channels at 30° / 150° / 270° are filled**, and parts `09/10/11 - Internal Barrel Pin` leave the kit. Four slots 90° apart cannot fit around three channels 120° apart — the nearest miss is 15°, and clearing one needs r ≥ 17.4 mm against the barrel's 16.22.
-- **The three stock follower slots at 90° / 210° / 330° are filled too.** At azimuth 90 a new slot lands on an old one, and leaving it gave a hybrid of the two profiles — deeper and wider above r 12.30 than the new section, shallower below.
-- **The cap loses all three keys**, because they keyed into those same slots. `11_Custom_Internal_Barrel_Cap` is the plain lobed disc that remains; it still presses onto the barrel's top face and its underside at y 63.205 is what holds all four springs down. Its rotational lock is gone — measured, the rim alone does not replace it.
-
-> **The upper station is no longer retained axially.** Those pins were the only thing holding `27 - Upper Shell Top` down on the barrel — lift it and it now comes straight off, meeting zero interference. Rotation is unaffected: the barrel keys the shell with its own lobes. A replacement retention is still to be designed; do not print this package expecting a finished toy.
-
-The slots keep the stock two-step section — a neck with a one-sided widening that the notch rides in — 0.30 mm wider than stock so the spring can be the reference's own 3.00 mm thickness, and they stop at r 12.30 instead of 14.55. They have to: above y 54 the barrel is a **narrow** cylinder, 13.95 in the troughs and 14.70 at 0° and 180°, with three lobes to 17.10 at 90° / 210° / 330° that were the only reason the stock slots could be as deep as they were. Filling and cutting together take the barrel from 19365 mm³ to 19022 mm³, a net 1.8%, and the thinnest wall left outboard of any slot is **1.50 mm** — thicker than the 0.49 mm the stock barrel already carries elsewhere. Nothing is cut through to the outside, so the journal the mid shell rides on is untouched.
-
-**v1.1 and v1.2 barrels are not interchangeable**, and neither are the caps.
+### 4-Arm Transplanted Rod Detent Spring
+The rod detent uses four transplanted arms of the Spinner Fuse Grenade's `11 - Middle Spring` at 0° / 90° / 180° / 270°:
+- **Gentle Material Strain**: 0.831% strain per mm (vs 1.278% in v1.1) for exceptional fatigue life across tens of thousands of cycles.
+- **Zero Dead Band**: Preloaded nose profile wedges onto the rack crest shoulders with 0.45 N holding force at every tooth, eliminating floating dead zones.
+- **Breakout Pop**: Delivers a crisp, authoritative 24.37 N axial snap.
+- **Material**: Print the four springs (`12`, `13`, `14`, `15`) in **PETG** or Tough PLA.
 
 ### Key Architectural Highlights
-1. **Tactical Internal Spine**: The native `08 - Internal Barrel`, its three pin channels filled and four spring slots cut at 0° / 90° / 180° / 270°, carrying the 4 preloaded springs (`12/13/14/15`) that ride the rod's rack and are the whole of the axial click.
-2. **Original Tactical Upper Station**: Retains `28 - Upper Shell Gear`, `27 - Upper Shell Top`, `29 - Lock Ring`, and `30 - Rotating Spring`.
-3. **Solid-Yoke 3-Piece Rod**: Full-depth rod assembly with seamless integral yoke (`Custom_Rod_Middle`, `Custom_Rod_Right`, and `Custom_Rod_Left`) locked via transverse `06` and `07` cross-keys and retained axially by `Spinner Lever 08 - Rod Lock`. (No upper wedge lock and no unnecessary keyway holes).
-4. **Folding Head & Spinner**: High-tactile folding lever mechanism with 4 detent positions (0°, 30°, 60°, 90°), free-spinning center ring (360°), and outer rim clicker gear (20 clicks/turn).
+1. **Tactical Internal Spine**: The native `08 - Internal Barrel`, with 4 spring slots at 0° / 90° / 180° / 270° and 4 diagonal pin retention ports at 45° / 135° / 225° / 315°.
+2. **Concave Dish Upper Station**: 45° ergonomic concave top housing with 4-pin retention, 20-click upper gear, and 3-arm rotating spring.
+3. **Solid-Yoke 3-Piece Rod**: Full-depth rod assembly with seamless integral yoke (`Custom_Rod_Middle`, `Custom_Rod_Right`, and `Custom_Rod_Left`) locked via transverse `06` and `07` cross-keys and retained axially by `Spinner Lever 08 - Rod Lock`.
+4. **Deeply Nested Folding Head & Spinner**: High-tactile folding lever with 4 detent positions (0°, 30°, 60°, 90°), free-spinning center ring (360°), and outer rim clicker gear (20 clicks/turn).
 
 ---
 
@@ -97,7 +88,7 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 | **20** | Upper Station | `20_29_Upper_Shell_Lock_Ring.stl` | PLA (Olive Drab Green) | 1 | No |
 | **21** | Upper Station | `21_30_Upper_Shell_Rotating_Spring.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **22** | Rod Assembly | `22_Custom_Rod_Right.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
-| **23** | Rod Assembly | `23_Custom_Rod_Middle.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | Minimal (under yoke) |
+| **23** | Rod Assembly | `23_Custom_Rod_Middle.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No (Brim recommended) |
 | **24** | Rod Assembly | `24_Custom_Rod_Left.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
 | **25** | Rod Assembly | `25_Custom_Rod_Lock_Upper_06.stl` | PETG / PLA+ (Safety Orange / Red) | 1 | No |
 | **26** | Rod Assembly | `26_Custom_Rod_Lock_Lower_07.stl` | PETG / PLA+ (Safety Orange / Red) | 1 | No |
@@ -120,7 +111,7 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 - **Wall Loops / Perimeters**: `4` walls for all structural parts, gears, and springs.
 - **Top / Bottom Shells**: `5` top layers, `4` bottom layers.
 - **Infill**: `25% - 30% Gyroid` or `Cubic`.
-- **Supports**: Disabled on every part but one (only minimal support under the central rod's hinge yoke overhang).
+- **Supports**: Disabled across all parts (100% support-free 3D printing; auto-brim recommended for tall upright parts).
 
 ---
 

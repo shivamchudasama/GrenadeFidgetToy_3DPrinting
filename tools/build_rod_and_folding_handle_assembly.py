@@ -28,10 +28,9 @@ import numpy as np
 import trimesh
 import manifold3d
 
-TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(TOOLS_DIR)
-V12_DIR = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2")
-ASY_DIR = os.path.join(V12_DIR, "All_Parts_Assembled_Coordinates")
+from package_paths import PACKAGE_DIR, PACKAGE_NAME, ROOT_DIR, TOOLS_DIR, guard
+
+ASY_DIR = os.path.join(PACKAGE_DIR, "All_Parts_Assembled_Coordinates")
 
 def to_manifold(mesh: trimesh.Trimesh) -> manifold3d.Manifold:
     return manifold3d.Manifold(manifold3d.Mesh(
@@ -233,9 +232,13 @@ def main():
         print(f"  [WARN] Total collisions detected: {len(collisions)}")
         
     print("\n[2/2] Exporting Primary Assembled GLB...")
-    out_glb_root = os.path.join(V12_DIR, "Custom_Rod_And_Folding_Handle_Assembly.glb")
+    out_glb_root = guard(os.path.join(PACKAGE_DIR, "Custom_Rod_And_Folding_Handle_Assembly.glb"))
     b_asy = export_pbr_scene(parts, out_glb_root, exploded=False, cutaway=False)
     print(f"  Exported Assembled GLB -> {out_glb_root} ({len(b_asy):,} bytes)")
+
+    out_glb_clicking = guard(os.path.join(PACKAGE_DIR, "Custom_Rod_And_Folding_Handle_Assembly_Clicking.glb"))
+    b_clk = export_pbr_scene(parts, out_glb_clicking, exploded=False, cutaway=False)
+    print(f"  Exported Clicking GLB -> {out_glb_clicking} ({len(b_clk):,} bytes)")
 
     print("\nAssembly generation complete!")
     print("=" * 80)
