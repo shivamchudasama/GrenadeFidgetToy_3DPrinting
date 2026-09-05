@@ -144,7 +144,7 @@ The production design incorporates the **Unified Full-Height Hex-Keyed Rod & Enc
 | single arm (01/03) | y 36.00 → 62.92 mm, r 7.40 → 10.90 mm, volume **229.71 mm³**, watertight single body |
 | dual arm (02/04) | y 36.00 → 72.45 mm, r 7.40 → 10.90 mm, upper nose at y 66.94 mm, volume **303.42 mm³**, watertight single body |
 | nose geometry | 0.75 mm tip radius on rack-matched 49.37° flanks, apex **r 5.54 mm** at seated depth |
-| barrel cap (11) | $3.60\text{ mm}$ pass-through channels at $90^\circ$ and $270^\circ$, retaining lower springs while allowing upper dual heads to flex freely |
+| barrel cap (11) | 4 downward $1.20\text{ mm}$ filler prongs matching the 4 L-shaped slots, sealing upper notch recesses and providing positive 4-way anti-rotation alignment |
 
 ### 5.3 Rod Stroke
 

@@ -158,7 +158,7 @@ PARTS_MANIFEST = [
         "subassembly": "03_Internal_Barrel_And_Upper_Station",
         "plate": "Plate_2_Internal_Barrel_And_Springs",
         "color": "Black / Gunmetal",
-        "desc": "Solid barrel retention cap disc trapping all 4 single-headed springs axially",
+        "desc": "Barrel retention cap with 4 downward L-notch filler prongs trapping all 4 springs axially and sealing upper recesses",
         "supports": "No",
     },
     {
@@ -798,7 +798,7 @@ The rod detent uses four transplanted arms of the Spinner Fuse Grenade's `11 - M
 
 ### Stage 3: Rod Detent Springs & Upper Station
 1. Drop the 4 detent springs (`12`, `13`, `14`, `15`) into the barrel's four slots at 0 deg / 90 deg / 180 deg / 270 deg, **from the open top**. They are identical parts; the rib on the foot faces the same way in all four, and it catches the step in the slot so the spring cannot work its way inward. They are preloaded — the noses stand proud of where the rack will hold them, so the rod snaps past them on the way in.
-2. Seal the top of the barrel with `11_Custom_Internal_Barrel_Cap.stl`. It is a plain disc with no keys, so it drops on either way round; its underside traps all four springs.
+2. Seal the top of the barrel with `11_Custom_Internal_Barrel_Cap.stl`. Its 4 downward filler prongs plug the empty L-notch recesses in all four slots with positive 4-way anti-rotation alignment, while its underside traps all four springs axially.
 3. Slide `19_28_Upper_Shell_Gear.stl` over the upper barrel station.
 4. Install `21_30_Upper_Shell_Rotating_Spring.stl` and `20_29_Upper_Shell_Lock_Ring.stl`.
 5. Seat `18_27_Upper_Shell_Top.stl` over the upper station to close the main body. Insert the four retention pins (`16_Custom_Internal_Barrel_Pin_01.stl`, `17_Custom_Internal_Barrel_Pin_02.stl`, `16_Custom_Internal_Barrel_Pin_03.stl`, and `17_Custom_Internal_Barrel_Pin_04.stl`) through the shell's side windows into the barrel channels at 45°, 135°, 225°, and 315° to lock `18_27_Upper_Shell_Top.stl` axially. Slide `19_28_Upper_Shell_Gear.stl` and `20_29_Upper_Shell_Lock_Ring.stl` over the shell neck to trap and enclose the pins.

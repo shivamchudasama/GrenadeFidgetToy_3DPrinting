@@ -645,6 +645,55 @@ def cap_disc(cap=None):
     return src, out
 
 
+def cap_with_slot_fillers(cap=None, chamfer=0.30):
+    """The barrel cap with 4 downward filler prongs matching the 4 L-shaped slots.
+
+    Removes the legacy 3-finger stock keys, and unions 4 symmetrical downward
+    filler prongs at 0°, 90°, 180°, 270°. These prongs cleanly plug the empty
+    L-notch recesses in the barrel top face, prevent dust/debris ingress, and
+    provide positive anti-rotation alignment across all 4 slots.
+    """
+    import shapely
+    import manifold3d
+
+    src, disc = cap_disc(cap)
+
+    # 1. Base filler prong at azimuth 90 (+Z)
+    # L-notch in barrel is X in [1.750, 3.550], Z in [9.450, 12.350]
+    # With 0.15 mm clearance: X in [1.800, 3.400], Z in [9.600, 12.200]
+    p_full = shapely.box(1.800, 9.600, 3.400, 12.200)
+
+    if chamfer > 0.0:
+        p_tip = shapely.box(1.800 + chamfer, 9.600 + chamfer, 3.400 - chamfer, 12.200 - chamfer)
+        v_tip = np.array([[x, 62.00, z] for x, z in p_tip.exterior.coords[:-1]])
+        v_mid = np.array([[x, 62.00 + chamfer, z] for x, z in p_full.exterior.coords[:-1]])
+        v_top = np.array([[x, 63.25, z] for x, z in p_full.exterior.coords[:-1]])
+        f_90 = trimesh.convex.convex_hull(np.vstack([v_tip, v_mid, v_top]))
+    else:
+        raw = trimesh.creation.extrude_polygon(p_full, height=1.25)
+        v = raw.vertices
+        v_new = np.column_stack([v[:, 0], 63.25 - v[:, 2], v[:, 1]])
+        f_90 = trimesh.Trimesh(v_new, raw.faces, process=True)
+        if f_90.volume < 0:
+            f_90.faces = np.fliplr(f_90.faces)
+            f_90 = trimesh.Trimesh(f_90.vertices, f_90.faces, process=True)
+
+    # 2. Replicate across all 4 slot azimuths: 0°, 90°, 180°, 270°
+    fillers = [_roty(az - 90.0, f_90.copy()) for az in SLOT_AZIMUTHS]
+
+    # 3. Union fillers into cap disc using Manifold
+    cap_m = manifold3d.Manifold(manifold3d.Mesh(disc.vertices.astype(np.float32),
+                                                disc.faces.astype(np.uint32)))
+    for f in fillers:
+        fm = manifold3d.Manifold(manifold3d.Mesh(f.vertices.astype(np.float32),
+                                                 f.faces.astype(np.uint32)))
+        cap_m = cap_m + fm
+
+    m = cap_m.to_mesh()
+    raw_cap = trimesh.Trimesh(m.vert_properties[:, :3], m.tri_verts, process=True)
+    return src, _solidify(raw_cap, CAP_OUT)
+
+
 # ------------------------------------------------- filling the stock slots ---
 def clean_azimuths(step=0.25, margin=16.0):
     """Azimuths where the stock bore ring is unbroken by a follower slot."""
@@ -1226,7 +1275,7 @@ def main():
     springs = followers()
     stock, filled, barrel = barrel_with_slots()
     geom = bore_geometry(stock)
-    stock_cap, cap = cap_disc()
+    stock_cap, cap = cap_with_slot_fillers()
     pin16 = retention_pin_for_azimuth(45.0)
     pin17 = retention_pin_for_azimuth(135.0)
     pin18 = retention_pin_for_azimuth(225.0)

@@ -165,9 +165,11 @@ spring_defs = [
     ("15_Custom_Rod_Detent_Spring_04.stl", s_04, b_04, "Single"),
 ]
 
-sub_dir = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station")
-flat_dir = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented")
-asy_dir = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Assembled_Coordinates")
+from package_paths import PACKAGE_DIR
+
+sub_dir = os.path.join(PACKAGE_DIR, "03_Internal_Barrel_And_Upper_Station")
+flat_dir = os.path.join(PACKAGE_DIR, "All_Parts_Flat_Bed_Oriented")
+asy_dir = os.path.join(PACKAGE_DIR, "All_Parts_Assembled_Coordinates")
 
 print("\n--- MEASURED RESULTS FOR ALL 4 SPRINGS ---")
 for filename, s_asy, s_bed, stype in spring_defs:
@@ -186,9 +188,9 @@ for filename, s_asy, s_bed, stype in spring_defs:
     s_asy.export(os.path.join(asy_dir, filename))
     print(f"   -> Exported to subassembly, flat-bed, and assembled")
 
-# 5. Build and export solid cap 11 (unslotted, for 4 equal single-headed springs)
-print("\n--- BUILDING SOLID RETENTION CAP (11_Custom_Internal_Barrel_Cap.stl) ---")
-_, cap_asy = BRD.cap_disc()
+# 5. Build and export retention cap 11 (with 4 L-notch filler prongs)
+print("\n--- BUILDING RETENTION CAP (11_Custom_Internal_Barrel_Cap.stl) ---")
+_, cap_asy = BRD.cap_with_slot_fillers()
 T_cap = np.eye(4)
 T_cap[:3, :3] = np.array([[1, 0, 0], [0, 0, 1], [0, -1, 0]])
 cap_bed = cap_asy.copy()
