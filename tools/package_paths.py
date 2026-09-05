@@ -19,12 +19,12 @@ ROOT_DIR = os.path.dirname(TOOLS_DIR)
 
 # The package currently being built.  Bump this, copy the previous folder
 # forward, then build.
-PACKAGE_NAME = "Hybrid_Grenade_v1.2"
+PACKAGE_NAME = "Hybrid_Grenade_v1.3"
 
 # Frozen: shipped packages that scripts must not write into.  Every folder
 # matching Hybrid_Grenade_v* other than PACKAGE_NAME is treated as frozen
 # whether or not it is listed here; this is the explicit record.
-FROZEN_PACKAGES = ("Hybrid_Grenade_v1.1",)
+FROZEN_PACKAGES = ("Hybrid_Grenade_v1.1", "Hybrid_Grenade_v1.2")
 
 PACKAGE_DIR = os.path.join(ROOT_DIR, PACKAGE_NAME)
 ASSEMBLED_SUBDIR = "All_Parts_Assembled_Coordinates"

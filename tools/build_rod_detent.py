@@ -60,7 +60,7 @@ if TOOLS_DIR not in sys.path:
     sys.path.insert(0, TOOLS_DIR)
 
 import flexure_rate as FR
-from package_paths import ASSEMBLED_DIR as PACKAGE_ASSEMBLED_DIR, guard
+from package_paths import ASSEMBLED_DIR as PACKAGE_ASSEMBLED_DIR, guard, PACKAGE_DIR
 
 ROOT_DIR = os.path.dirname(TOOLS_DIR)
 ASSEMBLED = PACKAGE_ASSEMBLED_DIR
@@ -1399,16 +1399,16 @@ def main():
     m_bed.apply_translation([-0.5 * (m_bed.bounds[0][0] + m_bed.bounds[1][0]),
                              -0.5 * (m_bed.bounds[0][1] + m_bed.bounds[1][1]),
                              -m_bed.bounds[0][2]])
-    m_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", BARREL_OUT))
-    m_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", BARREL_OUT))
+    m_bed.export(guard(os.path.join(PACKAGE_DIR, "03_Internal_Barrel_And_Upper_Station", BARREL_OUT)))
+    m_bed.export(guard(os.path.join(PACKAGE_DIR, "All_Parts_Flat_Bed_Oriented", BARREL_OUT)))
     cap.export(guard(os.path.join(ASSEMBLED, CAP_OUT)))
     cap_bed = cap.copy()
     cap_bed.apply_transform(T)
     cap_bed.apply_translation([-0.5 * (cap_bed.bounds[0][0] + cap_bed.bounds[1][0]),
                                -0.5 * (cap_bed.bounds[0][1] + cap_bed.bounds[1][1]),
                                -cap_bed.bounds[0][2]])
-    cap_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", CAP_OUT))
-    cap_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", CAP_OUT))
+    cap_bed.export(guard(os.path.join(PACKAGE_DIR, "03_Internal_Barrel_And_Upper_Station", CAP_OUT)))
+    cap_bed.export(guard(os.path.join(PACKAGE_DIR, "All_Parts_Flat_Bed_Oriented", CAP_OUT)))
 
     # Export all 4 retention pins (in assembled space and in flat-bed print pose)
     PIN_BED_Y_DEGS = {
@@ -1426,8 +1426,8 @@ def main():
         p_bed.apply_translation([-0.5 * (p_bed.bounds[0][0] + p_bed.bounds[1][0]),
                                  -0.5 * (p_bed.bounds[0][1] + p_bed.bounds[1][1]),
                                  -p_bed.bounds[0][2]])
-        p_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", name))
-        p_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", name))
+        p_bed.export(guard(os.path.join(PACKAGE_DIR, "03_Internal_Barrel_And_Upper_Station", name)))
+        p_bed.export(guard(os.path.join(PACKAGE_DIR, "All_Parts_Flat_Bed_Oriented", name)))
 
     top_shell.export(guard(os.path.join(ASSEMBLED, SHELL_TOP_OUT)))
     shell_bed = top_shell.copy()
@@ -1437,8 +1437,8 @@ def main():
     shell_bed.apply_translation([-0.5 * (shell_bed.bounds[0][0] + shell_bed.bounds[1][0]),
                                  -0.5 * (shell_bed.bounds[0][1] + shell_bed.bounds[1][1]),
                                  -shell_bed.bounds[0][2]])
-    shell_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", SHELL_TOP_OUT))
-    shell_bed.export(os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", SHELL_TOP_OUT))
+    shell_bed.export(guard(os.path.join(PACKAGE_DIR, "03_Internal_Barrel_And_Upper_Station", SHELL_TOP_OUT)))
+    shell_bed.export(guard(os.path.join(PACKAGE_DIR, "All_Parts_Flat_Bed_Oriented", SHELL_TOP_OUT)))
 
     for name in RETIRED:
         path = guard(os.path.join(ASSEMBLED, name))
