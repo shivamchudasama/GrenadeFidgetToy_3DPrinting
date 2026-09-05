@@ -109,7 +109,7 @@ def motion_rim_gear():
 
 def motion_fold():
     """4-position fold: the handle hub's 12 notches over the hinge leaf."""
-    leaf = load("28_09_Rod_Spring_Hinge.stl")
+    leaf = load("28_09_Rod_Spring_Hinge_T_Head.stl")
     pin = load("36_15_Handle_Rotating_Lock_D_Pin.stl")
     axis, centre = _axis_centre(pin, 0)           # hinge pin runs along toy +x
     halves = [load("29_Custom_Handle_Left.stl"), load("30_Custom_Handle_Right.stl")]

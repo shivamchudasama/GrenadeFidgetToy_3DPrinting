@@ -5,7 +5,7 @@ import numpy as np
 v12_dir = r"d:\GIT_Repo\GrenadeFidgetToy_3DPrinting\Hybrid_Grenade_v1.2"
 asy_dir = os.path.join(v12_dir, "All_Parts_Assembled_Coordinates")
 
-spring = trimesh.load(os.path.join(asy_dir, "28_09_Rod_Spring_Hinge.stl"))
+spring = trimesh.load(os.path.join(asy_dir, "28_09_Rod_Spring_Hinge_T_Head.stl"))
 mid = trimesh.load(os.path.join(asy_dir, "23_Custom_Rod_Middle.stl"))
 hl = trimesh.load(os.path.join(asy_dir, "29_Custom_Handle_Left.stl"))
 hr = trimesh.load(os.path.join(asy_dir, "30_Custom_Handle_Right.stl"))

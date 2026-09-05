@@ -102,8 +102,8 @@ PARTS_SPEC = [
     },
     {
         "id": 28,
-        "name": "28_09_Rod_Spring_Hinge",
-        "file": "28_09_Rod_Spring_Hinge.stl",
+        "name": "28_09_Rod_Spring_Hinge_T_Head",
+        "file": "28_09_Rod_Spring_Hinge_T_Head.stl",
         "category": "hinge",
         "color_rgb": (255, 110, 30),
         "metallic": 0.2,

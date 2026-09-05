@@ -348,11 +348,11 @@ PARTS_MANIFEST = [
     {
         "id": 28,
         "source_file": "09 - Rod Spring.stl",
-        "export_filename": "28_09_Rod_Spring_Hinge.stl",
+        "export_filename": "28_09_Rod_Spring_Hinge_T_Head.stl",
         "subassembly": "05_Folding_Head_And_Spinner",
         "plate": "Plate_4_Head_And_Spinner",
         "color": "Safety Orange / PETG",
-        "desc": "Hinge detent leaf spring providing 4 fold clicks (0°, 30°, 60°, 90°)",
+        "desc": "Symmetric T-head hinge detent leaf spring providing 4 fold clicks (0°, 30°, 60°, 90°)",
         "supports": "No",
     },
     {
@@ -495,7 +495,7 @@ BED_POSES = {
     "25_Custom_Rod_Lock_Upper_06.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
     "26_Custom_Rod_Lock_Lower_07.stl": ([[1, 0, 0], [0, 1, 0], [0, 0, 1]], 0),
     "27_Spinner_Lever_08_Rod_Lock.stl": ([[0, 0, 1], [1, 0, 0], [0, 1, 0]], 0),
-    "28_09_Rod_Spring_Hinge.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
+    "28_09_Rod_Spring_Hinge_T_Head.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
     "29_Custom_Handle_Left.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
     "30_Custom_Handle_Right.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
     "31_Custom_Ring_Spinner.stl": ([[0, 0, -1], [0, 1, 0], [1, 0, 0]], 0),
@@ -770,7 +770,7 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 | **25** | Rod Assembly | `25_Custom_Rod_Lock_Upper_06.stl` | PETG / PLA+ (Safety Orange / Red) | 1 | No |
 | **26** | Rod Assembly | `26_Custom_Rod_Lock_Lower_07.stl` | PETG / PLA+ (Safety Orange / Red) | 1 | No |
 | **27** | Rod Assembly | `27_Spinner_Lever_08_Rod_Lock.stl` | PLA+ / PETG (Gunmetal / Black) | 1 | No |
-| **28** | Head & Spinner | `28_09_Rod_Spring_Hinge.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
+| **28** | Head & Spinner | `28_09_Rod_Spring_Hinge_T_Head.stl` | PETG / Tough PLA (Safety Orange) | 1 | No |
 | **29** | Head & Spinner | `29_Custom_Handle_Left.stl` | PLA (Olive Drab Green) | 1 | No |
 | **30** | Head & Spinner | `30_Custom_Handle_Right.stl` | PLA (Olive Drab Green) | 1 | No |
 | **31** | Head & Spinner | `31_Custom_Ring_Spinner.stl` | Silk PLA (Gold / Brass) | 1 | No |
@@ -813,7 +813,7 @@ The slots keep the stock two-step section — a neck with a one-sided widening t
 5. Seat `18_27_Upper_Shell_Top.stl` over the upper station to close the main body. Insert the four retention pins (`16_Custom_Internal_Barrel_Pin_01.stl`, `17_Custom_Internal_Barrel_Pin_02.stl`, `16_Custom_Internal_Barrel_Pin_03.stl`, and `17_Custom_Internal_Barrel_Pin_04.stl`) through the shell's side windows into the barrel channels at 45°, 135°, 225°, and 315° to lock `18_27_Upper_Shell_Top.stl` axially. Slide `19_28_Upper_Shell_Gear.stl` and `20_29_Upper_Shell_Lock_Ring.stl` over the shell neck to trap and enclose the pins.
 
 ### Stage 4: Unified Full-Height Rod Assembly & Enclosed Hinge Spring
-1. Insert narrowed `28_09_Rod_Spring_Hinge.stl` into the central spring channel of `23_Custom_Rod_Middle.stl`.
+1. Insert `28_09_Rod_Spring_Hinge_T_Head.stl` into the central spring channel of `23_Custom_Rod_Middle.stl`.
 2. Place full-height `22_Custom_Rod_Right.stl` and `24_Custom_Rod_Left.stl` on the right and left sides of `23_Custom_Rod_Middle.stl`, fully enclosing the hinge spring inside the symmetric pod halves and forming the upper hexagonal keying prism.
 3. Insert `25_Custom_Rod_Lock_Upper_06.stl` through the upper cross-tunnel.
 4. Insert `26_Custom_Rod_Lock_Lower_07.stl` through the lower cross-tunnel.

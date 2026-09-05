@@ -30,9 +30,9 @@ HEAD_DIR = os.path.join(V12_DIR, "05_Folding_Head_And_Spinner")
 HEAD_PARTS = [
     {
         "id": 28,
-        "filename": "28_09_Rod_Spring_Hinge.stl",
-        "name": "28_09_Rod_Spring_Hinge",
-        "title": "Hinge Detent Leaf Spring (09)",
+        "filename": "28_09_Rod_Spring_Hinge_T_Head.stl",
+        "name": "28_09_Rod_Spring_Hinge_T_Head",
+        "title": "T-Head Hinge Detent Leaf Spring (09)",
         "color_rgb": (255, 110, 30),      # Safety Orange
         "metallic": 0.2,
         "roughness": 0.35,
