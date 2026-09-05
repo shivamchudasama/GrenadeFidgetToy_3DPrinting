@@ -38,9 +38,9 @@ All 110 upstream files are **binary STL** and every one carries the same `MW 1.0
 
 Everything lives at the repo root: three pristine product folders, the hybrid production packages, the toolkit, and derivative exports.
 
-**`Hybrid_Grenade_v1.2/` is the current package; `Hybrid_Grenade_v1.1/` is frozen.** They differ in the axial rod detent and in what that layout cost — the three barrel pins and all three cap keys — see **The custom hybrid build**. Both hold the same folder layout:
+**`Hybrid_Grenade_v1.3/` is the active development package; `Hybrid_Grenade_v1.2/` and `Hybrid_Grenade_v1.1/` are frozen.** They hold the package layout:
 
-- `Hybrid_Grenade_v1.2/` — 34 numbered STLs (12–15 are the detent springs; 16 and 17 are vacant); `Hybrid_Grenade_v1.1/` — 36. Production-ready 3D printing package for the Native Tactical/Spinner Hybrid Grenade with 8 interchangeable mid shell options, across 5 subassemblies (`01_Base_And_Bottom_Shell/`, `02_Waist_Mechanism/` + `Mid_Shell_Options/`, `03_Internal_Barrel_And_Upper_Station/`, `04_Rod_Assembly_And_Locks/`, `05_Folding_Head_And_Spinner/`), flat-bed oriented STLs (`All_Parts_Flat_Bed_Oriented/`), assembled-coordinate STLs (`All_Parts_Assembled_Coordinates/`), slicer project plates (`Plates_3MF/`), multi-view GLBs (assembled, cutaway, exploded, shell variants), the realtime web studio (`Interactive_Shell_Variants_Viewer.html`), and `README_3D_PRINTING.md`.
+- `Hybrid_Grenade_v1.3/` — Active 3D printing package for the Native Tactical/Spinner Hybrid Grenade with 8 interchangeable mid shell options, across 5 subassemblies (`01_Base_And_Bottom_Shell/`, `02_Waist_Mechanism/` + `Mid_Shell_Options/`, `03_Internal_Barrel_And_Upper_Station/`, `04_Rod_Assembly_And_Locks/`, `05_Folding_Head_And_Spinner/`), flat-bed oriented STLs (`All_Parts_Flat_Bed_Oriented/`), assembled-coordinate STLs (`All_Parts_Assembled_Coordinates/`), slicer project plates (`Plates_3MF/`), multi-view GLBs (assembled, cutaway, exploded, shell variants), the realtime web studio (`Interactive_Shell_Variants_Viewer.html`), and `README_3D_PRINTING.md`. Frozen predecessors: `Hybrid_Grenade_v1.2/` (34 parts), `Hybrid_Grenade_v1.1/` (36 parts).
 - `tools/` — Python toolchain:
   - `fidget.py` — core mesh toolkit (fast Manifold-backed CSG, watertight checks, twin detection).
   - `assembly.py` — scene builder, exploded views, interference checking, and 3MF/GLB exporter.
@@ -92,9 +92,9 @@ Each variant ships a **complete** kit — all three have their own Rod Middle, R
 
 The three complete body variants are in `Derivatives/tactical/Body/` (two-piece, solid, and hex mid shell). Their final lower stack is `04 → inverted 05 → inverted 06`; `01` enters from below and threads into `08`, carrying `02` and `03` on the same axis. Current body envelopes are 41.60 × 80.07 × 41.60 mm (two-piece), 41.95 × 80.07 × 41.95 mm (solid), and 41.85 × 80.07 × 42.12 mm (hex).
 
-### The custom hybrid build (`Hybrid_Grenade_v1.2`)
+### The custom hybrid build (`Hybrid_Grenade_v1.3`)
 
-The production-ready design is documented in `CUSTOM_DESIGN.md` and packaged in `Hybrid_Grenade_v1.2/` (BOM and assembly guide in `README_3D_PRINTING.md`). `v1.1` is the frozen predecessor.
+The design is documented in `CUSTOM_DESIGN.md` and packaged in `Hybrid_Grenade_v1.3/` (BOM and assembly guide in `README_3D_PRINTING.md`). `v1.2` and `v1.1` are frozen predecessors.
 
 Key mechanical features:
 - **33-Click Waist Detent**: The Tactical base features a native 33-click rotary detent: `08 - Internal Barrel` carries 3 windows at 30°/150°/270°; `20 - Mid Shell Spring` / `09_Custom_Mid_Shell_Spring_33` extends 3 arms through them to r 17.40; `32 - Mid Shell P02` carries a 33-lobe inner ratchet (10.909° pitch).
@@ -186,7 +186,7 @@ Git LFS was wired up **before** the first commit, so no binary ever landed in hi
 
 **Tracked:**
 - The three pristine product folders (110 STLs + Grenade zip).
-- `Hybrid_Grenade_v1.1/` (36 parts) and `Hybrid_Grenade_v1.2/` (34 parts) — each a complete package: 8 mid shell variants, 3MF project plates, GLB models, `Interactive_Shell_Variants_Viewer.html`, and `README_3D_PRINTING.md`.
+- `Hybrid_Grenade_v1.1/` (36 parts), `Hybrid_Grenade_v1.2/` (34 parts), and `Hybrid_Grenade_v1.3/` (active) — each a complete package: 8 mid shell variants, 3MF project plates, GLB models, `Interactive_Shell_Variants_Viewer.html`, and `README_3D_PRINTING.md`.
 - Documentation (`CLAUDE.md`, `CUSTOM_DESIGN.md`, `DESIGN.md`).
 - `tools/` toolchain.
 - `Derivatives/tactical/Tactical_variants_poses.json` (essential solved pose record).
