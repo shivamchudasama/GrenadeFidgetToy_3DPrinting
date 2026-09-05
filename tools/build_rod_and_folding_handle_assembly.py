@@ -16,15 +16,7 @@ Includes:
     11. 36_15_Handle_Rotating_Lock_D_Pin (Keyed rotating D-pin hinge axle)
 
 Outputs:
-  - Hybrid_Grenade_v1.2/04_Rod_Assembly_And_Locks/Custom_Rod_And_Folding_Handle_Assembly.glb
-  - Hybrid_Grenade_v1.2/05_Folding_Head_And_Spinner/Custom_Rod_And_Folding_Handle_Assembly.glb
   - Hybrid_Grenade_v1.2/Custom_Rod_And_Folding_Handle_Assembly.glb
-  - Hybrid_Grenade_v1.2/04_Rod_Assembly_And_Locks/Custom_Rod_And_Folding_Handle_Exploded.glb
-  - Hybrid_Grenade_v1.2/Custom_Rod_And_Folding_Handle_Exploded.glb
-  - Hybrid_Grenade_v1.2/04_Rod_Assembly_And_Locks/Custom_Rod_And_Folding_Handle_Cutaway.glb
-  - Hybrid_Grenade_v1.2/Custom_Rod_And_Folding_Handle_Cutaway.glb
-  - Hybrid_Grenade_v1.2/04_Rod_Assembly_And_Locks/Custom_Rod_And_Folding_Handle_Viewer.html
-  - Hybrid_Grenade_v1.2/Custom_Rod_And_Folding_Handle_Viewer.html
 """
 from __future__ import annotations
 
@@ -40,8 +32,6 @@ TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(TOOLS_DIR)
 V12_DIR = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2")
 ASY_DIR = os.path.join(V12_DIR, "All_Parts_Assembled_Coordinates")
-ROD_DIR = os.path.join(V12_DIR, "04_Rod_Assembly_And_Locks")
-HEAD_DIR = os.path.join(V12_DIR, "05_Folding_Head_And_Spinner")
 
 def to_manifold(mesh: trimesh.Trimesh) -> manifold3d.Manifold:
     return manifold3d.Manifold(manifold3d.Mesh(
@@ -242,36 +232,12 @@ def main():
     else:
         print(f"  [WARN] Total collisions detected: {len(collisions)}")
         
-    print("\n[2/4] Exporting Primary Assembled GLBs...")
-    out_glb_rod = os.path.join(ROD_DIR, "Custom_Rod_And_Folding_Handle_Assembly.glb")
-    out_glb_head = os.path.join(HEAD_DIR, "Custom_Rod_And_Folding_Handle_Assembly.glb")
+    print("\n[2/2] Exporting Primary Assembled GLB...")
     out_glb_root = os.path.join(V12_DIR, "Custom_Rod_And_Folding_Handle_Assembly.glb")
-    
-    b_asy = export_pbr_scene(parts, out_glb_rod, exploded=False, cutaway=False)
-    with open(out_glb_head, "wb") as f:
-        f.write(b_asy)
-    with open(out_glb_root, "wb") as f:
-        f.write(b_asy)
-    print(f"  Exported Assembled GLB -> {out_glb_rod} ({len(b_asy):,} bytes)")
-    print(f"  Mirrored -> {out_glb_head}")
-    print(f"  Mirrored -> {out_glb_root}")
-    
-    print("\n[3/4] Exporting Exploded & Cutaway Inspection GLBs...")
-    out_exp_rod = os.path.join(ROD_DIR, "Custom_Rod_And_Folding_Handle_Exploded.glb")
-    out_exp_root = os.path.join(V12_DIR, "Custom_Rod_And_Folding_Handle_Exploded.glb")
-    b_exp = export_pbr_scene(parts, out_exp_rod, exploded=True, cutaway=False)
-    with open(out_exp_root, "wb") as f:
-        f.write(b_exp)
-    print(f"  Exported Exploded GLB -> {out_exp_rod} ({len(b_exp):,} bytes)")
-    
-    out_cut_rod = os.path.join(ROD_DIR, "Custom_Rod_And_Folding_Handle_Cutaway.glb")
-    out_cut_root = os.path.join(V12_DIR, "Custom_Rod_And_Folding_Handle_Cutaway.glb")
-    b_cut = export_pbr_scene(parts, out_cut_rod, exploded=False, cutaway=True)
-    with open(out_cut_root, "wb") as f:
-        f.write(b_cut)
-    print(f"  Exported Cutaway GLB -> {out_cut_rod} ({len(b_cut):,} bytes)")
+    b_asy = export_pbr_scene(parts, out_glb_root, exploded=False, cutaway=False)
+    print(f"  Exported Assembled GLB -> {out_glb_root} ({len(b_asy):,} bytes)")
 
-    print("\n[4/4] Assembly generation complete!")
+    print("\nAssembly generation complete!")
     print("=" * 80)
 
 if __name__ == "__main__":
