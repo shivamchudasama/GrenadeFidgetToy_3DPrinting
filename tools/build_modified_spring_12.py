@@ -38,7 +38,8 @@ FOOT_Y1 = 42.60          # 42.60 mm (foot ends here, flexure arm begins)
 # 1. Build base 2D profile
 ref_arm = extract_v2_reference_arm()
 x_src = np.array([5.8532, 7.1240, 8.6509, 9.4509, 10.4509, 11.2509, 12.6509, 14.4509])
-r_dst = np.array([BRD.NOSE_APEX, 7.0000, 7.6000, 8.3500,  8.9000,  9.6500, 10.2500, BRD.ARM_R_OUT])
+# Reinforced flexure strands: 0.85 mm thickness, 0.55 mm loop gap, 0.60 mm outer spine
+r_dst = np.array([BRD.NOSE_APEX, 7.0000, 7.5000, 8.3500,  8.9000,  9.7500, 10.3000, BRD.ARM_R_OUT])
 
 def map_c(c):
     x, y = c[0], c[1]
@@ -49,10 +50,11 @@ def map_c(c):
 mapped = shapely.Polygon([map_c(c) for c in ref_arm.exterior.coords])
 coords = list(mapped.exterior.coords)
 
-# Outer waist curve
+# Reinforced outer waist curve
 y_top_outer = 54.541
+r_foot_outer = R_RIB  # exactly 9.600 mm, matching raised foot inner shoulder
 y_ctrl_out = np.array([42.60, 45.50, 48.00, 51.00, 53.50, y_top_outer])
-r_ctrl_out = np.array([8.618, 8.850, 9.750, 10.650, 10.885, BRD.ARM_R_OUT])
+r_ctrl_out = np.array([r_foot_outer, 9.750, 10.350, 10.650, 10.885, BRD.ARM_R_OUT])
 cs_out = CubicSpline(y_ctrl_out, r_ctrl_out, bc_type=((1, 0.0), (1, 0.0)))
 y_eval_out = np.linspace(42.60, y_top_outer, 60)
 r_eval_out = cs_out(y_eval_out)
@@ -69,7 +71,7 @@ pts = []
 pts.append((FOOT_Y0, BRD.LEAF_R0))
 pts.append((FOOT_Y0, RAIL_R1_NEW))
 pts.append((FOOT_Y1, RAIL_R1_NEW))
-pts.append((FOOT_Y1, 8.618))
+pts.append((FOOT_Y1, r_foot_outer))
 for y, r in zip(y_eval_out[1:], r_eval_out[1:]):
     pts.append((y, r))
 for idx in range(232, 46, -1):
@@ -102,8 +104,10 @@ narrow = trimesh.creation.box(extents=[NARROW_W, span(1), span(2)])
 narrow.apply_translation([-1.50 + NARROW_W / 2.0, 0.5 * (b[0][1] + b[1][1]), 0.5 * (b[0][2] + b[1][2])])
 
 # Raised rib: ONLY IN FOOT REGION (Y in [FOOT_Y0 - 1.0, FOOT_Y1]), NOT IN U-SPRING ARM
-foot_y_span = (FOOT_Y1 - FOOT_Y0) + 2.0
-foot_y_center = 0.5 * (FOOT_Y0 - 1.0 + FOOT_Y1 + 1.0)
+foot_y_min = FOOT_Y0 - 1.0
+foot_y_max = FOOT_Y1
+foot_y_span = foot_y_max - foot_y_min
+foot_y_center = 0.5 * (foot_y_min + foot_y_max)
 ribband = trimesh.creation.box(extents=[span(0), foot_y_span, (RAIL_R1_NEW + 2.0) - R_RIB])
 ribband.apply_translation([0.5 * (b[0][0] + b[1][0]), foot_y_center,
                            0.5 * (R_RIB + RAIL_R1_NEW + 2.0)])

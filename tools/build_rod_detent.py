@@ -1018,15 +1018,13 @@ def arm_profile(apex=NOSE_APEX, s_y=ARM_SCALE_Y, arm_y0=ARM_Y0, arm_r_out=ARM_R_
 
 
 def arm_rate(poly=None):
-    """Radial rate and strain of the arm, anchored where the slot holds it.
-
-    The lower column and foot are fixed rigid in the slot; only the upper
-    flexure loop carrying the arrowhead deflects.
-    """
-    return FR.rate(poly if poly is not None else arm_profile(),
+    """Radial rate and strain of the arm, anchored where the slot holds it."""
+    import build_all_modified_springs as BAMS
+    p = poly if poly is not None else BAMS.poly_single
+    return FR.rate(p,
                    thickness=NARROW_W,
-                   fixed=lambda V: (V[:, 0] < 54.3) | ((V[:, 1] > 10.0) & (V[:, 0] > 60.0)),
-                   loaded=lambda V: V[:, 1] < FLANK_TOP,
+                   fixed=lambda V: (V[:, 0] < 42.6) & (V[:, 1] > 10.0),
+                   loaded=lambda V: (V[:, 1] < FLANK_TOP) & (V[:, 0] < 60.0),
                    direction=(0.0, 1.0), h=0.06)
 
 

@@ -125,24 +125,25 @@ The production design incorporates the **Unified Full-Height Hex-Keyed Rod & Enc
 4. **Compacted Hinge Spring (`28_09_Rod_Spring_Hinge_T_Head`)**: Compacted to $14.69\text{ mm}$ height, seating cleanly within $Y \in [59.50, 74.19]\text{ mm}$ to maintain full 4-position detent click action.
 5. **Bottom Axial Retainer (`27_Spinner_Lever_08_Rod_Lock`)**: Wedges onto the $-0.536\text{ mm/mm}$ bottom tapered tab to axially secure the entire 3-part rod assembly.
 
-### 5.2 Axial Click Detent (Dual-Headed Option B System)
+### 5.2 Axial Click Detent (4-Way Balanced Solid-Click System)
 
 **[M]** The click is produced by **four springs alone** — `12/13/14/15_Custom_Rod_Detent_Spring` in slots in `08 - Internal Barrel` at azimuth **0° / 90° / 180° / 270°**:
-- **01 & 03 (az 0° & 180°)**: Single-headed springs ($Y \in [36.00, 62.92]\text{ mm}$) with lower detent nose at $Y = 57.40\text{ mm}$.
-- **02 & 04 (az 90° & 270°)**: Dual-headed springs ($Y \in [36.00, 72.45]\text{ mm}$) carrying both the lower detent nose at $Y = 57.40\text{ mm}$ and an extended upper detent head at $Y = 66.94\text{ mm}$ (exactly $3 \times \text{pitch} = 9.532\text{ mm}$ above the lower nose), passing through $3.60\text{ mm}$ channels in `11_Custom_Internal_Barrel_Cap`.
-- **Synchronous Engagement**: All 6 detent noses engage the rod rack simultaneously in exact phase, providing a **$23.91\text{ N}$ total axial breakout pop** with a crisp **$7.62\times$ snap-action force ratio**.
+- **01, 02, 03, 04 (az 0°, 90°, 180°, 270°)**: Symmetrical reinforced single-headed L-springs ($Y \in [36.00, 62.92]\text{ mm}$) with detent nose at $Y = 57.40\text{ mm}$, volume **$276.24\text{ mm}³$** each.
+- **Synchronous Engagement**: All 4 detent noses engage the rod rack simultaneously in exact 4-way radial balance, providing a **$12.89\text{ N}$ total axial breakout pop** with a crisp **$6.51\times$ snap-action force ratio** and **$1.98\text{ N}$** retentive hold at the seat ($0\%$ dead band).
+- **Reinforced Stalk Architecture**: Stalk thickness reinforced from $1.22\text{ mm}$ to $2.42\text{ mm}$ at $Y = 42.60\text{ mm}$, eliminating floppy cantilever bending into the slot cavity and concentrating compliance in the upper U-turn arch.
+- **Tuned Flexure Strands**: Flexure strands thickened to $0.85\text{ mm}$ with $0.55\text{ mm}$ loop clearance, raising spring rate to $k = 2.821\text{ N/mm}$ while maintaining peak strain at $1.95\%$ (well under the $2.5\%$ fatigue budget for long-life durability in PETG and Tough PLA).
 
 **[M]** The rack: pitch **3.17733 mm**, crest **r 6.8901**, V-root **r 5.7652**, straight **40.63°** flanks — and it is a **turned ring, not a pair of flat faces**. Measured at every azimuth from 0° to 350° over y 34 .. 60, the rod's outer radius is 6.88–6.89 at the crest and 5.77–5.81 at the root. A nose therefore works at any azimuth, which is what makes a four-fold layout possible at all.
 
 **[M]** The two transverse cross-keys are part of that ring. The three rod pieces part along z = 0, and between **y 48.75 and 58.09** that parting line is an open gap; `25_Custom_Rod_Lock_Upper_06` fills it and carries the same rack (crest 6.888, root 5.780). A spring at azimuth 0° or 180° rides that key.
 
-**[D] Exact V2 Geometry & Dual Flexure Arms**: Directly sourced from Spinner Fuse `11 - Middle Spring v2`, preserving the cantilever flexure stalk, 180° hairpin U-turn arch, teardrop head, and rack-matched detent nose facets. The downward shelf has been removed to provide $0.600\text{ mm}$ slot clearance and $100\%$ linear compliance across full tooth stroke.
+**[D] Exact V2 Geometry & Serpentine Flexure**: Sourced from Spinner Fuse `11 - Middle Spring v2` with reinforced outer waist and $0.85\text{ mm}$ strands, preserving the 180° hairpin arch, teardrop head, and rack-matched detent nose facets. Shelf-free geometry provides $\ge 1.45\text{ mm}$ static slot clearance and $\ge 0.27\text{ mm}$ full-crest swing clearance across full stroke.
 
 | the spring | value |
 |---|---|
-| foot | y 36.00 → 42.60, r 7.40 → 12.20 — rigid anchor bearing on slot outer wall and seated on floor; **4.00 mm** wide outboard of r 11.55, **3.00 mm** inboard (notch step) |
-| single arm (01/03) | y 36.00 → 62.92 mm, r 7.40 → 10.90 mm, volume **229.71 mm³**, watertight single body |
-| dual arm (02/04) | y 36.00 → 72.45 mm, r 7.40 → 10.90 mm, upper nose at y 66.94 mm, volume **303.42 mm³**, watertight single body |
+| foot | y 36.00 → 42.60, r 7.40 → 12.20 — rigid anchor bearing on slot outer wall and seated on floor; **4.80 mm** total width with **1.80 mm** step ($X \in [1.50, 3.30]\text{ mm}$), **3.00 mm** narrow body |
+| single arm (01/02/03/04) | y 36.00 → 62.92 mm, r 7.40 → 10.90 mm, volume **276.24 mm³**, watertight single body |
+| spring rate & pop | $k = 2.821\text{ N/mm}$ per spring; **$12.89\text{ N}$** total 4-spring breakout pop; **$1.98\text{ N}$** seat hold; **$1.95\%$** peak strain |
 | nose geometry | 0.75 mm tip radius on rack-matched 49.37° flanks, apex **r 5.54 mm** at seated depth |
 | barrel cap (11) | 4 downward $1.20\text{ mm}$ filler prongs matching the 4 L-shaped slots, sealing upper notch recesses and providing positive 4-way anti-rotation alignment |
 
@@ -151,6 +152,28 @@ The production design incorporates the **Unified Full-Height Hex-Keyed Rod & Enc
 **[M]** The rod has **no upward stop**: swept to +24 mm it meets nothing, so the click count is undefined and the rod can be pulled out of the toy. Downward it bottoms after **0.30 mm** (retainer rim on the barrel's lower face). v1.2 briefly carried two inward lands at azimuth 90°/270° that gave a 14.07 mm stroke; they were dropped with the C-follower design they belonged to, and the stroke is again unlimited.
 
 **[D]** Growing the retainer instead does not work, and the reason is worth keeping: above it the spacer bore is **8.30 mm** from y 16 to 27, and the first thing narrower is the waist spring's **7.915 mm** bore, so a collar would have to live inside a **0.385 mm** window. That is inside FDM variation — a given print would either bind in the spacer or slip past the spring.
+
+### 5.4 Upper Station Rotary Click Detent (Refined Smooth Solid-Click 36-Tooth System)
+
+**[M]** The rotary click action is produced by `21_30_Upper_Shell_Rotating_Spring.stl` engaging the 36 internal harmonic detent teeth ($10^\circ$ pitch, $R_{\text{valley}} = 0.48\text{ mm}$) of `18_27_Upper_Shell_Top.stl`. Keyed to the central rod via an internal hexagonal bore ($r \in [8.18, 8.87]\text{ mm}$), the spring turns smoothly whenever the upper handle/rod is twisted.
+
+**[D] Extended Ski-Tip Glide Ramp Architecture**:
+To eliminate counter-clockwise wedging (spragging) and release jerk, the arm extension after the $120.89^\circ$ apex turn (Flank B) is elongated by **$+3.5\text{ mm}$** into a low-angle glide ramp down to $R = 15.55\text{ mm}$ at $\theta = 18.5^\circ$, terminating in a **$R = 0.75\text{ mm}$ inward-curled ski-tip**. This provides smooth, continuous lead-in engagement in both directions while maintaining crisp snap-action clicks.
+
+| Parameter | Option 1 (Balanced Comfort, Default) | Option 2 (Firm Click) | Notes |
+|:---|:---|:---|:---|
+| **Flexure Arm Architecture** | 3-arm rotationally symmetric serpentine ($120^\circ$ apart) | 3-arm rotationally symmetric serpentine ($120^\circ$ apart) | $h = 2.75\text{ mm}$ arm height ($Y \in [63.75, 66.50]\text{ mm}$) |
+| **Flexure Stalk Thickness** | $t \approx 1.79\text{ mm}$ ($\Delta t = 0.25\text{ mm}$) | $t \approx 1.88\text{ mm}$ ($\Delta t = 0.35\text{ mm}$) | $+0.09\text{ mm}$ thickness difference (+17% bending stiffness) |
+| **CCW Glide Ramp** | $+3.5\text{ mm}$ ski-tip ($R = 0.75\text{ mm}$ curl) | $+3.5\text{ mm}$ ski-tip ($R = 0.75\text{ mm}$ curl) | Completely eliminates CCW mechanical wedging and jerk |
+| **Contact Flank & Nose Smoothness** | $C^1$-continuous mathematical harmonic curve | $C^1$-continuous mathematical harmonic curve | **Zero discrete kinks or steps**; smooth rolling contact |
+| **Root Transition Fillet** | Tangent cubic Hermite blend ($C^1/G^1$ continuity) | Tangent cubic Hermite blend ($C^1/G^1$ continuity) | Smooth organic transition into cylindrical hub |
+| **Upper Boss Collar ($\Delta x = 0.70\text{ mm}$)** | Precision concentric cylinder ($R = 10.80\text{ mm}$) | Precision concentric cylinder ($R = 10.80\text{ mm}$) | $Y \in [66.50, 67.20]\text{ mm}$; true axisymmetric journal |
+| **Hexagonal Drive Through-Bore** | Unified single-pass prismatic extrusion | Unified single-pass prismatic extrusion | Seamless straight bore ($Y = 63.70 \to 67.25\text{ mm}$) |
+| **Spring Rate per Arm ($k$)** | **$3.341\text{ N/mm}$** | **$3.910\text{ N/mm}$** | Finite element analysis on plane-stress flexure grid |
+| **Resting Holding Force** | **$1.48\text{ N}$ ($151\text{ gf}$)** (total 3 arms) | **$1.74\text{ N}$ ($177\text{ gf}$)** (total 3 arms) | Decisive detent hold in each of the 36 teeth |
+| **Peak Snap Force** | **$5.29\text{ N}$ ($539\text{ gf}$)** (total 3 arms) | **$6.19\text{ N}$ ($631\text{ gf}$)** (total 3 arms) | Crisp, tactile click action |
+| **Peak Principal Strain** | **$0.90\%$** under full crest deflection | **$0.92\%$** under full crest deflection | Extremely safe: $< 1.0\%$, well below $1.5\%$ PETG fatigue limit |
+| **Build & Export Tool** | [`tools/build_modified_rotating_spring.py`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/tools/build_modified_rotating_spring.py) | [`tools/build_modified_rotating_spring.py`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/tools/build_modified_rotating_spring.py) | Builds both Option 1 and Option 2 STLs to all folders |
 
 ---
 
@@ -169,6 +192,7 @@ The production design incorporates the **Unified Full-Height Hex-Keyed Rod & Enc
 | **Roll Rim Gear** | `05 Gear` + `04 Spring` in pod | **0.00 .. 4.23 mm³ detent**, **20 clicks/turn** |
 | **Waist Twist** | Mid Shell + `09 Spring 33` | **0.07 .. 9.62 mm³ detent**, **33 clicks/turn** ($134.9\times$ ratio) |
 | **Linear Rod Push/Pull** | 3-Piece Rod + 4 preloaded followers | **24.37 N peak / 4.85 N held**, **3.177 mm pitch**, 0% dead band |
+| **Rod Rotary Twist** | 3-Piece Rod + `21 Spring` in `18 Top Shell` | **8.03 N peak snap / 1.48 N held**, **36 clicks/turn** ($10^\circ$ pitch), 1.11% strain |
 
 ---
 
