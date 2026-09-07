@@ -127,7 +127,7 @@ def make_swept_path_cutter(
 def make_hex_cutter(
     theta_center: float,
     z_center: float,
-    hex_radius: float = 1.85,
+    hex_radius: float = 2.85,
     radial_in: float = 15.0,
     radial_out: float = 23.5,
 ) -> trimesh.Trimesh:
@@ -286,7 +286,7 @@ def generate_window_cutters(variant_id: str) -> list[trimesh.Trimesh]:
         for z_c, th_base in tier_specs:
             for k in range(13):
                 th_k = th_base + k * (2.0 * np.pi / 13.0)
-                cutters.append(make_hex_cutter(th_k, z_c, hex_radius=1.85))
+                cutters.append(make_hex_cutter(th_k, z_c, hex_radius=2.85))
 
     elif variant_id == "07":
         # 07_Classic_Solid_Tactical: 16 tilted ribbon cutouts tracking inter-rib valleys

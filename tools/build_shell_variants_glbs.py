@@ -503,8 +503,7 @@ def get_canonical_transforms():
     c_xy2 = raw_p02.bounds[:, :2].mean(axis=0)
     M_print2 = trimesh.transformations.translation_matrix((-c_xy2[0], -c_xy2[1], -raw_p02.bounds[0, 2]))
     pose2 = np.asarray(tactical_poses["32 - Mid Shell P02"]["matrix"], dtype=float)
-    R_6deg = trimesh.transformations.rotation_matrix(np.radians(6.0), [0, 1, 0])
-    T_inner = R_6deg @ pose2 @ np.linalg.inv(M_print2)
+    T_inner = pose2 @ np.linalg.inv(M_print2)
 
     return T_outer, T_inner
 
