@@ -53,8 +53,8 @@ def to_trimesh(m: manifold3d.Manifold) -> trimesh.Trimesh:
     )
 
 
-def build_concave_shell_top():
-    print("  [*] Building 18_27_Upper_Shell_Top with concave conical dish...")
+def build_concave_shell_top(n_teeth: int = 18) -> trimesh.Trimesh:
+    print(f"  [*] Building 18_27_Upper_Shell_Top with concave conical dish ({n_teeth}-tooth ratchet)...")
     path = os.path.join(V12_ASY_DIR, "18_27_Upper_Shell_Top.stl")
     shell_orig = trimesh.load(path)
     m_shell = to_manifold(shell_orig)
@@ -82,7 +82,39 @@ def build_concave_shell_top():
         height=2.0, radius_low=9.20, radius_high=9.20, circular_segments=128
     ).rotate([-90, 0, 0]).translate([0.0, 67.00, 0.0])
 
-    m_res = m_solidified - (m_cone + m_top_clear + m_bore)
+    m_dish_cut = m_solidified - (m_cone + m_top_clear + m_bore)
+
+    if n_teeth == 18:
+        # Solidify tooth chamber between Y=63.75 and 66.80 mm
+        m_fill = manifold3d.Manifold.cylinder(
+            height=3.05, radius_low=17.50, radius_high=17.50, circular_segments=128
+        ).rotate([-90, 0, 0]).translate([0.0, 63.75, 0.0])
+        m_solid_teeth = m_dish_cut + m_fill
+
+        # 18-tooth directional ratchet cutter (20° pitch)
+        import shapely.geometry as sg
+        th = np.linspace(0, 2 * np.pi, 360, endpoint=False)
+        pitch = 2 * np.pi / 18.0
+        u = np.mod(th, pitch) / pitch
+        th_ramp = 0.80
+        r_cut = np.where(
+            u < th_ramp,
+            17.45 - (17.45 - 16.30) * (u / th_ramp) ** 0.80,
+            16.30 + (17.45 - 16.30) * ((u - th_ramp) / (1.0 - th_ramp))
+        )
+        poly_pts = np.column_stack([r_cut * np.cos(th), r_cut * np.sin(th)])
+        poly_cutter = sg.Polygon(poly_pts)
+        tm_cut = trimesh.creation.extrude_polygon(poly_cutter, height=3.20)
+        V = tm_cut.vertices
+        V_new = np.column_stack([V[:, 0], 63.70 + V[:, 2], V[:, 1]])
+        F_new = tm_cut.faces[:, [0, 2, 1]]
+        tm_cut_3d = trimesh.Trimesh(vertices=V_new, faces=F_new, process=True)
+        m_cut = to_manifold(tm_cut_3d)
+
+        m_res = m_solid_teeth - m_cut
+    else:
+        m_res = m_dish_cut
+
     res = to_trimesh(m_res)
     assert res.is_watertight, "18_27_Upper_Shell_Top is not watertight!"
     assert len(res.split(only_watertight=False)) == 1, "18_27_Upper_Shell_Top is multi-body!"
@@ -90,19 +122,10 @@ def build_concave_shell_top():
 
 
 def build_trimmed_rotating_spring():
-    print("  [*] Trimming 21_30_Upper_Shell_Rotating_Spring above Y=67.20 mm...")
-    path = os.path.join(V12_ASY_DIR, "21_30_Upper_Shell_Rotating_Spring.stl")
-    sp_orig = trimesh.load(path)
-    m_sp = to_manifold(sp_orig)
-
-    m_cut_box = manifold3d.Manifold.cube(
-        [60.0, 30.0, 60.0], center=True
-    ).translate([0.0, 67.20 + 15.0, 0.0])
-    m_res = m_sp - m_cut_box
-    res = to_trimesh(m_res)
-    assert res.is_watertight, "21_30_Upper_Shell_Rotating_Spring is not watertight!"
-    assert len(res.split(only_watertight=False)) == 1, "21_30_Upper_Shell_Rotating_Spring is multi-body!"
-    return res
+    print("  [*] Building definitive One-Way Ratchet 21_30_Upper_Shell_Rotating_Spring...")
+    import build_modified_rotating_spring as BRS
+    mesh, _ = BRS.build_smooth_solid_click_rotating_spring()
+    return mesh
 
 
 def build_trimmed_rod_clamp(filename: str):

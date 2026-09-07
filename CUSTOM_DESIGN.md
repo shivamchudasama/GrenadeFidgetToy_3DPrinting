@@ -160,20 +160,21 @@ The production design incorporates the **Unified Full-Height Hex-Keyed Rod & Enc
 **[D] Extended Ski-Tip Glide Ramp Architecture**:
 To eliminate counter-clockwise wedging (spragging) and release jerk, the arm extension after the $120.89^\circ$ apex turn (Flank B) is elongated by **$+3.5\text{ mm}$** into a low-angle glide ramp down to $R = 15.55\text{ mm}$ at $\theta = 18.5^\circ$, terminating in a **$R = 0.75\text{ mm}$ inward-curled ski-tip**. This provides smooth, continuous lead-in engagement in both directions while maintaining crisp snap-action clicks.
 
-| Parameter | Option 1 (Balanced Comfort, Default) | Option 2 (Firm Click) | Notes |
+| Parameter | Option 1 (Balanced Comfort, Selected & Kept) | Option 2 (Firm Click, Retired) | Engineering Evaluation & Decision |
 |:---|:---|:---|:---|
 | **Flexure Arm Architecture** | 3-arm rotationally symmetric serpentine ($120^\circ$ apart) | 3-arm rotationally symmetric serpentine ($120^\circ$ apart) | $h = 2.75\text{ mm}$ arm height ($Y \in [63.75, 66.50]\text{ mm}$) |
-| **Flexure Stalk Thickness** | $t \approx 1.79\text{ mm}$ ($\Delta t = 0.25\text{ mm}$) | $t \approx 1.88\text{ mm}$ ($\Delta t = 0.35\text{ mm}$) | $+0.09\text{ mm}$ thickness difference (+17% bending stiffness) |
-| **CCW Glide Ramp** | $+3.5\text{ mm}$ ski-tip ($R = 0.75\text{ mm}$ curl) | $+3.5\text{ mm}$ ski-tip ($R = 0.75\text{ mm}$ curl) | Completely eliminates CCW mechanical wedging and jerk |
+| **Flexure Stalk Thickness** | $t \approx 1.79\text{ mm}$ ($\Delta t = 0.25\text{ mm}$) | $t \approx 1.88\text{ mm}$ ($\Delta t = 0.35\text{ mm}$) | $+0.09\text{ mm}$ (90 µm) difference (+17% stiffness) |
+| **Outer Flank & Ski-Tip Profile** | $+3.5\text{ mm}$ ski-tip ($R = 0.75\text{ mm}$ curl) | $+3.5\text{ mm}$ ski-tip ($R = 0.75\text{ mm}$ curl) | **100% Identical**; explains why options look identical to the naked eye |
 | **Contact Flank & Nose Smoothness** | $C^1$-continuous mathematical harmonic curve | $C^1$-continuous mathematical harmonic curve | **Zero discrete kinks or steps**; smooth rolling contact |
 | **Root Transition Fillet** | Tangent cubic Hermite blend ($C^1/G^1$ continuity) | Tangent cubic Hermite blend ($C^1/G^1$ continuity) | Smooth organic transition into cylindrical hub |
 | **Upper Boss Collar ($\Delta x = 0.70\text{ mm}$)** | Precision concentric cylinder ($R = 10.80\text{ mm}$) | Precision concentric cylinder ($R = 10.80\text{ mm}$) | $Y \in [66.50, 67.20]\text{ mm}$; true axisymmetric journal |
 | **Hexagonal Drive Through-Bore** | Unified single-pass prismatic extrusion | Unified single-pass prismatic extrusion | Seamless straight bore ($Y = 63.70 \to 67.25\text{ mm}$) |
-| **Spring Rate per Arm ($k$)** | **$3.341\text{ N/mm}$** | **$3.910\text{ N/mm}$** | Finite element analysis on plane-stress flexure grid |
+| **Spring Rate per Arm ($k$)** | **$3.341\text{ N/mm}$** | **$3.910\text{ N/mm}$** | FEA on plane-stress flexure grid |
 | **Resting Holding Force** | **$1.48\text{ N}$ ($151\text{ gf}$)** (total 3 arms) | **$1.74\text{ N}$ ($177\text{ gf}$)** (total 3 arms) | Decisive detent hold in each of the 36 teeth |
-| **Peak Snap Force** | **$5.29\text{ N}$ ($539\text{ gf}$)** (total 3 arms) | **$6.19\text{ N}$ ($631\text{ gf}$)** (total 3 arms) | Crisp, tactile click action |
-| **Peak Principal Strain** | **$0.90\%$** under full crest deflection | **$0.92\%$** under full crest deflection | Extremely safe: $< 1.0\%$, well below $1.5\%$ PETG fatigue limit |
-| **Build & Export Tool** | [`tools/build_modified_rotating_spring.py`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/tools/build_modified_rotating_spring.py) | [`tools/build_modified_rotating_spring.py`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/tools/build_modified_rotating_spring.py) | Builds both Option 1 and Option 2 STLs to all folders |
+| **Peak Snap Force** | **$5.29\text{ N}$ ($539\text{ gf}$)** (total 3 arms) | **$6.19\text{ N}$ ($631\text{ gf}$)** (total 3 arms) | Option 1 avoids finger fatigue during 36-click spins |
+| **Peak Principal Strain** | **$0.90\%$** under full crest deflection | **$0.92\%$** under full crest deflection | Option 1 offers superior cyclic fatigue life in PETG/PLA |
+| **Decision & Status** | **KEPT (Definitive Standard)** | **REMOVED / RETIRED** | Option 1 exported to all packages as `21_30` |
+| **Build & Export Tool** | [`tools/build_modified_rotating_spring.py`](file:///d:/GIT_Repo/GrenadeFidgetToy_3DPrinting/tools/build_modified_rotating_spring.py) | Retired | Exports `21_30_Upper_Shell_Rotating_Spring.stl` |
 
 ---
 

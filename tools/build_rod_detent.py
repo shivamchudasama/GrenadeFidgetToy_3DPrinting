@@ -126,7 +126,7 @@ SLOT_X_NECK = 1.75                           # neck: [-1.75, +1.75] (3.50 mm)
 SLOT_X_RIB = 2.75                            # symmetric foot pocket: [-2.75, +2.75] (5.50 mm)
 SLOT_R_IN = 6.00                             # below every bore radius; cuts nothing extra
 SLOT_STEP_R = 11.50
-SLOT_R_OUT = 12.30
+SLOT_R_OUT = 12.35
 SLOT_Y0 = 36.00                              # clears the waist windows, which end at 34.7
 SLOT_Y1 = 63.40                              # through the barrel top at 63.238, for insertion
 
@@ -839,7 +839,7 @@ def slot_cut(azimuth):
     X_POCKET = 3.550
     R_IN = 6.000
     R_STEP = 9.450
-    R_OUT = 13.500
+    R_OUT = 12.350
 
     section = shapely.Polygon([
         (X_FLAT, R_IN),

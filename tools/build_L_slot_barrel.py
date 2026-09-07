@@ -9,6 +9,7 @@ TOOLS_DIR = os.path.join(ROOT_DIR, "tools")
 sys.path.insert(0, TOOLS_DIR)
 
 import build_rod_detent as BRD
+from package_paths import PACKAGE_DIR, ASSEMBLED_DIR
 
 print("=" * 80)
 print("BUILDING 10_Custom_Internal_Barrel_4Slot.stl WITH RIGHT-ANGLED L-SHAPED SLOTS")
@@ -70,9 +71,9 @@ print(f"Volume: {barrel_L.volume:.2f} mm3")
 print(f"Assembled bounds: {np.round(barrel_L.bounds, 3).tolist()}")
 
 # Export targets
-assembled_path = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Assembled_Coordinates", "10_Custom_Internal_Barrel_4Slot.stl")
-subassembly_path = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "03_Internal_Barrel_And_Upper_Station", "10_Custom_Internal_Barrel_4Slot.stl")
-flat_bed_path = os.path.join(ROOT_DIR, "Hybrid_Grenade_v1.2", "All_Parts_Flat_Bed_Oriented", "10_Custom_Internal_Barrel_4Slot.stl")
+assembled_path = os.path.join(ASSEMBLED_DIR, "10_Custom_Internal_Barrel_4Slot.stl")
+subassembly_path = os.path.join(PACKAGE_DIR, "03_Internal_Barrel_And_Upper_Station", "10_Custom_Internal_Barrel_4Slot.stl")
+flat_bed_path = os.path.join(PACKAGE_DIR, "All_Parts_Flat_Bed_Oriented", "10_Custom_Internal_Barrel_4Slot.stl")
 
 # 1. Export assembled STL
 barrel_L.export(assembled_path)
