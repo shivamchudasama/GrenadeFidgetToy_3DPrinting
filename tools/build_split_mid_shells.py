@@ -449,17 +449,17 @@ def main():
         },
     ]
 
-    # Clean up redundant duplicate inner shell files from all directories
+    # Ensure target directories exist and clean up redundant duplicate inner shell files
     for d in [OPTIONS_DIR, FLAT_DIR, ASSEM_DIR]:
-        if os.path.exists(d):
-            for f in os.listdir(d):
-                if f.startswith("07_Mid_Shell_Option_") and f.endswith("_Inner.stl"):
-                    p = os.path.join(d, f)
-                    try:
-                        os.remove(p)
-                        print(f"Removed redundant inner file: {os.path.basename(p)}")
-                    except Exception as e:
-                        print(f"Error removing {p}: {e}")
+        os.makedirs(d, exist_ok=True)
+        for f in os.listdir(d):
+            if f.startswith("07_Mid_Shell_Option_") and f.endswith("_Inner.stl"):
+                p = os.path.join(d, f)
+                try:
+                    os.remove(p)
+                    print(f"Removed redundant inner file: {os.path.basename(p)}")
+                except Exception as e:
+                    print(f"Error removing {p}: {e}")
 
     for var in variants:
         v_name = var["name"]

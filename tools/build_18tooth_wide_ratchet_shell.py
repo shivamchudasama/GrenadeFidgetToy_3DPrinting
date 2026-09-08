@@ -35,8 +35,6 @@ SUB_DIR = os.path.join(V13_DIR, "03_Internal_Barrel_And_Upper_Station")
 BED_DIR = os.path.join(V13_DIR, "All_Parts_Flat_Bed_Oriented")
 
 FILENAME_DEFAULT = "18_27_Upper_Shell_Top.stl"
-FILENAME_STOCK_BACKUP = "18_27_Upper_Shell_Top_36Click_Stock.stl"
-FILENAME_18CLICK_VARIANT = "18_27_Upper_Shell_Top_18Click_WideSpan.stl"
 
 
 def to_manifold(tm: trimesh.Trimesh) -> manifold3d.Manifold:
@@ -139,25 +137,7 @@ def export_shell(mesh_asy: trimesh.Trimesh, export_name: str, label: str):
     print(f"           Bed Z range: [{mesh_bed.bounds[0,2]:.3f}, {mesh_bed.bounds[1,2]:.3f}] mm")
 
 
-def backup_stock_shell():
-    """Ensure stock 36-tooth shell is backed up before overwriting."""
-    src_asy = os.path.join(ASY_DIR, FILENAME_DEFAULT)
-    bak_asy = os.path.join(ASY_DIR, FILENAME_STOCK_BACKUP)
-    if os.path.exists(src_asy) and not os.path.exists(bak_asy):
-        shutil.copy2(src_asy, bak_asy)
-        print(f"  [BACKUP] Stock 36-tooth shell backed up -> {bak_asy}")
-
-    src_sub = os.path.join(SUB_DIR, FILENAME_DEFAULT)
-    bak_sub = os.path.join(SUB_DIR, FILENAME_STOCK_BACKUP)
-    if os.path.exists(src_sub) and not os.path.exists(bak_sub):
-        shutil.copy2(src_sub, bak_sub)
-        print(f"  [BACKUP] Stock 36-tooth subassembly backed up -> {bak_sub}")
-
-    src_bed = os.path.join(BED_DIR, FILENAME_DEFAULT)
-    bak_bed = os.path.join(BED_DIR, FILENAME_STOCK_BACKUP)
-    if os.path.exists(src_bed) and not os.path.exists(bak_bed):
-        shutil.copy2(src_bed, bak_bed)
-        print(f"  [BACKUP] Stock 36-tooth flat bed backed up -> {bak_bed}")
+import build_concave_upper_station as BCUS
 
 
 def main():
@@ -165,15 +145,9 @@ def main():
     print("BUILDING 18-TOOTH WIDE-SPAN ONE-WAY RATCHET UPPER SHELL TOP")
     print("=" * 80)
 
-    # 1. Backup stock 36-tooth shell
-    backup_stock_shell()
-
-    # 2. Build 18-tooth wide-span ratchet shell
-    m_18 = build_18tooth_ratchet_shell()
-
-    # 3. Export as primary 18_27_Upper_Shell_Top.stl and named variant
+    # Build and export primary 18-tooth wide-span ratchet shell
+    m_18 = BCUS.build_concave_shell_top(n_teeth=18)
     export_shell(m_18, FILENAME_DEFAULT, "18-Tooth Wide-Span Upper Shell Top")
-    export_shell(m_18, FILENAME_18CLICK_VARIANT, "18-Tooth Wide-Span Variant (Named)")
 
     print("\n" + "=" * 80)
     print("18-TOOTH RATCHET SHELL METRICS & FEATURES:")

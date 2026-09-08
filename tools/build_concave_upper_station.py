@@ -1,8 +1,8 @@
 """Build the Concave Upper Station and Lowered Rod & Head Assembly for Hybrid Grenade.
 
 This script implements Proposal 1:
-1. Adds a 45° conical concave dish to 18_27_Upper_Shell_Top.stl (mouth r=15.60 at Y=74.83,
-   funneling down to r=9.20 at Y=68.00, depth 6.83 mm).
+1. Adds a conical concave dish to 18_27_Upper_Shell_Top.stl (mouth r=12.00 at Y=74.65,
+   funneling down to r=9.20 at Y=68.00, providing a 3.51 mm wide flat top contact rim with 303 mm2 area).
 2. Trims 21_30_Upper_Shell_Rotating_Spring.stl above Y=67.20 mm so it sits beneath the dish floor
    while preserving its 3 detent click arms at Y=64.00..66.50 mm.
 3. Trims 22_Custom_Rod_Right.stl and 24_Custom_Rod_Left.stl above Y=67.20 mm, preserving full
@@ -59,30 +59,35 @@ def build_concave_shell_top(n_teeth: int = 18) -> trimesh.Trimesh:
     shell_orig = trimesh.load(path)
     m_shell = to_manifold(shell_orig)
 
-    # 1. Solidify upper bore between Y=68.20 and 74.84 mm (radius 13.80 mm)
-    collar_h = 74.84 - 68.20
+    # 1. Plane cut at y_top = 74.65 mm to create a true flat top rim and provide clearance under folded lever
+    y_top = 74.65
+    r_mouth = 12.00
+    r_floor = 9.20
+
+    # Solidify upper bore between Y=68.20 and y_top (radius 13.80 mm)
+    collar_h = y_top - 68.20
     m_collar = manifold3d.Manifold.cylinder(
         height=collar_h, radius_low=13.80, radius_high=13.80, circular_segments=128
     ).rotate([-90, 0, 0]).translate([0.0, 68.20, 0.0])
-    m_solidified = m_shell + m_collar
 
-    # 2. Conical dish cutter from Y=68.00 (r=9.20) to Y=74.84 (r=15.60)
-    cone_h = 74.84 - 68.00
+    # Plane cut above y_top
+    m_top_cut = manifold3d.Manifold.cube(
+        [100.0, 20.0, 100.0], center=True
+    ).translate([0.0, y_top + 10.0, 0.0])
+    m_solidified = (m_shell + m_collar) - m_top_cut
+
+    # 2. Conical dish cutter from Y=68.00 (r=9.20) to y_top (r=12.00)
+    cone_h = y_top - 68.00
     m_cone = manifold3d.Manifold.cylinder(
-        height=cone_h, radius_low=9.20, radius_high=15.60, circular_segments=128
+        height=cone_h + 1.0, radius_low=r_floor, radius_high=r_mouth + (r_mouth - r_floor) / cone_h * 1.0, circular_segments=128
     ).rotate([-90, 0, 0]).translate([0.0, 68.00, 0.0])
-
-    # Top clearance cylinder above Y=74.84
-    m_top_clear = manifold3d.Manifold.cylinder(
-        height=10.0, radius_low=15.60, radius_high=15.60, circular_segments=128
-    ).rotate([-90, 0, 0]).translate([0.0, 74.84, 0.0])
 
     # Through-bore from Y=67.00 to 68.00 of radius 9.20 mm
     m_bore = manifold3d.Manifold.cylinder(
-        height=2.0, radius_low=9.20, radius_high=9.20, circular_segments=128
+        height=2.0, radius_low=r_floor, radius_high=r_floor, circular_segments=128
     ).rotate([-90, 0, 0]).translate([0.0, 67.00, 0.0])
 
-    m_dish_cut = m_solidified - (m_cone + m_top_clear + m_bore)
+    m_dish_cut = m_solidified - (m_cone + m_bore)
 
     if n_teeth == 18:
         # Solidify tooth chamber between Y=63.75 and 66.80 mm
